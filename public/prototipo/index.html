@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Prototipo interactivo del módulo SEACE 4.0 (Actuaciones Preparatorias): Evaluación de la Segmentación, Anuncio de la Contratación Futura y Gestión de Asignaciones. Diseño de Sandra Ramírez. Datos de ejemplo."><meta property="og:title" content="Prototipo SEACE 4.0 · Actuaciones Preparatorias"><meta property="og:description" content="Prototipo interactivo del módulo SEACE 4.0 (Actuaciones Preparatorias): Evaluación de la Segmentación, Anuncio de la Contratación Futura y Gestión de Asignaciones. Diseño de Sandra Ramírez. Datos de ejemplo."><meta property="og:type" content="website">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Prototipo SEACE 4.0 · Actuaciones Preparatorias</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>
+/* Concepto: réplica interactiva del módulo (UI institucional clara, azul marino + acento dorado). Una tira oscura superior marca que es un prototipo. */
+:root{
+  --navy:#213b6e; --navy-d:#162a52; --ink:#25406f; --text:#1d2433; --muted:#5d6b82;
+  --bg:#f3f6fa; --card:#ffffff; --line:#d9e2ee; --head:#e6eef8; --bar:#e9eef5; --soft:#eef3fa;
+  --gold:#e8a91f; --green:#1c7a50; --blue:#1d5fd0; --red:#c62828; --amber:#8a5a00; --amber-bg:#fff3d9;
+  --lime:#d6f24a; --strip:#0d0f14;
+  --f:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 var(--f);padding-left:0;padding-right:0}
+button{font:inherit;color:inherit;cursor:pointer}
+svg{display:block}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* tira de prototipo */
+.strip{background:var(--strip);color:#e8ecf4;font-size:12.5px}
+.strip .gut{display:flex;align-items:center;gap:12px;min-height:40px;flex-wrap:wrap;padding-block:6px}
+.strip b{color:#fff;font-weight:500}
+.strip .sp{flex:1}
+.strip button{background:transparent;border:1px solid #3a4150;color:#e8ecf4;border-radius:999px;padding:4px 12px;font-size:12px}
+.strip button:hover{border-color:var(--lime);color:var(--lime)}
+.strip button.on{background:var(--lime);border-color:var(--lime);color:#111}
+
+/* cabecera */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:30}
+.top .in{display:flex;align-items:center;gap:22px;height:52px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;letter-spacing:.2px;white-space:nowrap}
+.logo i{width:1px;height:22px;background:#8fa3c7;display:block}
+.logo span:first-child{font-weight:800}
+.mnav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.mnav::-webkit-scrollbar{display:none}
+.mnav a{color:#fff;text-decoration:none;font-size:13px;padding:8px 10px;border-radius:6px;white-space:nowrap;cursor:pointer;font-weight:500}
+.mnav a.act{background:#4d6595}
+.mnav a:hover:not(.act){background:#2f4a80}
+.usr{display:flex;align-items:center;gap:14px;margin-left:auto}
+.tmr{background:#3a5388;border-radius:999px;padding:3px 4px 3px 10px;font-size:11px;display:flex;gap:8px;align-items:center;white-space:nowrap}
+.tmr b{background:#fff;color:var(--navy);border-radius:999px;padding:2px 8px;font-weight:700;font-variant-numeric:tabular-nums}
+.bell{position:relative;background:none;border:0;color:#fff;padding:4px}
+.bell em{position:absolute;top:0;right:0;background:var(--gold);color:#1b1b1b;font-style:normal;font-size:9px;border-radius:999px;min-width:14px;height:14px;display:grid;place-items:center;font-weight:700}
+.me{display:flex;align-items:center;gap:10px}
+.av{width:32px;height:32px;border-radius:50%;background:#dfe7f6;color:var(--navy);display:grid;place-items:center;font-weight:700;font-size:12px}
+.me small{display:block;font-size:11px;color:#c5d2ec;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.me strong{font-size:12.5px;font-weight:500;white-space:nowrap}
+.sub{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 3px rgba(20,40,80,.06);position:sticky;top:52px;z-index:29}
+.sub .in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:6px}
+.sub .in::-webkit-scrollbar{display:none}
+.sub a{font-size:13px;color:var(--ink);padding:6px 10px;border-radius:6px;white-space:nowrap;cursor:pointer;font-weight:500}
+.sub a.act{background:#e3eefb}
+.sub a:hover:not(.act){background:var(--soft)}
+
+/* contenido */
+main{padding-block:14px 40px}
+.wrap{max-width:1500px;margin:0 auto;transition:max-width .3s}
+.wrap.narrow{max-width:1180px}
+.crumb{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink);margin:6px 0 14px;flex-wrap:wrap}
+.crumb a{cursor:pointer}.crumb a:hover{text-decoration:underline}
+.crumb .sp{flex:1}
+.expand{background:#fff;border:1px solid #b9c5d8;border-radius:6px;padding:6px 10px;font-size:12.5px;display:flex;gap:8px;align-items:center;color:var(--ink);font-weight:500}
+.expand:hover{background:var(--soft)}
+.card{background:var(--card);border-radius:8px;padding:22px 22px 24px;box-shadow:0 1px 2px rgba(20,40,80,.05)}
+.ttl{border-left:4px solid var(--gold);padding-left:14px;font-size:22px;font-weight:500;color:var(--ink);margin:0 0 18px;line-height:1.2}
+.view{animation:vin .35s ease both}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* filtros */
+.fs{border:1px solid #c9d4e4;border-radius:10px;padding:8px 16px 14px;max-width:720px;margin:0 0 20px}
+.fs legend{padding:0 8px;font-weight:500;color:var(--ink);font-size:14px}
+.fs label.l{display:block;font-size:12px;color:#444;margin-bottom:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end}
+.inp{display:flex;align-items:center;gap:8px;border:1px solid #aab7cc;border-radius:6px;background:#fff;height:36px;padding:0 10px;color:#333}
+.inp input,.inp select{border:0;outline:0;background:transparent;font:inherit;flex:1;min-width:0;height:100%;color:inherit}
+.inp:focus-within{border-color:var(--navy);box-shadow:0 0 0 2px rgba(33,59,110,.2)}
+.inp.ro{background:#e7eaee;color:#555}
+.inp.err{border-color:var(--red)}
+.errt{color:var(--red);font-size:11.5px;margin-top:4px}
+.adv{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;overflow:hidden;max-height:0;opacity:0;transition:max-height .3s,opacity .3s,margin .3s}
+.adv.open{max-height:120px;opacity:1;margin-top:12px}
+.adv .inp{height:34px}
+.frow{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.tg{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;background:none;border:0;padding:0}
+.tg .sw{width:30px;height:16px;border-radius:999px;background:#4b5d7e;position:relative;transition:background .2s}
+.tg .sw::after{content:"";position:absolute;left:3px;top:3px;width:10px;height:10px;border-radius:50%;background:#fff;transition:transform .2s}
+.tg.on .sw{background:var(--blue)}.tg.on .sw::after{transform:translateX(14px)}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:6px;padding:0 14px;height:34px;font-size:13px;font-weight:500;border:1px solid var(--navy);background:var(--navy);color:#fff;transition:transform .12s,background .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover:not(:disabled){background:var(--navy-d);transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:none}
+.btn.o{background:#fff;color:var(--navy)}
+.btn.o:hover:not(:disabled){background:var(--soft)}
+.btn.lg{height:40px;padding:0 20px;font-size:14px}
+.btn:disabled{background:#d6dde8;border-color:#d6dde8;color:#8a97ab;cursor:not-allowed}
+.btn.o:disabled{background:#fff;border-color:#d6dde8}
+.btn.sm{height:28px;padding:0 10px;font-size:12px}
+.btn.reg{background:#fff;color:var(--navy);border-color:#8d9db8;height:30px;width:100%;justify-content:center;font-size:12px}
+.btn.reg:hover{background:var(--soft)}
+.btn.reg.ok{border-color:var(--green);color:var(--green);background:#eef8f2}
+.ic{display:grid;place-items:center;width:30px;height:30px;border-radius:6px;border:1px solid #c9d4e4;background:#fff;color:var(--navy)}
+.ic:hover{background:var(--soft)}
+.ic.red{color:#c62828}
+
+/* barra de sección */
+.sbar{background:var(--bar);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.sbar h2{margin:0;font-size:17px;font-weight:500;color:var(--ink);margin-right:6px}
+.sbar .vr{width:1px;height:26px;background:#c5d0e0}
+.srch{width:200px;max-width:100%}
+.menu{position:relative}
+.dd{position:absolute;top:38px;left:0;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(20,40,80,.18);min-width:250px;z-index:10;padding:6px;animation:vin .18s ease both}
+.dd button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:9px 12px;font-size:13px;color:var(--text)}
+.dd button:hover{background:var(--soft)}
+
+/* tablas */
+.tw{overflow-x:auto;border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:820px}
+th{background:var(--head);color:#27385a;font-weight:500;text-align:left;padding:10px 10px;vertical-align:middle;line-height:1.2;white-space:nowrap}
+th.g{text-align:center;border-left:1px solid #cdd8e8}
+th .so{display:inline-block;vertical-align:middle;margin-left:6px;opacity:.55;cursor:pointer}
+.q{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:700;margin-left:4px;vertical-align:middle;position:relative;cursor:help}
+td{padding:9px 10px;border-bottom:1px solid #e8edf4;vertical-align:middle}
+tr:hover td{background:#fafcff}
+td.c,th.c{text-align:center}
+td.n{font-variant-numeric:tabular-nums}
+.money{display:flex;gap:8px;justify-content:space-between;font-variant-numeric:tabular-nums}
+.money b{color:var(--blue);font-weight:700}
+tbody tr{animation:rin .4s ease both;animation-delay:calc(var(--i,0)*35ms)}
+@keyframes rin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+tbody tr.gone{animation:rout .35s ease forwards}
+@keyframes rout{to{opacity:0;transform:translateX(24px)}}
+tr.tot td{background:#dfeaf9;font-weight:500}
+.tfoot{background:var(--bar);display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:0 0 8px 8px;font-size:12.5px;flex-wrap:wrap}
+.pg{display:flex;gap:6px;align-items:center}
+.pg button{min-width:26px;height:26px;border:1px solid #c0cce0;background:#fff;border-radius:5px;font-size:12px;color:var(--navy)}
+.pg button.cur{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pg button:disabled{opacity:.4;cursor:default}
+.sel{border:1px solid #8d9db8;border-radius:5px;height:28px;padding:0 6px;background:#fff;font:inherit;font-size:12px;color:var(--text);max-width:190px}
+.sel:focus{outline:2px solid rgba(33,59,110,.3)}
+.star{color:var(--red);font-weight:700;margin-right:3px;font-size:14px;line-height:1}
+.chip{display:inline-block;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.chip.p{background:var(--amber-bg);color:var(--amber)}
+.chip.f{background:#e1f4ea;color:var(--green)}
+.pill{display:block;background:#eef0f3;border-left:3px solid #b8c0cd;text-align:center;border-radius:3px;font-weight:500;padding:3px 0;min-width:70px}
+.bars{display:inline-flex;gap:2px;align-items:flex-end;height:14px;vertical-align:middle;margin-right:6px}
+.bars i{width:3px;background:#cfd6e2;border-radius:1px;display:block}
+.bars i.on{background:#27447f}
+.cl{display:flex;align-items:center;white-space:nowrap}
+.cb{width:18px;height:18px;border-radius:4px;border:1.6px solid #7f8da6;background:#fff;display:inline-grid;place-items:center;padding:0;color:#fff;transition:background .15s,border-color .15s}
+.cb.on{background:#27447f;border-color:#27447f}
+.cb.dash{border-color:#9aa5b8;color:#7b879c;background:#f3f5f8}
+.cb.dis{background:#e3e7ee;border-color:#c5ccd8;cursor:not-allowed}
+.cb:hover:not(.dis){border-color:var(--navy)}
+tr.flash td{animation:fl 1.1s ease 2}
+@keyframes fl{50%{background:#fff0c9}}
+.empty{text-align:center;color:var(--muted);padding:70px 16px 80px}
+.empty svg{margin:0 auto 14px;opacity:.5}
+.skl td div{height:14px;border-radius:4px;background:linear-gradient(90deg,#edf1f7 25%,#dfe6f0 50%,#edf1f7 75%);background-size:200% 100%;animation:sh 1s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.spin{width:16px;height:16px;border:2px solid #fff6;border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
+.spin.d{border-color:#21396e44;border-top-color:var(--navy)}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* stepper */
+.stp{list-style:none;padding:0;margin:26px 0 22px;display:grid;grid-template-columns:repeat(4,1fr);position:relative}
+.stp::before,.stp::after{content:"";position:absolute;top:11px;height:2px;left:12.5%}
+.stp::before{width:75%;background:#cfd8e6}
+.stp::after{width:calc(var(--p)*75%);background:var(--green);transition:width .5s ease}
+.stp li{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;position:relative;z-index:1;padding:0 8px}
+.stp .dot{width:24px;height:24px;border-radius:50%;border:2px solid #8793a8;background:#fff;display:grid;place-items:center;color:#fff;transition:all .3s}
+.stp .lbl{font-size:13px;font-weight:500;color:var(--ink);max-width:200px}
+.stp li.done .dot{background:var(--green);border-color:var(--green);animation:pop .35s ease}
+.stp li.cur .dot{border-color:var(--blue);box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 12px var(--blue)}
+.stp li.cur .lbl{color:var(--blue)}
+@keyframes pop{50%{transform:scale(1.25)}}
+.dcard{border:1px solid #c9d4e4;border-radius:14px;padding:16px 20px;position:relative;margin:26px 0 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.dcard>b{position:absolute;top:-10px;left:18px;background:#fff;padding:0 8px;font-weight:500;color:var(--ink)}
+.dcard .it{display:flex;gap:12px;align-items:center;min-width:0}
+.dcard .bub{width:34px;height:34px;border-radius:50%;background:#eef3fa;display:grid;place-items:center;color:#4a5e86;flex:none}
+.dcard small{display:block;font-size:11.5px;color:#555}
+.dcard strong{font-weight:500;font-size:14px;word-break:break-word}
+.dcard .kv{display:grid;grid-template-columns:auto 1fr;gap:0 14px;font-size:12px}
+.dcard .kv span{color:#555}.dcard .kv b{font-weight:500;font-size:14px}
+.dcard .ch{animation:hl 1.2s ease}
+@keyframes hl{0%{background:#fff0c9}100%{background:transparent}}
+.foot{display:flex;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid #dfe5ee;gap:10px;flex-wrap:wrap}
+.leg{background:#fff;border-radius:8px;padding:18px 22px;margin-top:18px}
+.leg h3{margin:0 0 10px;color:var(--ink);font-size:17px;font-weight:700}
+.leg p{margin:0 0 5px;font-size:12px;color:#334}
+.leg p b{display:inline-block;min-width:26px}
+.emptyp{text-align:center;color:var(--muted);padding:44px 0}
+
+/* modal y toast */
+.ov{position:fixed;inset:0;background:rgba(20,28,45,.5);z-index:100;display:grid;place-items:center;padding:16px;animation:fi .2s ease both}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.mdl{background:#fff;border-radius:8px;width:min(560px,100%);box-shadow:0 20px 60px rgba(0,0,0,.35);padding:16px;animation:mp .25s cubic-bezier(.2,.9,.3,1.2) both;max-height:90vh;overflow:auto}
+@keyframes mp{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+.mh{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:6px;font-size:17px;font-weight:500;margin-bottom:14px}
+.mh.warn{background:var(--amber-bg);color:#8a6100}
+.mh.ok{background:#e1f4ea;color:var(--green)}
+.mh.info{background:#e3eefb;color:var(--navy)}
+.mb{padding:0 6px;font-size:14px;line-height:1.5}
+.ma{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding:0 4px 2px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px;margin:0}
+.dl dt{color:var(--muted)}.dl dd{margin:0;font-weight:500}
+.rad{display:grid;gap:8px}
+.rad label{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.rad label:has(input:checked){border-color:var(--blue);background:#eef4ff}
+.dts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1b2234;color:#fff;border-radius:8px;padding:10px 16px;font-size:13px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:tin .25s ease both;max-width:calc(100% - 32px)}
+@keyframes tin{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* pie */
+.fbar{background:#1b2230;color:#cfd6e4;font-size:12px;margin-top:20px}
+.fbar .in{display:flex;gap:22px 34px;align-items:center;min-height:54px;flex-wrap:wrap;padding-block:10px}
+.fbar b{color:#fff}.fbar u{cursor:pointer}
+.fbar .dt{margin-left:auto;background:#2f3748;border-radius:999px;padding:4px 14px;font-size:11px;white-space:nowrap}
+.fbar .dt b{border-left:1px solid #657089;padding-left:8px;margin-left:6px}
+
+/* guía */
+.hint{position:relative;z-index:5;animation:ring 1.4s ease infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(232,169,31,.85)}70%{box-shadow:0 0 0 10px rgba(232,169,31,0)}100%{box-shadow:0 0 0 0 rgba(232,169,31,0)}}
+.coach{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:120;background:var(--strip);color:#eef1f7;border-radius:12px;padding:12px 14px 12px 14px;max-width:340px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:flex;gap:12px;align-items:flex-start;animation:vin .3s ease both;font-size:13px}
+.coach .dotg{width:9px;height:9px;border-radius:50%;background:var(--lime);margin-top:5px;flex:none;animation:ring2 1.4s infinite}
+@keyframes ring2{0%{box-shadow:0 0 0 0 rgba(214,242,74,.7)}100%{box-shadow:0 0 0 9px rgba(214,242,74,0)}}
+.coach small{display:block;color:#9fb0c9;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px}
+.coach a{color:var(--lime);cursor:pointer;text-decoration:underline;display:inline-block;margin-top:6px;font-size:12px}
+.coach .x{background:none;border:0;color:#8fa0bb;font-size:16px;line-height:1;padding:0 0 0 4px}
+.tip{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1b2234;color:#fff;font-weight:400;font-size:11.5px;line-height:1.35;border-radius:6px;padding:7px 10px;width:max-content;max-width:240px;white-space:normal;text-align:left;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20}
+.q:hover .tip,.q:focus .tip{opacity:1}
+
+tr.flash td{animation:fl 1.1s ease 2}
+.x2{margin-left:auto;background:none;border:0;font-size:24px;line-height:1;color:var(--ink);padding:0 4px}
+.mh{position:relative}
+.fld{display:block;margin-bottom:12px}
+.fld>span{display:block;font-size:12px;color:#444;margin-bottom:4px}
+.fld>span i{color:var(--red);font-style:normal}
+.box{border:1px solid #c9d4e4;border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-bottom:14px}
+.box small{display:block;font-size:11.5px;color:#555}.box strong{font-weight:500;font-size:13.5px}
+.mh2{margin:6px 0 8px;font-weight:500;color:var(--ink);font-size:14px}
+textarea.ta{width:100%;min-height:76px;border:1px solid #aab7cc;border-radius:6px;padding:8px 10px;font:inherit;resize:vertical;color:var(--text)}
+textarea.ta:focus{outline:0;border-color:var(--navy);box-shadow:0 0 0 2px rgba(33,59,110,.2)}
+.cnt{text-align:right;font-size:11px;color:var(--muted)}
+.note{background:#e0efff;border-radius:6px;padding:16px 18px;margin-top:14px;animation:vin .3s ease both}
+.note h4{margin:0 0 6px;color:var(--ink);font-size:16px}
+.note.w{background:var(--amber-bg)}
+.g2{display:grid;grid-template-columns:1fr 150px;gap:14px}
+[hidden]{display:none!important}
+.bell,.me{border-radius:8px}
+.bell:hover,.me:hover{background:#2f4a80}
+.me{background:none;border:0;color:#fff;text-align:left;padding:3px 6px;gap:10px;align-items:center}
+.me svg{opacity:.85}
+.bell.ring svg{animation:bring .8s ease}
+@keyframes bring{0%,100%{transform:rotate(0)}20%{transform:rotate(16deg)}40%{transform:rotate(-14deg)}60%{transform:rotate(9deg)}80%{transform:rotate(-6deg)}}
+.hp{position:fixed;z-index:60;right:max(16px,env(safe-area-inset-right,0px));background:#fff;color:var(--text);border-radius:12px;box-shadow:0 14px 40px rgba(15,30,60,.32);border:1px solid var(--line);width:min(390px,calc(100vw - 24px));animation:vin .18s ease both;overflow:hidden}
+.hp .ph{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.hp .ph h3{margin:0;font-size:16px;flex:1;color:var(--ink);font-weight:500}
+.lnk{background:none;border:0;color:var(--blue);font-size:12.5px;cursor:pointer;padding:0}.lnk:hover{text-decoration:underline}.lnk:disabled{color:#9aa5b8;cursor:default;text-decoration:none}
+.ptabs{display:flex;gap:6px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.ptabs button{border:0;background:none;padding:5px 12px;border-radius:999px;font-size:12.5px;color:var(--ink)}.ptabs button.on{background:#e3eefb;font-weight:500}
+.nl{max-height:min(400px,56vh);overflow:auto}
+.ni{display:flex;gap:12px;padding:12px 38px 12px 16px;border:0;border-bottom:1px solid #eef1f6;cursor:pointer;width:100%;text-align:left;background:none;position:relative;color:inherit}
+.ni:hover{background:#f6f9fd}.ni.u{background:#f1f6ff}
+.ni .ico{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;background:#e3eefb;color:var(--navy)}
+.ni.t-acf .ico{background:#e1f4ea;color:var(--green)}.ni.t-asg .ico{background:#fff3d9;color:var(--amber)}.ni.t-sys .ico{background:#eceff4;color:#55637d}
+.ni b{display:block;font-size:13px;font-weight:500;color:var(--ink)}.ni .m{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin:1px 0 3px}.ni time{font-size:11.5px;color:#7b879c}
+.ni .dot{width:9px;height:9px;border-radius:50%;background:var(--blue);position:absolute;right:16px;top:18px}
+.nempty{padding:34px 16px;text-align:center;color:var(--muted);font-size:13px}
+.pfoot{display:flex;justify-content:space-between;padding:10px 16px;background:#f4f7fc;border-top:1px solid var(--line)}
+.um .uh{display:flex;gap:14px;align-items:center;padding:16px;background:#f4f7fc;border-bottom:1px solid var(--line)}
+.um .av.big{width:48px;height:48px;font-size:16px;background:var(--navy);color:#fff}
+.um .uh strong{display:block;font-weight:500;color:var(--ink)}.um .uh small{display:block;font-size:12px;color:var(--muted)}
+.um .ctx{padding:12px 16px;display:grid;gap:8px;border-bottom:1px solid var(--line);font-size:12.5px}.um .ctx small{display:block;color:var(--muted);font-size:11px}
+.um .mi{display:flex;align-items:center;gap:12px;width:100%;padding:11px 16px;background:none;border:0;text-align:left;font-size:13.5px;color:var(--text)}
+.um .mi:hover{background:var(--soft)}.um .mi.out{color:var(--red);border-top:1px solid var(--line)}
+.lo{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#162a52,#213b6e);display:grid;place-items:center;padding:20px;animation:fi .25s ease both}
+.lo .lc{background:#fff;border-radius:14px;padding:30px 32px;width:min(420px,100%);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.lo .lg{font-weight:800;font-size:26px;color:var(--navy);display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:18px}.lo .lg i{width:1px;height:26px;background:#9fb0cc}
+.lo h2{margin:0 0 8px;font-size:20px;font-weight:500;color:var(--ink)}.lo p{margin:0 0 22px;color:var(--muted);font-size:14px}
+/* Asignaciones */
+.ibar{border:1px solid #c9d4e4;border-radius:14px;padding:12px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
+.ibar .it{display:flex;gap:12px;align-items:center;min-width:0}
+.ibar .bub{width:34px;height:34px;border-radius:50%;background:#eef3fa;display:grid;place-items:center;color:#4a5e86;flex:none}
+.ibar small{display:block;font-size:12px;color:#555}.ibar strong{font-weight:500;font-size:14px}
+.adv.three{grid-template-columns:1fr 1fr 1fr}.adv.three.open{max-height:260px}
+.chip.r{background:#fff3d9;color:#8a5a00}
+.ntf{position:fixed;top:calc(64px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));width:min(340px,calc(100% - 32px));background:#e3f4ea;border:1px solid #bfe3cd;border-left:4px solid var(--green);color:#14573a;border-radius:8px;padding:12px 38px 12px 14px;box-shadow:0 8px 24px rgba(20,40,80,.22);z-index:210;animation:nin .3s ease both;font-size:13px}
+.ntf>b:first-child{display:block;font-size:14px;margin-bottom:2px}
+.ntf button{position:absolute;top:6px;right:8px;background:none;border:0;font-size:18px;color:#14573a}
+@keyframes nin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.mdl .box.one{grid-template-columns:1fr 1fr}
+@media (max-width:860px){.ibar{grid-template-columns:1fr}.adv.three{grid-template-columns:1fr}.adv.three.open{max-height:520px}}
+/* ACF */
+#layer .ov{z-index:110}
+.mdA{background:#fff;border-radius:10px;width:min(980px,100%);max-height:min(900px,100%);display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:mp .25s cubic-bezier(.2,.9,.3,1.2) both;min-height:0}
+.nan,.nan .mdA{animation:none!important}
+.ov.va{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
+.ov.va .mdA{justify-self:center;align-self:center}
+.mdA .bd,.mdA .tw,.mdA .tfoot{min-width:0}
+.mdA>header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);font-size:20px;color:var(--ink);font-weight:500}
+.mdA>header svg{color:var(--navy)}
+.mdA .bd{overflow:auto;padding:16px 22px 18px;flex:1;min-height:0}
+.mdA>footer{display:flex;gap:10px;padding:12px 22px;background:#dde3ec;border-radius:0 0 10px 10px;align-items:center}
+.dcard.two{grid-template-columns:1fr 1fr}
+.sect{display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:500;margin:4px 0 12px}
+.sect::before{content:"";width:28px;height:1px;background:#cbd5e3}.sect::after{content:"";flex:1;height:1px;background:#cbd5e3}
+.rhd{display:flex;align-items:center;gap:12px;border-bottom:2px solid #2ba99b;padding:14px 4px 10px;margin-top:16px}
+.rhd h3{margin:0;font-size:17px;font-weight:500;color:var(--ink);flex:1}
+.mdA .tw{margin-top:12px}
+.mdA table{min-width:760px;font-size:12px}
+.mdA th{padding:9px 8px}
+.mdA td{padding:8px}
+.tah{position:relative}
+.tal{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(20,40,80,.18);z-index:15;max-height:200px;overflow:auto;display:none;padding:4px}
+.tal.on{display:block}
+.tal button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:9px 10px;font-size:13px}
+.tal button:hover{background:var(--soft)}
+.tal .none{padding:9px 10px;color:var(--muted);font-size:13px}
+.det{border-top:1px solid #dfe5ee;margin-top:18px;padding-top:6px}
+.det.off{opacity:.6}
+.det .hd{display:flex;align-items:center;gap:12px;padding:10px 0 12px}
+.det .hd h3{margin:0;font-size:17px;font-weight:500;color:var(--ink);flex:1}
+.g3{display:grid;grid-template-columns:2fr 1.2fr 1.4fr;gap:14px}
+.g22{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.fld.r>span::after{content:" *";color:var(--red)}
+.inp:has(input:disabled),.inp:has(select:disabled){background:#eef0f3}
+.det .inp.err,.det textarea.err{border-color:var(--red)}
+textarea.ta:disabled{background:#eef0f3}
+.ico-cb{display:inline-grid}
+.iso{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-weight:500}
+.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:300px}
+.ruc{display:block;color:var(--blue);font-size:11px}
+.sm2{display:block;color:var(--muted);font-size:11px}
+body.gOn #layerA .ov{padding-bottom:124px}
+@media (max-width:860px){body.gOn #layerA .ov{padding:104px 8px 8px}.g3,.g22{grid-template-columns:1fr}.mdA>header{font-size:17px;padding:12px 14px}.mdA .bd{padding:12px 14px}.mdA>footer{padding:10px 14px;flex-wrap:wrap}}
+@media (max-width:520px){.dcard.two{grid-template-columns:1fr}}
+@media (max-width:520px){.box,.g2{grid-template-columns:1fr}}
+@media (max-width:860px){
+  .coach.m{bottom:auto;top:calc(8px + env(safe-area-inset-top,0px))}
+  .me div:not(.av){display:none}.tmr{display:none}
+  .dcard{grid-template-columns:1fr 1fr}
+  .row2{grid-template-columns:1fr}
+  .adv{grid-template-columns:1fr}.adv.open{max-height:220px}
+  .stp .lbl{font-size:11px}
+  .card{padding:16px 12px 18px}
+  .coach{right:max(16px,env(safe-area-inset-right,0px));max-width:none;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .top .in{gap:10px}.logo{font-size:17px}
+}
+@media (max-width:520px){.dcard{grid-template-columns:1fr}.dts{grid-template-columns:1fr}.stp .lbl{display:none}.stp li.cur .lbl,.stp li.done:last-child .lbl{display:block;position:absolute;top:34px;width:150px;left:50%;transform:translateX(-50%)}.stp{margin-bottom:46px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head><body>
+
+<div class="strip"><div class="gut">
+  <span><b>Prototipo interactivo</b> · Segmentación y Anuncio de la Contratación Futura · SEACE 4.0 (Actuaciones Preparatorias)</span>
+  <span class="sp"></span>
+  <span style="color:#9fb0c9">Diseño de Sandra Ramírez · datos de ejemplo · prueba también la campana y tu usuario</span>
+  <button id="bGuide" class="on" data-a="guide">Recorrido guiado: sí</button>
+  <button data-a="reset">Reiniciar</button>
+</div></div>
+
+<header class="top"><div class="gut in">
+  <div class="logo"><span>OECE</span><i></i><span>SE@CE</span></div>
+  <div class="mnav" id="mnav">
+    <a class="act" data-a="toast" data-msg="Estás en Actuaciones preparatorias">Actuaciones preparatorias</a>
+    <a data-a="out">Selección</a><a data-a="out">Perfeccionamiento</a><a data-a="out">Ejecución contractual</a>
+  </div>
+  <div class="usr">
+    <div class="tmr">Su sesión expira <b id="tmr">15m 33s</b></div>
+    <button class="bell" data-a="bell" aria-label="Notificaciones" aria-haspopup="true" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9zM10 20a2 2 0 0 0 4 0"/></svg><em id="bellN">4</em></button>
+    <button class="me" data-a="usermenu" aria-label="Panel de usuario" aria-haspopup="true" aria-expanded="false"><div class="av">JP</div><div><strong>De la Piedra, Juan</strong><small id="mePerfil">Entidad de ejemplo</small></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+</div></header>
+<nav class="sub"><div class="gut in" id="subin"></div></nav>
+
+<main class="gut"><div class="wrap" id="wrap"><div id="app"></div></div></main>
+
+<footer class="fbar"><div class="gut in">
+  <span><b>Central de consultas:</b> 01 6143636</span>
+  <span><b>Sede central:</b> Av. Gregorio Escobedo cdra. 7 s/n Jesús María - Lima/Perú</span>
+  <u data-a="toast" data-msg="Formulario de contacto: fuera del recorrido">Formulario de contacto</u>
+  <span data-a="toast" data-msg="Soporte: fuera del recorrido" style="cursor:pointer">Soporte</span>
+  <span class="dt">25 de Agosto, 2027<b>22:09</b></span>
+</div></footer>
+
+<div id="hpanel"></div><div id="lo"></div><div id="layerA"></div><div id="layer"></div><div id="coach"></div><div id="toastbox"></div>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s);
+const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const ENT='20123456789 - ENTIDAD DE EJEMPLO';
+const USER='12345678 - Juan de la Piedra';
+const I={
+ home:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10"/></svg>',
+ search:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>',
+ eye:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ edit:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h4L19 9l-4-4L4 16v4zM13 7l4 4"/></svg>',
+ trash:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg>',
+ cal:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+ bld:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M10 21v-4h4v4"/></svg>',
+ usr:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/></svg>',
+ chk:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ dash:'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M6 12h12"/></svg>',
+ so:'<svg width="9" height="12" viewBox="0 0 9 12" fill="currentColor"><path d="M4.5 0L9 4.5H0zM4.5 12L0 7.5h9z"/></svg>',
+ pdf:'<svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z" fill="#fff" stroke="#c62828" stroke-width="1.6"/><rect x="3" y="12" width="14" height="7" rx="1" fill="#c62828"/></svg>',
+ xls:'<svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z" fill="#fff" stroke="#1c7a50" stroke-width="1.6"/><rect x="3" y="12" width="14" height="7" rx="1" fill="#1c7a50"/></svg>',
+ exp:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h8v6H5zM13 7h6v10H9v-4M9 17l3 3"/></svg>',
+ clean:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4l6 6-8 8H6l-2-2 8-8M10 8l6 6M4 20l3-3"/></svg>',
+ cols:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M9 5v14M15 5v14"/></svg>',
+ chev:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>',
+ left:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 12H5M11 6l-6 6 6 6"/></svg>',
+ right:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>',
+ send:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M21 3L3 11l7 3 3 7zM10 14l11-11"/></svg>',
+ panel:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M14 4v16"/></svg>',
+ warn:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>',
+ okc:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>',
+ mega:'<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 10v4h3l7 4V6L6 10zM16 9.5a3.5 3.5 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10"/></svg>',
+ grid:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 17h6M17 14v6"/></svg>',
+ dl:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',
+ tbl:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M3.5 10h17M9 10v9"/></svg>',
+ crd:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/></svg>',
+ big:'<svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#7d8cab" stroke-width="2"><circle cx="28" cy="28" r="16"/><path d="M40 40l14 14"/><path d="M21 28h14M28 21v14" stroke-linecap="round"/></svg>'
+};
+const ico=n=>I[n];
+const bars=(n)=>`<span class="bars">${[5,8,11,14].map((h,i)=>`<i class="${i<n?'on':''}" style="height:${h}px"></i>`).join('')}</span>`;
+
+/* ---------- datos ---------- */
+const SEGS0=[
+ {code:'SEG-2027-010',year:2027,tot:90,seg:18,date:'07/11/2027',st:'EN PROCESO'},
+ {code:'SEG-2027-009',year:2027,tot:20,seg:4,date:'03/11/2027',st:'FINALIZADO'},
+ {code:'SEG-2027-008',year:2027,tot:19,seg:4,date:'28/09/2027',st:'FINALIZADO'},
+ {code:'SEG-2027-007',year:2027,tot:18,seg:4,date:'28/09/2027',st:'FINALIZADO'},
+ {code:'SEG-2027-006',year:2027,tot:35,seg:9,date:'14/09/2027',st:'FINALIZADO'},
+ {code:'SEG-2027-005',year:2027,tot:27,seg:6,date:'30/08/2027',st:'FINALIZADO'},
+ {code:'SEG-2026-004',year:2026,tot:41,seg:9,date:'12/12/2026',st:'FINALIZADO'},
+ {code:'SEG-2026-003',year:2026,tot:33,seg:7,date:'02/10/2026',st:'FINALIZADO'}
+];
+const PAC0=[
+ ['1','COMPRA DE LAPTOS CORE I7','LICITACIÓN PÚBLICA','BIENES',1,150000,'ENERO'],
+ ['3','COMPRA DE SILLAS ERGONOMICAS','LICITACIÓN PÚBLICA','BIENES',2,60000,'FEBRERO'],
+ ['4','SERVICIO DE MANTENIMIENTO ASCENSOR','CONTRATACIÓN DIRECTA','SERVICIO',1,50000,'MAYO'],
+ ['6','SERVICIO DE LIMPIEZA','ADJUDICACIÓN SIMPLIFICADA','SERVICIO',1,43000,'AGOSTO'],
+ ['8','COMPRA DE ESCRITORIOS','LICITACIÓN PÚBLICA','BIENES',1,64500,'ABRIL'],
+ ['9','CONTRATACIÓN DE HACKEO ÉTICO','COMPARACIÓN DE PRECIOS','SERVICIO',1,45000,'MARZO'],
+ ['10','LICENCIAS OFFICE','LICITACIÓN PÚBLICA','BIENES',1,80000,'OCTUBRE'],
+ ['11','CAPACITACIÓN OFFICE','CONCURSO PÚBLICO','SERVICIO',1,43450,'AGOSTO'],
+ ['12','AIRE ACONDICIONADO','LICITACIÓN PÚBLICA','BIENES',1,50000,'JUNIO'],
+ ['13','CABLEADO ESTRUCTURADO','COMPRAS POR C.E.','BIENES',2,46845,'NOVIEMBRE']
+];
+const EXTRA=['ADQUISICIÓN DE UPS','SERVICIO DE VIGILANCIA','COMPRA DE UNIFORMES','MANTENIMIENTO DE VEHÍCULOS','SERVICIO DE IMPRESIONES','COMPRA DE MATERIAL DE OFICINA','CAPACITACIÓN EN GESTIÓN PÚBLICA','ADQUISICIÓN DE SERVIDORES','CONSULTORÍA DE PROCESOS','COMPRA DE EXTINTORES','SERVICIO DE JARDINERÍA','COMPRA DE MONITORES','SERVICIO DE MENSAJERÍA','ADQUISICIÓN DE ROUTERS','MANTENIMIENTO DE ASCENSORES','COMPRA DE MOBILIARIO','SERVICIO DE FUMIGACIÓN','ADQUISICIÓN DE PROYECTORES','SERVICIO DE AUDITORÍA'];
+const TIPOS=['LICITACIÓN PÚBLICA','CONCURSO PÚBLICO','ADJUDICACIÓN SIMPLIFICADA','COMPARACIÓN DE PRECIOS','CONTRATACIÓN DIRECTA'];
+const MESES=['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SETIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+function buildPac(){
+  const r=PAC0.map(p=>({ref:p[0],d:p[1],t:p[2],o:p[3],it:p[4],q:p[5],m:p[6]}));
+  EXTRA.forEach((d,i)=>{const q=[28000,95000,36000,72000,41000,58000,120000,33000,64000,26000][i%10]+i*500;
+    r.push({ref:String(14+i),d,t:TIPOS[i%5],o:/SERVICIO|CONSULTOR|CAPACITA|MANTENIMIENTO/.test(d)?'SERVICIO':'BIENES',it:1+(i%3===0?1:0),q,m:MESES[(i*5+2)%12]});});
+  r.forEach(x=>{x.sug=x.q<40000?'No se segmenta':'Se segmenta';x.act=x.sug;});
+  return r;
+}
+const S2D=[
+ ['121','COMPRA DE LAPTOPS CORE I7','LICITACIÓN PÚBLICA','BIENES',150000,'Alta'],
+ ['123','COMPRA DE SILLAS ERGONÓMICAS','LICITACIÓN PÚBLICA','BIENES',60000,'Alta'],
+ ['124','SERVICIO DE MANTENIMIENTO ASCENSOR','CONCURSO PÚBLICO','SERVICIO',50000,'Baja'],
+ ['127','SERVICIO DE LIMPIEZA','CONCURSO PÚBLICO','SERVICIO',43000,'Baja'],
+ ['128','COMPRA DE ESCRITORIOS','LICITACIÓN PÚBLICA','BIENES',64500,'Alta'],
+ ['129','CONTRATACIÓN DE HACKEO ÉTICO','CONCURSO PÚBLICO','SERVICIO',45000,'Baja'],
+ ['130','CONTRATACIÓN DE LICENCIA OFFICE','LICITACIÓN PÚBLICA','BIENES',80000,'Alta'],
+ ['131','SERVICIO DE CAPACITACIÓN OFFICE','CONCURSO PÚBLICO','SERVICIO',43450,'Baja'],
+ ['132','ADQUISICIÓN DE AIRE ACONDICIONADO','CONCURSO PÚBLICO','BIENES',50000,'Baja'],
+ ['133','SERVICIO DE CABLEADO ESTRUCTURADO','CONCURSO PÚBLICO','BIENES',46845,'Baja']
+];
+const S3D=[
+ ['201','CONTRATACIÓN DE EJECUCIÓN DE OBRA: MEJORAMIENTO Y AMPLIACIÓN DE SEDE','CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRA',150000,0,[1,1,0,0]],
+ ['202','CONTRATACIÓN DE EJECUCIÓN DE OBRA: MEJORAMIENTO Y AMPLIACIÓN DE ALMACÉN','CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRA',60000,0,[1,1,0,0]],
+ ['203','EJECUCIÓN DEL SALDO DE OBRA: PAVIMENTACIÓN DE CALLE','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',50000,0,[1,1,1,1]],
+ ['204','CONTRATACIÓN DE EJECUCIÓN DE OBRA: MEJORAMIENTO Y AMPLIACIÓN DE COMEDOR','CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRA',43000,0,[1,1,0,0]],
+ ['205','CONTRATACIÓN DEL SERVICIO DE CONSULTORÍA DE OBRAS PARA LA SUPERVISIÓN','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',64500,0,[1,1,0,0],[0,0,1,0]],
+ ['206','EJECUCIÓN DE LA OBRA IOARR: “REPARACIÓN DE CAMBIO PEATONAL Y CERCA PERIMÉTRICA”','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',45450,1,[0,0,0,0]],
+ ['207','EJECUCIÓN DE LA OBRA IOARR: “REPARACIÓN DE CAMBIO PEATONAL Y CERCA PERIMÉTRICA”','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',80000,1,[0,0,0,0]],
+ ['208','EJECUCIÓN DE LA OBRA IOARR: “REPARACIÓN DE CAMBIO PEATONAL Y CERCA PERIMÉTRICA”','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',43450,1,[0,0,0,0]],
+ ['209','EJECUCIÓN DEL SALDO DE OBRA: PAVIMENTACIÓN DE CALLE','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',50000,0,[1,1,0,0]],
+ ['210','EJECUCIÓN DEL SALDO DE OBRA: PAVIMENTACIÓN DE CALLE','LICITACIÓN PÚBLICA ABREVIADA DE OBRAS','OBRA',46845,0,[0,0,0,0]]
+];
+const S3DONE=[null,null,null,null,{io:0,c:[1,1,0,0]},{io:1,c:[0,0,0,0]},{io:1,c:[0,0,0,0]},{io:1,c:[0,0,0,0]},{io:0,c:[1,1,0,0]},{io:0,c:[0,0,0,0]}];
+const S2DONE=[[0,0,0,0],[0,0,1,0],[1,1,0,0],[1,1,0,1],[0,0,0,0],[0,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,0],[1,1,1,1]];
+const ORG={'Sede Central':['SEDE',['Área de finanzas - AFIN','Área de logística - ALOG','Área de tecnologías - ATIC']],'Dirección Zonal Lima':['DZL',['Área de administración - ADM','Área de infraestructura - AINF']],'Dirección Zonal Norte':['DZN',['Área de administración - ADM','Área de logística - ALOG']]};
+const ED0=[
+ {ref:'3',code:'SEG-2027-001',d:'COMPRA DE LAPTOPS CORE I7',t:'LICITACIÓN PÚBLICA',o:'BIENES',cl:'RUTINARIO',area:'CEABE-AFIN',org:'Central de abastecimiento de bienes estratégicos',unit:'Área de finanzas - AFIN'},
+ {ref:'5',code:'SEG-2027-003',d:'COMPRA DE SILLAS ERGONOMICAS',t:'LICITACIÓN PÚBLICA',o:'BIENES',cl:'RUTINARIO',area:'CEABE-AFIN',org:'Central de abastecimiento de bienes estratégicos',unit:'Área de finanzas - AFIN'},
+ {ref:'9',code:'SEG-2027-004',d:'SERVICIO DE MANTENIMIENTO ASCENSOR',t:'ADJUDICACIÓN SIMPLIFICADA',o:'BIENES',cl:'RUTINARIO',area:'CEABE-AFIN',org:'Central de abastecimiento de bienes estratégicos',unit:'Área de finanzas - AFIN'}
+];
+const AREAS=['Oficina de Administración','Oficina de Tecnologías de la Información','Unidad de Abastecimiento','Unidad de Infraestructura','Unidad de Recursos Humanos','Gerencia de Operaciones'];
+const INTS=['Indagación básica','Indagación avanzada','Consulta al mercado básica','Consulta al mercado avanzada'];
+const LEG12=[['I','En los dos últimos años previos a la convocatoria, un procedimiento de selección para contratar dicho objeto haya sido declarado desierto'],['II','El promedio de postores para objetos contractuales similares en los dos últimos años previos a la convocatoria, haya sido menor o igual a tres en el caso de bienes, o igual o menor a dos en el caso de servicios'],['III','Debido a las características o especialización del bien o servicio su disponibilidad es limitada en el mercado'],['IV','El bien o servicio no ha sido contratado anteriormente por la entidad contratante']];
+const LEG3=[['I','La inversión es de bajo grado de innovación y de complejidad baja o media'],['II','La entidad ejecutó previamente obras y consultorías de obras similares'],['III','En los últimos 2 años, el promedio de postores en procesos similares de la entidad fue ≥ 3'],['IV','El objeto contractual no corresponde a un saldo de obra']];
+
+/* ---------- ACF: datos ---------- */
+const E1='MUNICIPALIDAD DISTRITAL DE EJEMPLO NORTE',E2='EMPRESA REGIONAL DE SERVICIOS PÚBLICOS DE EJEMPLO';
+const ACF0=[
+ ['LICITACIÓN PÚBLICA','BIEN','ADQUISICIÓN DE HOJUELAS PRECOCIDAS DE AVENA, QUINUA, KIWICHA, MACA, SOYA Y LECHE ENTERA EN POLVO PARA EL PROGRAMA DE ALIMENTACIÓN','17/12/2027','Publicado','24/06/2027',E1,'20100000011'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE EQUIPOS DE PROTECCIÓN PERSONAL PARA EL PERSONAL TÉCNICO Y ADMINISTRATIVO DE LA EMPRESA','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN, EQUIPAMIENTO, MONTAJE, PRUEBAS Y PUESTA EN SERVICIO PARA AMPLIACIÓN DE REDES SECUNDARIAS','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE FERRETERÍA DE MEDIA Y BAJA TENSIÓN PARA EL DEPARTAMENTO DE DISTRIBUCIÓN','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE EQUIPOS DE PROTECCIÓN, CONTROL Y ELEMENTOS DE CONEXIONADO DE ALUMBRADO PÚBLICO','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE (03) TÓTEM PARA LA ZONA REGISTRAL N° VI','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE GRUPO ELECTRÓGENO DE 0.500 MW EN GENERACIÓN CONTINUA PARA EL SERVICIO ELÉCTRICO','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE GRUPO ELECTRÓGENO DE 1 MW EN GENERACIÓN CONTINUA PARA EL SERVICIO ELÉCTRICO','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE POSTES DE CONCRETO ARMADO CENTRIFUGADO PARA LA SUBSANACIÓN DE DEFICIENCIAS','11/11/2027','Borrador','14/07/2027',E2,'20100000022'],
+ ['CONCURSO PÚBLICO ABREVIADO','CONSULTORÍA DE OBRAS','ADQUISICIÓN DE UNIFORMES (2027) PARA EL PERSONAL DE LA ZONA REGISTRAL N° VI','11/11/2027','Borrador','14/07/2027',E2,'20100000022']
+];
+const CAT={'Bien':[['234','Materiales de escritorio'],['236','Materiales accesorios'],['238','Equipos de seguridad']],'Servicio':[['310','Servicio de mantenimiento de vehículos'],['312','Servicio de limpieza y vigilancia']],'Obra':[['410','Mejoramiento de local institucional']],'Consultoría de obra':[['510','Supervisión de obra de pavimentación']]};
+const ITM={
+ '234':[['LAPICERO COLOR AZUL',500,'UNIDAD','SEACE'],['LAPICERO COLOR NEGRO',1200,'UNIDAD','CMN'],['CARPETAS',1200,'UNIDAD','SEACE'],['FOLDER MANILA',1000,'UNIDAD','CMN'],['PLUMONES',800,'UNIDAD','SEACE'],['RESALTADORES',600,'UNIDAD','CMN'],['GRAPAS CAJA x 5000',300,'CAJA','SEACE']],
+ '236':[['CINTA ADHESIVA',900,'UNIDAD','SEACE'],['TIJERAS DE OFICINA',150,'UNIDAD','CMN'],['PERFORADORES',80,'UNIDAD','SEACE']],
+ '238':[['CASCOS DE SEGURIDAD',250,'UNIDAD','CMN'],['CHALECOS REFLECTIVOS',400,'UNIDAD','SEACE'],['LENTES DE PROTECCIÓN',500,'UNIDAD','CMN'],['GUANTES DE CUERO',600,'PAR','SEACE']],
+ '310':[['MANTENIMIENTO PREVENTIVO DE CAMIONETAS',12,'SERVICIO','SEACE'],['MANTENIMIENTO DE MOTOCICLETAS',8,'SERVICIO','CMN']],
+ '312':[['LIMPIEZA DE LOCAL INSTITUCIONAL',12,'MES','SEACE'],['VIGILANCIA PRIVADA 24 HORAS',12,'MES','SEACE']],
+ '410':[['EJECUCIÓN DE OBRA: MEJORAMIENTO DE LOCAL',1,'GLOBAL','SEACE'],['EQUIPAMIENTO DEL LOCAL',1,'GLOBAL','CMN']],
+ '510':[['SUPERVISIÓN DE OBRA DE PAVIMENTACIÓN',1,'GLOBAL','SEACE']]
+};
+const TIPOS_ACF=['LICITACIÓN PÚBLICA','CONCURSO PÚBLICO','CONCURSO PÚBLICO ABREVIADO','ADJUDICACIÓN SIMPLIFICADA','SUBASTA INVERSA ELECTRÓNICA','COMPARACIÓN DE PRECIOS'];
+const OBJ_UP={'Bien':'BIEN','Servicio':'SERVICIO','Obra':'OBRA','Consultoría de obra':'CONSULTORÍA DE OBRAS'};
+const OBJ_LB={'BIEN':'Bien','SERVICIO':'Servicio','OBRA':'Obra','CONSULTORÍA DE OBRAS':'Consultoría de obra'};
+const norm=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const d2i=s=>s.split('/').reverse().join('-');
+const i2d=s=>s.split('-').reverse().join('/');
+function newAcf(){return {q:'',adv:false,ad:'',fr:'',to:'',searched:false,loading:false,flash:null,done:false,n:ACF0.length,
+  rows:ACF0.map((r,i)=>({id:'a'+(i+1),code:'ACF-2027-'+String(i+1).padStart(3,'0'),t:r[0],o:r[1],d:r[2],fc:r[3],st:r[4],fp:r[5],hr:'08:20:02 PM',ent:r[6],ruc:r[7],pz:30,al:''}))};}
+
+/* ---------- Asignaciones: datos ---------- */
+const COLAB=['41000001 - Ana Lucía Rojas Vega','41000002 - Carlos Eduardo Meza Soto','41000003 - Elena del Águila Barrios','41000004 - Diego Fernando Salas Ruiz'];
+const ASIGNADOR='12345678 - JUAN DE LA PIEDRA';
+function newAsg(){return {q:'',adv:false,act:'',est:'',fr:'',to:'',desc:'',col:'',searched:false,loading:false,flash:null,done:false,n:3,
+ rows:[
+  {id:'g1',cod:'ASIG-001-2027',col:COLAB[0],act:'SEGMENTACIÓN',f:'24/08/2027',h:'01:19:01 PM',desc:'-',st:'Asignado'},
+  {id:'g2',cod:'ASIG-002-2027',col:COLAB[1],act:'REQUERIMIENTO',f:'24/08/2027',h:'12:02:45 PM',desc:'3-ASESORAMIENTO TÉCNICO PARA ELABORACIÓN DE EXPEDIENTE',st:'Reasignado'},
+  {id:'g3',cod:'ASIG-003-2027',col:COLAB[2],act:'REQUERIMIENTO',f:'24/08/2027',h:'04:01:13 PM',desc:'1-COMPRA DE LAPTOPS CORE I7',st:'Asignado'}
+ ]};}
+
+/* ---------- notificaciones y usuario ---------- */
+const PERFILES=[['Usuario de la entidad','Entidad de ejemplo'],['Organismo especializado','Organismo especializado']];
+function newNt(){return {n:6,tab:'all',pref:{asg:true,acf:true,seg:true,sys:true},list:[
+ {id:'n6',type:'asg',title:'Nueva asignación',msg:'Se te asignó la actividad REQUERIMIENTO (1-COMPRA DE LAPTOPS CORE I7).',go:'asg',time:'Hace 2 h',u:true},
+ {id:'n5',type:'acf',title:'ACF publicado',msg:'El anuncio ACF-2027-001 fue publicado correctamente.',go:'acf',time:'Hace 5 h',u:true},
+ {id:'n4',type:'acf',title:'Borradores pendientes',msg:'Tienes 9 anuncios en borrador sin publicar.',go:'acf',time:'Hace 6 h',u:true},
+ {id:'n3',type:'seg',title:'Segmentación finalizada',msg:'SEG-2027-009 cambió a estado FINALIZADO.',go:'seg',time:'Ayer',u:true},
+ {id:'n2',type:'seg',title:'Área usuaria actualizada',msg:'Se actualizó el área usuaria de la contratación N° 5 de SEG-2027-003.',go:'seg',time:'Hace 2 días',u:false},
+ {id:'n1',type:'sys',title:'Bienvenido al nuevo SEACE',msg:'Conoce los módulos de Actuaciones Preparatorias: segmentación, ACF y asignaciones.',go:null,time:'Hace 5 días',u:false}
+]};}
+const NTI={asg:()=>I.usr.replace('16','18').replace('16','18'),acf:()=>I.mega.replace('28','18').replace('28','18'),seg:()=>I.okc.replace('22','18').replace('22','18'),sys:()=>I.warn.replace('22','18').replace('22','18')};
+const NTL={asg:'Asignaciones',acf:'Anuncios (ACF)',seg:'Segmentación',sys:'Avisos del sistema'};
+function updateBell(ring){const n=S.nt.list.filter(x=>x.u).length,e=$('#bellN');if(!e)return;e.textContent=n>99?'99+':n;e.hidden=!n;if(ring){const b=$('.bell');b.classList.remove('ring');void b.offsetWidth;b.classList.add('ring');}}
+function updateHeader(){const e=$('#mePerfil');if(e)e.textContent=PERFILES[S.perfil][1];}
+function pushNt(type,title,msg,go){if(!S.nt.pref[type])return;S.nt.list.unshift({id:'n'+(++S.nt.n),type,title,msg,go,time:'Ahora',u:true});updateBell(true);if(S.hd==='notif')drawPanel();}
+function closePanel(){S.hd=null;const p=$('#hpanel');if(p)p.innerHTML='';document.querySelectorAll('.bell,.me').forEach(b=>b.setAttribute('aria-expanded','false'));}
+function drawPanel(){
+  const p=$('#hpanel');if(!S.hd){p.innerHTML='';return;}
+  const anchor=$(S.hd==='notif'?'.bell':'.me').getBoundingClientRect();
+  document.querySelector('.bell').setAttribute('aria-expanded',S.hd==='notif');document.querySelector('.me').setAttribute('aria-expanded',S.hd==='user');
+  let h;
+  if(S.hd==='notif'){
+    const N=S.nt,un=N.list.filter(x=>x.u).length,list=N.list.filter(x=>N.tab==='all'||x.u);
+    h=`<div class="hp" role="dialog" aria-label="Notificaciones"><div class="ph"><h3>Notificaciones</h3><button class="lnk" data-a="ntall" ${un?'':'disabled'}>Marcar todas como leídas</button></div>
+    <div class="ptabs"><button class="${N.tab==='all'?'on':''}" data-a="nttab" data-t="all">Todas (${N.list.length})</button><button class="${N.tab==='un'?'on':''}" data-a="nttab" data-t="un">No leídas (${un})</button></div>
+    <div class="nl">${list.length?list.map(x=>`<button class="ni t-${x.type} ${x.u?'u':''}" data-a="ntopen" data-id="${x.id}"><span class="ico">${NTI[x.type]()}</span><span style="min-width:0"><b>${x.title}</b><span class="m">${x.msg}</span><time>${x.time}</time></span>${x.u?'<i class="dot" aria-label="No leída"></i>':''}</button>`).join(''):`<div class="nempty">No tienes notificaciones sin leer.</div>`}</div>
+    <div class="pfoot"><button class="lnk" data-a="ntprefs">Preferencias de notificaciones</button></div></div>`;
+  }else{
+    h=`<div class="hp um" role="dialog" aria-label="Panel de usuario"><div class="uh"><div class="av big">JP</div><div><strong>De la Piedra, Juan</strong><small>DNI 12345678</small><small>${PERFILES[S.perfil][0]}</small></div></div>
+    <div class="ctx"><div><small>Entidad</small>20123456789 - ENTIDAD DE EJEMPLO</div><div><small>Órgano desconcentrado</small>Sede Central</div><div><small>Unidad de organización</small>Gerencia de operaciones</div></div>
+    <button class="mi" data-a="myprofile">${I.usr} Mi perfil</button><button class="mi" data-a="chperfil">${I.bld} Cambiar de perfil</button><button class="mi" data-a="ntprefs">${I.warn.replace('22','16').replace('22','16')} Preferencias de notificaciones</button><button class="mi" data-a="toast" data-msg="Mesa de ayuda: 01 6143636 · Opción 7 (datos de ejemplo)">${I.home} Ayuda y soporte</button><button class="mi out" data-a="logout">${I.left} Cerrar sesión</button></div>`;
+  }
+  p.innerHTML=h;const el=p.firstElementChild;el.style.top=Math.max(8,anchor.bottom+8)+'px';
+}
+
+/* ---------- estado ---------- */
+let S,W,modal=null,guideOn=true,timer=933;
+function fresh(){
+  S={nt:newNt(),hd:null,perfil:0,acf:newAcf(),acfm:null,asg:newAsg(),ed:{q:'2027',searched:true,loading:false,done:false,flash:null,rows:ED0.map(x=>({...x}))},view:'list',q:'',searched:false,loading:false,adv:false,est:'',ops:false,sort:null,segs:SEGS0.map(x=>({...x})),err:false};
+  W=null;modal=null;
+}
+function newW(){W={step:1,pacLoaded:false,pacLoading:false,saved:false,page:1,pac:buildPac(),
+  s2:S2D.map(r=>({d:r,pend:true,c:[0,0,0,0]})),
+  s3:S3D.map((r,i)=>({d:r,pend:i>=4,io:r[5],c:r[6].slice(),pre:r[7]||null,flash:false})),
+  s4:null,shell:true,narrow:false,sending:false};}
+fresh();
+updateBell();
+document.body.classList.add('gOn');
+
+const cls2=(r)=>{const risk=r.c.some(x=>x);const alta=r.d[5]==='Alta';return r.pend?null:(alta?(risk?'ESTRATÉGICO':'OPERACIONAL'):(risk?'CRÍTICO':'RUTINARIO'));};
+const cls3=(r)=>r.pend?null:(r.io?'BÁSICA':(r.c[0]&&r.c[1]?'AVANZADA':'BÁSICA'));
+const LV={'RUTINARIO':1,'OPERACIONAL':2,'CRÍTICO':3,'ESTRATÉGICO':4,'BÁSICA':2,'AVANZADA':4};
+const SUG={'RUTINARIO':INTS[0],'OPERACIONAL':INTS[1],'CRÍTICO':INTS[2],'ESTRATÉGICO':INTS[3],'BÁSICA':INTS[2],'AVANZADA':INTS[3]};
+const DEF2=['RUTINARIO','OPERACIONAL','CRÍTICO','ESTRATÉGICO','RUTINARIO','OPERACIONAL','CRÍTICO','OPERACIONAL','RUTINARIO','ESTRATÉGICO'];
+function buildS4(){
+  const src=[['b',0,'ENERO'],['b',1,'FEBRERO'],['b',2,'MAYO'],['b',3,'AGOSTO'],['o',5,'SETIEMBRE'],['o',0,'OCTUBRE'],['o',2,'AGOSTO'],['b',4,'ABRIL'],['b',8,'JUNIO'],['b',5,'MARZO']];
+  const old=W.s4||[];
+  W.s4=src.map((s,k)=>{
+    let d,cl;
+    if(s[0]==='b'){const r=W.s2[s[1]];d=r.d;cl=cls2(r)||DEF2[s[1]];}
+    else{const r=W.s3[s[1]];d=r.d;cl=cls3(r)||'BÁSICA';}
+    const o=old[k];const sug=SUG[cl];
+    return {ref:d[0],desc:d[1],t:d[2],obj:d[3],cl,m:s[2],sug,int:(o&&o.sug===sug)?o.int:sug,area:o?o.area:null,cr:o?o.cr:null};
+  });
+}
+
+/* ---------- UI helpers ---------- */
+const th=(t,cls='')=>`<th class="${cls}">${t}<span class="so">${I.so}</span></th>`;
+const q=(txt)=>`<span class="q" tabindex="0">?<span class="tip">${txt}</span></span>`;
+function toast(m){const b=$('#toastbox');b.innerHTML=`<div class="toast">${m}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>b.innerHTML='',2600);}
+function openModal(m){modal=m;drawModal();}
+function closeModal(){modal=null;drawModal();hints();}
+function drawModal(){
+  const L=$('#layer');
+  if(!modal){L.innerHTML='';return;}
+  const m=modal;
+  L.innerHTML=`<div class="ov" data-a="ovl"><div class="mdl" role="dialog" aria-modal="true" aria-label="${m.title}" style="${m.w?'width:min('+m.w+'px,100%)':''}">
+   <div class="mh ${m.t||'info'}">${m.t==='ok'?I.okc:I.warn}<span>${m.title}</span>${m.x?'<button class="x2" data-a="mclose" aria-label="Cerrar">×</button>':''}</div>
+   <div class="mb">${m.body}</div>
+   <div class="ma">${(m.btns||[]).map((b,i)=>`<button class="btn ${b.o?'o':''} lg" data-a="mb" data-i="${i}" ${b.dis?'disabled':''} ${b.id?'data-h="'+b.id+'"':''}>${b.busy?'<span class="spin"></span>':''}${b.l}</button>`).join('')}</div>
+  </div></div>`;
+  hints();
+}
+const MB=(l,fn,o={})=>({l,fn,...o});
+
+/* ---------- vistas ---------- */
+function vList(){
+  const rows=filtered();
+  let body;
+  if(S.loading) body=Array.from({length:5},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(8)}</tr>`).join('');
+  else if(rows.length) body=rows.map((r,i)=>`<tr data-code="${r.code}" style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.year}</td><td>${r.code}</td><td class="n">${r.tot}</td><td class="n">${r.seg}</td><td>${r.date}</td><td><span class="chip ${r.st==='FINALIZADO'?'f':'p'}">${r.st}</span></td><td><div style="display:flex;gap:6px"><button class="ic" data-a="toast" data-msg="Vista de detalle: fuera del recorrido de esta demo" aria-label="Ver">${I.eye}</button>${r.st==='EN PROCESO'?`<button class="ic" data-a="toast" data-msg="Edición de la segmentación: fuera del recorrido de esta demo" aria-label="Editar">${I.edit}</button><button class="ic red" data-a="del" data-code="${r.code}" aria-label="Eliminar">${I.trash}</button>`:''}</div></td></tr>`).join('');
+  else body='';
+  const emptyMsg=!S.searched?'Realice una búsqueda para mostrar resultados.':'No se encontraron resultados con esos filtros.';
+  return `<div class="view">
+  <div class="crumb"><a data-a="home">${I.home}</a>›<span>Evaluación de la Segmentación</span></div>
+  <div class="card">
+   <h1 class="ttl">Evaluación de la Segmentación</h1>
+   <fieldset class="fs"><legend>Filtros de búsqueda</legend>
+    <div class="row2">
+      <div><label class="l">Nombre de Entidad</label><div class="inp ro"><input value="${ENT}" readonly aria-label="Nombre de entidad"></div></div>
+      <div><div class="inp ${S.err?'err':''}" data-h="q">${I.search}<input id="q" placeholder="Año y/o Código de Segmentación" value="${S.q}" autocomplete="off" aria-label="Año o código de segmentación"></div>${S.err?'<div class="errt">Ingrese un año o un código de segmentación.</div>':''}</div>
+    </div>
+    <div class="adv ${S.adv?'open':''}"><div><label class="l">Estado</label><div class="inp"><select id="est"><option value="">Todos</option><option ${S.est==='EN PROCESO'?'selected':''}>EN PROCESO</option><option ${S.est==='FINALIZADO'?'selected':''}>FINALIZADO</option></select></div></div><div><label class="l">Fecha de creación desde</label><div class="inp"><input type="date" aria-label="Desde"></div></div><div><label class="l">Fecha de creación hasta</label><div class="inp"><input type="date" aria-label="Hasta"></div></div></div>
+    <div class="frow"><button class="tg ${S.adv?'on':''}" data-a="adv" aria-pressed="${S.adv}"><span class="sw"></span>Búsqueda avanzada</button><span class="sp"></span>
+      <button class="btn o" data-a="limpiar">${I.clean}Limpiar</button><button class="btn" data-a="buscar" data-h="buscar">${I.search}Buscar</button></div>
+   </fieldset>
+   <div class="sbar"><h2>Resultado de búsqueda</h2><span class="vr"></span>
+     <div class="menu"><button class="btn sm" data-a="ops" data-h="ops" style="height:32px">Operaciones ${I.chev}</button>${S.ops?`<div class="dd"><button data-a="nuevo" data-h="nuevo">Nuevo</button><button data-a="editarea">Editar Área Usuaria</button><button data-a="consultapac">Consultar N° de referencia PAC</button></div>`:''}</div>
+     <button class="ic" data-a="toast" data-msg="Selector de columnas" aria-label="Columnas">${I.cols}</button></div>
+   <div class="tw"><table><thead><tr>${th('N°')}${th('Año')}${th('Código de segmentación')}${th('N° contrataciones totales')}${th('N° contrataciones segmentables')}${th('Fecha de creación')}${th('Estado')}${th('Acciones')}</tr></thead><tbody>${body}</tbody></table>
+   ${(!rows.length&&!S.loading)?`<div class="empty">${I.big}<div>${emptyMsg}</div></div>`:''}</div>
+   ${rows.length&&!S.loading?`<div class="tfoot">Total de registros: ${rows.length}</div>`:''}
+  </div></div>`;
+}
+function vEdit(){
+  const E=S.ed,t=E.q.trim().toLowerCase();
+  const rows=E.searched?E.rows.filter(r=>!t||r.code.toLowerCase().includes(t)||r.ref===t):[];
+  let body;
+  if(E.loading) body=Array.from({length:3},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(9)}</tr>`).join('');
+  else body=rows.map((r,i)=>`<tr class="${E.flash===r.ref?'flash':''}" style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.ref}</td><td>${r.code}</td><td>${r.d}</td><td>${r.t}</td><td>${r.o}</td><td><span class="cl">${bars(LV[r.cl])}${r.cl}</span></td><td><div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span>${r.area}</span><button class="ic" style="border:0;background:none" data-a="edit" data-ref="${r.ref}" ${(i===0&&!E.done)?'data-h="editpen"':''} title="Editar" aria-label="Editar área usuaria">${I.edit}</button></div></td><td class="c"><button class="ic" data-a="toast" data-msg="Historial de cambios: fuera del recorrido de esta demo" title="Historial" aria-label="Historial"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.5-5.8L4 8.5M4 4v4.5h4.5M12 8v4.5l3 1.5"/></svg></button></td></tr>`).join('');
+  const emptyMsg=!E.searched?'Realice una búsqueda para mostrar resultados.':'No se encontraron resultados con esos filtros.';
+  return `<div class="view">
+  <div class="crumb"><a data-a="home">${I.home}</a>›<a data-a="edvolver">Evaluación de la Segmentación</a>›<b style="font-weight:500">Búsqueda de contrataciones a modificar</b></div>
+  <div class="card"><h1 class="ttl">Búsqueda de la contratación (Editar Área Usuaria)</h1>
+   <fieldset class="fs"><legend>Filtro de búsqueda</legend>
+    <div class="row2"><div><label class="l">Entidad <span style="color:var(--red)">*</span></label><div class="inp ro"><input value="${ENT}" readonly aria-label="Entidad"></div></div>
+    <div><label class="l">Año y/o Código de Segmentación</label><div class="inp">${I.search}<input id="eq" value="${E.q}" autocomplete="off" aria-label="Año o código"></div></div></div>
+    <div class="frow"><button class="tg" data-a="toast" data-msg="Búsqueda avanzada: fuera del recorrido de esta demo"><span class="sw"></span>Búsqueda avanzada</button><span class="sp"></span><button class="btn o" data-a="edlimpiar">${I.clean}Limpiar</button><button class="btn" data-a="edbuscar">${I.search}Buscar</button></div>
+   </fieldset>
+   <div class="sbar"><h2>Resultado de búsqueda</h2>${tools()}</div>
+   <div class="tw"><table><thead><tr>${th('N°')}${th('N° Ref.<br>PAC')}${th('Código de<br>segmentación')}${th('Descripción')}${th('Tipo de procedimiento')}${th('Objeto de<br>contratación')}${th('Clasificación')}<th>Área usuaria ${q('Área que solicita y utiliza la contratación. Puedes modificarla con el lápiz.')}</th><th class="c">Acciones</th></tr></thead><tbody>${body}</tbody></table>
+   ${(!rows.length&&!E.loading)?`<div class="empty">${I.big}<div>${emptyMsg}</div></div>`:''}</div>
+   ${rows.length&&!E.loading?`<div class="tfoot">Total de registros: ${rows.length}<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>10</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button disabled>›</button></div></div>`:''}
+   <div class="foot"><button class="btn o lg" data-a="edvolver" ${E.done?'data-h="edvolver"':''}>${I.left} Volver</button></div>
+  </div></div>`;
+}
+
+function subnav(){const v=S.view,a=v==='acf',g=v==='asg',sg=!a&&!g;return `<a class="${sg?'act':''}" data-a="sec" data-s="seg">Evaluación de la Segmentación</a><a class="${a?'act':''}" data-a="sec" data-s="acf">Anuncio de la Contratación Futura</a><a class="${g?'act':''}" data-a="sec" data-s="asg">Gestión de Asignaciones</a><a data-a="out">Gestión de Requerimientos</a>`;}
+function acfFiltered(){
+  const C=S.acf;if(!C.searched)return [];
+  const t=norm(C.q.trim());
+  return C.rows.filter(r=>{
+    if(t&&!norm(r.t+' '+r.o+' '+r.d).includes(t))return false;
+    if(C.adv){
+      if(C.ad.trim()&&!norm(r.d).includes(norm(C.ad.trim())))return false;
+      const f=d2i(r.fc);
+      if(C.fr&&f<C.fr)return false;
+      if(C.to&&f>C.to)return false;
+    }
+    return true;
+  });
+}
+function vAcf(){
+  const C=S.acf,rows=acfFiltered();
+  let body;
+  if(C.loading) body=Array.from({length:5},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(9)}</tr>`).join('');
+  else body=rows.map((r,i)=>`<tr class="${C.flash===r.id?'flash':''}" data-id="${r.id}" style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td><span class="ruc">RUC ${r.ruc}</span>${r.ent}</td><td>${r.fp}<span class="sm2">${r.hr}</span></td><td>${r.t}</td><td>${r.o}</td><td><span class="clamp" title="${r.d}">${r.d}</span></td><td>${r.fc}</td><td><span class="chip ${r.st==='Publicado'?'f':'p'}">${r.st}</span></td><td><div style="display:flex;gap:6px"><button class="ic" data-a="acfeye" data-id="${r.id}" title="Ver" aria-label="Ver">${I.eye}</button>${r.st==='Borrador'?`<button class="ic" data-a="acfedit" data-id="${r.id}" title="Editar" aria-label="Editar">${I.edit}</button><button class="ic" data-a="toast" data-msg="Descarga del ACF en PDF simulada" title="Descargar" aria-label="Descargar">${I.dl}</button><button class="ic red" data-a="acfdel" data-id="${r.id}" title="Eliminar" aria-label="Eliminar">${I.trash}</button>`:''}</div></td></tr>`).join('');
+  const emptyMsg=!C.searched?'Realice una búsqueda para mostrar resultados.':'No se encontraron resultados con esos filtros.';
+  return `<div class="view">
+  <div class="crumb"><a data-a="home">${I.home}</a>›<span>Anuncio de la Contratación Futura</span></div>
+  <div class="card"><h1 class="ttl">Anuncio de la Contratación Futura - ACF</h1>
+   <fieldset class="fs" style="max-width:none"><legend>Filtros de búsqueda</legend>
+    <div class="row2"><div><div class="inp" data-h="aq">${I.search}<input id="aq" placeholder="Tipo de procedimiento, Objeto de contratación, Descripción preliminar del requerimiento" value="${C.q}" autocomplete="off" aria-label="Buscar por tipo de procedimiento, objeto o descripción"></div></div>
+    <div><label class="l" style="margin-top:-18px">Entidad</label><div class="inp ro"><input value="${ENT}" readonly aria-label="Entidad"></div></div></div>
+    <div class="adv ${C.adv?'open':''}"><div><label class="l" for="aad">Descripción preliminar del requerimiento</label><div class="inp"><input id="aad" value="${C.ad}" autocomplete="off"></div></div><div><label class="l" for="afr">Fecha aprox. de convocatoria: desde</label><div class="inp"><input type="date" id="afr" value="${C.fr}"></div></div><div><label class="l" for="ato">Fecha aprox. de convocatoria: hasta</label><div class="inp"><input type="date" id="ato" value="${C.to}"></div></div></div>
+    <div class="frow"><button class="tg ${C.adv?'on':''}" data-a="acfadv" aria-pressed="${C.adv}"><span class="sw"></span>Búsqueda avanzada</button><span class="sp"></span>
+     <button class="btn o" data-a="acflimpiar" ${C.searched?'':'disabled'}>${I.clean}Limpiar</button><button class="btn" data-a="acfbuscar" data-h="abuscar">${I.search}Buscar</button></div>
+   </fieldset>
+   <div class="sbar"><h2>Resultado de búsqueda</h2><span class="vr"></span><button class="btn sm" data-a="acfnuevo" data-h="anuevo" style="height:32px">+ Nuevo</button><button class="ic" data-a="toast" data-msg="Selector de columnas" aria-label="Columnas">${I.cols}</button><button class="ic" data-a="toast" data-msg="Vista de tabla (activa)" aria-label="Vista de tabla">${I.tbl}</button><button class="ic" data-a="toast" data-msg="Vista de tarjetas: fuera del recorrido de esta demo" aria-label="Vista de tarjetas">${I.crd}</button>${tools()}</div>
+   <div class="tw"><table style="min-width:1050px"><thead><tr>${th('N°')}${th('Entidad')}${th('Fecha de<br>publicación')}${th('Tipo de<br>Procedimiento')}${th('Objeto de<br>contratación')}${th('Descripción preliminar<br>del requerimiento')}${th('Fecha aprox. de<br>la convocatoria')}${th('Estado')}<th>Acciones</th></tr></thead><tbody>${body}</tbody></table>
+   ${(!rows.length&&!C.loading)?`<div class="empty">${I.big}<div>${emptyMsg}</div></div>`:''}</div>
+   ${rows.length&&!C.loading?`<div class="tfoot">Total de registros: ${rows.length}<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>10</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button disabled>›</button></div></div>`:''}
+   <div class="foot"><button class="btn o lg" data-a="toast" data-msg="Anterior: fuera del recorrido de esta demo">${I.left} Anterior</button><button class="btn lg" data-a="toast" data-msg="Siguiente: fuera del recorrido de esta demo">Siguiente ${I.right}</button></div>
+  </div></div>`;
+}
+
+/* modal de creación / edición del ACF */
+function acfItems(){const M=S.acfm;return M&&M.ref?ITM[M.ref]:[];}
+function acfOpen(row){
+  const first=!S.acfm;
+  if(row){
+    const obj=OBJ_LB[row.o]||'Bien',ref=CAT[obj][0];
+    S.acfm={id:row.id,code:row.code,st:row.st,obj,ref:ref[0],refTxt:ref[0]+' - '+ref[1],loading:false,sel:ITM[ref[0]].map((_,i)=>i),pg:1,added:true,nItems:ITM[ref[0]].length,saved:true,saving:false,errs:{},
+      det:{t:row.t,pz:String(row.pz||30),fc:d2i(row.fc),d:row.d,al:row.al||''}};
+  }else{
+    S.acfm={id:null,code:null,st:null,obj:'',ref:'',refTxt:'',loading:false,sel:[],pg:1,added:false,nItems:0,saved:false,saving:false,errs:{},det:{t:'',pz:'',fc:'',d:'',al:''}};
+  }
+  drawACF(true);
+}
+function acfSync(){
+  const M=S.acfm;if(!M)return;
+  const g=id=>document.getElementById(id);
+  if(g('aT')){M.det.t=g('aT').value;M.det.pz=g('aPz').value;M.det.fc=g('aFc').value;M.det.d=g('aD').value;M.det.al=g('aAl').value;}
+}
+function drawACF(first){
+  const L=$('#layerA'),M=S.acfm;
+  if(!M){L.innerHTML='';hints();return;}
+  const old=L.querySelector('.bd'),st=old?old.scrollTop:0;
+  const items=acfItems(),per=5,pages=Math.max(1,Math.ceil(items.length/per)),pg=Math.min(M.pg,pages);
+  const page=items.map((x,i)=>[x,i]).slice((pg-1)*per,pg*per);
+  const allOn=items.length&&M.sel.length===items.length;
+  const dis=M.added?'':'disabled',E=M.errs||{},d=M.det;
+  const err=k=>E[k]?`<div class="errt">${E[k]}</div>`:'';
+  const est=M.st||(M.obj?'Borrador':'-');
+  const refName=M.ref?(CAT[M.obj].find(r=>r[0]===M.ref)||[0,''])[1]:'';
+  let res;
+  if(!M.ref) res=`<div class="emptyp">Elige el objeto de contratación y un N° de referencia para ver los ítems del PAC.</div>`;
+  else if(M.loading) res=`<div class="tw"><table><tbody>${Array.from({length:4},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(8)}</tr>`).join('')}</tbody></table></div>`;
+  else res=`<div class="tw"><table><thead><tr><th style="width:34px"><button class="cb ${allOn?'on':(M.sel.length?'dash':'')}" data-a="aselall" aria-label="Seleccionar todos">${allOn?I.chk:(M.sel.length?I.dash:'')}</button></th>${th('N° de<br>Referencia')}${th('Descripción')}${th('N° de<br>ítem')}${th('Descripción<br>del ítem')}${th('Cantidad')}${th('Unidad de<br>medida')}${th('Fecha aprox. de<br>la convocatoria')}${th('Origen')}</tr></thead><tbody>${page.map(([x,i],k)=>{const on=M.sel.includes(i);return `<tr style="--i:${k}"><td><button class="cb ${on?'on':''}" data-a="aselr" data-i="${i}" aria-label="Seleccionar ítem ${i+1}">${on?I.chk:''}</button></td><td>${M.ref}</td><td>${refName.toUpperCase()}</td><td><span class="iso">${I.grid}${i+1}</span></td><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>15/04/2027</td><td>${x[3]}</td></tr>`;}).join('')}</tbody></table></div>
+   <div class="tfoot">Total de registros: ${String(items.length).padStart(2,'0')}<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>5</option></select><div class="pg"><button data-a="apg" data-p="${pg-1}" ${pg<=1?'disabled':''}>‹</button>${Array.from({length:pages},(_,k)=>`<button class="${k+1===pg?'cur':''}" data-a="apg" data-p="${k+1}">${k+1}</button>`).join('')}<button data-a="apg" data-p="${pg+1}" ${pg>=pages?'disabled':''}>›</button></div></div>`;
+  L.innerHTML=`<div class="ov va ${first?'':'nan'}" data-a="ovl"><div class="mdA" role="dialog" aria-modal="true" aria-label="Creación y publicación del ACF">
+  <header>${I.mega}<span style="flex:1">Creación y publicación del ACF</span><button class="x2" data-a="acancel" aria-label="Cerrar">×</button></header>
+  <div class="bd">
+   <div class="dcard two" style="margin-top:14px"><b>Resumen del Anuncio de Contratación Futura (ACF)</b>
+    <div class="it"><span class="bub">#</span><div><small>Código</small><strong>${M.code||'-'}</strong></div></div>
+    <div class="it"><span class="bub">${I.okc.replace('22','18').replace('22','18')}</span><div><small>Estado</small><strong style="color:${est==='Publicado'?'var(--green)':'var(--amber)'}">${est}</strong></div></div>
+    <div class="it"><span class="bub">${I.bld}</span><div><small>Entidad</small><strong style="display:block;font-size:12px;color:var(--blue)">20123456789</strong><strong>ENTIDAD DE EJEMPLO</strong></div></div>
+    <div class="it"><span class="bub">${I.cal}</span><div><small>Año</small><strong>2027</strong></div></div>
+   </div>
+   <div class="sect">Búsqueda de items</div>
+   <div class="row2" style="align-items:start">
+    <div><label class="l">Objeto de contratación <i style="color:var(--red);font-style:normal">*</i></label><div class="inp" data-h="aobj"><select id="aObj" aria-label="Objeto de contratación"><option value="">Seleccione</option>${Object.keys(CAT).map(o=>`<option ${M.obj===o?'selected':''}>${o}</option>`).join('')}</select></div></div>
+    <div class="tah"><label class="l">N° de Referencia - Descripción</label><div class="inp ${M.obj?'':'ro'}" data-h="aref">${I.search}<input id="aRef" autocomplete="off" placeholder="${M.obj?'Escribe el N° o la descripción (ej. 23)':'Primero elige el objeto'}" value="${M.refTxt}" ${M.obj?'':'disabled'} aria-label="N° de referencia"></div><div class="tal" id="aList"></div></div>
+   </div>
+   <div class="rhd"><h3>Resultado de búsqueda</h3><button class="btn sm" data-a="aadd" data-h="aagregar" ${(M.sel.length&&!M.loading&&M.ref)?'':'disabled'}>${I.grid.replace('13','14').replace('13','14')} Agregar</button></div>
+   ${res}
+   <div class="det ${M.added?'':'off'}" id="aDet"><div class="hd"><h3>Detalle de anuncio de contratación futura${M.added?` <span style="font-size:12px;font-weight:400;color:var(--muted)">· ${M.nItems} ${M.nItems===1?'ítem agregado':'ítems agregados'}</span>`:''}</h3><button class="btn o sm" data-a="aremove" ${dis}>Remover</button></div>
+    <div class="g3">
+     <label class="fld r"><span>Tipo de procedimiento</span><div class="inp ${E.t?'err':''}" data-h="adet"><select id="aT" ${dis}><option value="">Seleccione</option>${TIPOS_ACF.map(t=>`<option ${d.t===t?'selected':''}>${t}</option>`).join('')}</select></div><div id="e_t">${err('t')}</div></label>
+     <label class="fld r"><span>Plazo de entrega/ejecución (días)</span><div class="inp ${E.pz?'err':''}"><input id="aPz" type="number" min="1" inputmode="numeric" placeholder="30" value="${d.pz}" ${dis}></div><div id="e_pz">${err('pz')}</div></label>
+     <label class="fld r"><span>Fecha aproximada de la convocatoria</span><div class="inp ${E.fc?'err':''}"><input id="aFc" type="date" value="${d.fc}" ${dis}></div><div id="e_fc">${err('fc')}</div></label>
+    </div>
+    <div class="g22">
+     <label class="fld r"><span>Descripción preliminar del requerimiento</span><textarea class="ta ${E.d?'err':''}" id="aD" maxlength="500" ${dis} placeholder="Adquisición de lapiceros de tinta azul y negra para abastecer las necesidades operativas de las diferentes áreas de la entidad…">${d.d}</textarea><div class="cnt"><span id="cD">${d.d.length}</span>/500</div><div id="e_d">${err('d')}</div></label>
+     <label class="fld"><span>Alcance</span><textarea class="ta" id="aAl" maxlength="1500" ${dis} placeholder="Comprende el suministro y entrega de lapiceros de tinta azul y negra, de acuerdo con las especificaciones técnicas, cantidades y condiciones establecidas por la entidad…">${d.al}</textarea><div class="cnt"><span id="cA">${d.al.length}</span>/1500</div></label>
+    </div>
+   </div>
+  </div>
+  <footer><button class="btn o lg" data-a="acancel">Cancelar</button><span class="sp"></span><button class="btn o lg" data-a="asave" data-h="aguardar" ${M.added&&!M.saving?'':'disabled'}>${M.saving==='g'?'<span class="spin d"></span>':''}Guardar</button><button class="btn lg" data-a="apub" data-h="apublicar" ${M.added&&!M.saving?'':'disabled'}>${M.saving==='p'?'<span class="spin"></span>':''}Publicar</button></footer>
+ </div></div>`;
+  const nb=L.querySelector('.bd');if(nb)nb.scrollTop=st;
+  document.body.classList.toggle('gOn',guideOn);
+  hints();
+}
+function acfList(v){
+  const M=S.acfm,l=$('#aList');if(!M||!l||!M.obj)return;
+  const t=norm(v.trim());
+  const m=CAT[M.obj].filter(r=>!t||norm(r[0]+' '+r[1]).includes(t));
+  l.innerHTML=m.length?m.map(r=>`<button type="button" data-a="arefpick" data-r="${r[0]}">${r[0]} - ${r[1]}</button>`).join(''):'<div class="none">Sin coincidencias</div>';
+  l.classList.add('on');
+}
+function acfVal(){
+  const M=S.acfm,d=M.det,e={};
+  if(!d.t)e.t='Selecciona el tipo de procedimiento.';
+  if(!(+d.pz>0))e.pz='Ingresa un plazo mayor a 0.';
+  if(!d.fc)e.fc='Indica la fecha aproximada.';else if(d.fc.slice(0,4)!=='2027')e.fc='La fecha debe corresponder al año 2027.';
+  if(!d.d.trim())e.d='Describe de forma preliminar el requerimiento.';
+  M.errs=e;return !Object.keys(e).length;
+}
+function acfCommit(st){
+  const M=S.acfm,d=M.det,C=S.acf;
+  let r=M.id&&C.rows.find(x=>x.id===M.id);
+  if(!r){C.n++;r={id:'n'+C.n,code:'ACF-2027-'+String(C.n).padStart(3,'0'),st:'Borrador',fp:'25/08/2027',hr:'10:09:00 PM',ent:'ENTIDAD DE EJEMPLO',ruc:'20123456789'};C.rows.unshift(r);M.id=r.id;M.code=r.code;}
+  Object.assign(r,{t:d.t,o:OBJ_UP[M.obj],d:d.d.trim(),fc:i2d(d.fc),pz:+d.pz,al:d.al.trim()});
+  if(st)r.st=st;
+  M.st=r.st;M.saved=true;M.saving=false;C.flash=r.id;
+  if(!C.searched){C.searched=true;}
+  return r;
+}
+function acfClose(){S.acfm=null;drawACF();const C=S.acf;render(true);setTimeout(()=>{C.flash=null;},2400);}
+
+
+function asgFiltered(){
+  const G=S.asg;if(!G.searched)return [];
+  const t=norm(G.q.trim());
+  return G.rows.filter(r=>{
+    if(t&&!norm(r.col+' '+r.act+' '+r.desc+' '+r.st).includes(t))return false;
+    if(G.adv){
+      if(G.act&&r.act!==G.act)return false;
+      if(G.est&&r.st!==G.est)return false;
+      if(G.col&&r.col!==G.col)return false;
+      if(G.desc.trim()&&!norm(r.desc).includes(norm(G.desc.trim())))return false;
+      const f=d2i(r.f);if(G.fr&&f<G.fr)return false;if(G.to&&f>G.to)return false;
+    }
+    return true;
+  });
+}
+function vAsg(){
+  const G=S.asg,rows=asgFiltered();
+  let body;
+  if(G.loading) body=Array.from({length:4},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(9)}</tr>`).join('');
+  else body=rows.map((r,i)=>`<tr class="${G.flash===r.id?'flash':''}" style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.cod}</td><td>${ASIGNADOR}</td><td>${r.col.toUpperCase()}</td><td>${r.act}</td><td>${r.f}<span class="sm2">${r.h}</span></td><td><span class="clamp" title="${r.desc}">${r.desc}</span></td><td><span class="chip ${r.st==='Asignado'?'f':'r'}">${r.st}</span></td><td><div style="display:flex;gap:6px"><button class="ic" data-a="asgeye" data-id="${r.id}" title="Ver" aria-label="Ver">${I.eye}</button><button class="ic" data-a="asgre" data-id="${r.id}" title="Reasignar" aria-label="Reasignar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 19c.6-3.2 3-4.5 6-4.5s5.4 1.3 6 4.5M16 6.5a2.6 2.6 0 0 1 0 5M18 14.8c1.8.5 2.8 1.8 3 3.7"/></svg></button><button class="ic" data-a="toast" data-msg="Quitar asignación: fuera del recorrido de esta demo" title="Quitar asignación" aria-label="Quitar asignación"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.6-3.4 3-4.8 6-4.8s5.4 1.4 6 4.8M16 9h5"/></svg></button></div></td></tr>`).join('');
+  const emptyMsg=!G.searched?'Realice una búsqueda para mostrar resultados.':'No se encontraron resultados con esos filtros.';
+  const opt=(arr,v)=>arr.map(x=>`<option ${v===x?'selected':''}>${x}</option>`).join('');
+  return `<div class="view">
+  <div class="crumb"><a data-a="home">${I.home}</a>›<span>Gestión de Asignaciones</span></div>
+  <div class="card"><h1 class="ttl">Gestión de Asignaciones</h1>
+   <div class="ibar"><div class="it"><span class="bub">${I.bld}</span><div><small>Entidad</small><strong style="display:block;font-size:12px;color:var(--blue)">20123456789</strong><strong>ENTIDAD DE EJEMPLO</strong></div></div><div class="it"><span class="bub">${I.bld}</span><div><small>Órgano desconcentrado</small><strong>Sede Central</strong></div></div><div class="it"><span class="bub">${I.bld}</span><div><small>Unidad de organización</small><strong>Gerencia de operaciones</strong></div></div></div>
+   <fieldset class="fs" style="max-width:none"><legend>Filtros de búsqueda</legend>
+    <div style="max-width:640px"><div class="inp" data-h="gq">${I.search}<input id="gq" placeholder="Buscar por Colaborador, Actividad, Descripción de la contratación, Estado" value="${G.q}" autocomplete="off" aria-label="Buscar asignaciones"></div></div>
+    <div class="adv three ${G.adv?'open':''}"><div><label class="l" for="gfAct">Actividad</label><div class="inp"><select id="gfAct"><option value="">Seleccionar</option>${opt(['SEGMENTACIÓN','REQUERIMIENTO'],G.act)}</select></div></div><div><label class="l" for="gfEst">Estado</label><div class="inp"><select id="gfEst"><option value="">Seleccionar</option>${opt(['Asignado','Reasignado'],G.est)}</select></div></div><div><label class="l" for="gfCol">Colaborador asignado</label><div class="inp"><select id="gfCol"><option value="">Seleccionar</option>${opt(COLAB,G.col)}</select></div></div><div><label class="l" for="gfFr">Fecha de asignación: desde</label><div class="inp"><input type="date" id="gfFr" value="${G.fr}"></div></div><div><label class="l" for="gfTo">Fecha de asignación: hasta</label><div class="inp"><input type="date" id="gfTo" value="${G.to}"></div></div><div><label class="l" for="gfDe">Descripción de la contratación</label><div class="inp"><input id="gfDe" placeholder="Ingresar texto" value="${G.desc}"></div></div></div>
+    <div class="frow"><button class="tg ${G.adv?'on':''}" data-a="asgadv" aria-pressed="${G.adv}"><span class="sw"></span>Búsqueda avanzada</button><span class="sp"></span>
+     <button class="btn o" data-a="asglimpiar" ${G.searched?'':'disabled'}>${I.clean}Limpiar</button><button class="btn" data-a="asgbuscar" data-h="gbuscar">${I.search}Buscar</button></div>
+   </fieldset>
+   <div class="sbar"><h2>Resultado de Búsqueda</h2><span class="vr"></span><button class="btn sm" data-a="asgnuevo" data-h="gnuevo" style="height:32px">+ Nuevo</button>${tools()}</div>
+   <div class="tw"><table style="min-width:1050px"><thead><tr>${th('N°')}${th('Código de<br>Asignación')}${th('Asignador')}${th('Colaborador Asignado')}${th('Actividad')}${th('Fecha y hora<br>de asignación')}${th('Descripción de la Contratación')}${th('Estado')}<th>Acciones</th></tr></thead><tbody>${body}</tbody></table>
+   ${(!rows.length&&!G.loading)?`<div class="empty">${I.big}<div>${emptyMsg}</div></div>`:''}</div>
+   ${rows.length&&!G.loading?`<div class="tfoot">Total de registros: ${String(rows.length).padStart(2,'0')}<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>10</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button disabled>›</button></div></div>`:''}
+  </div></div>`;
+}
+function ntf(title,msg){
+  const b=$('#toastbox');b.innerHTML=`<div class="ntf" role="status"><b>${title}</b>${msg}<button aria-label="Cerrar" data-a="ntfx">×</button></div>`;
+  clearTimeout(ntf.t);ntf.t=setTimeout(()=>{const n=b.querySelector('.ntf');n&&(b.innerHTML='');},5200);
+}
+function asgModal(mode,row){
+  const re=mode==='re';
+  const opts=COLAB.filter(c=>!re||c!==row.col);
+  const gv=()=>({c:($('#gCol')||{}).value||'',a:re?row.act:(($('#gAct')||{}).value||'')});
+  openModal({title:re?'Reasignar':'Asignar',t:'info',w:640,x:1,
+   hint:()=>{const v=gv();return !v.c?'gcol':(!v.a?'gact':'gguardar');},
+   body:`<div class="box" style="grid-template-columns:1fr 1fr"><div><small>Entidad</small><strong>20123456789<br>ENTIDAD DE EJEMPLO</strong></div><div><small>Órgano desconcentrado</small><strong>Central de abastecimiento de bienes estratégicos CEABE</strong></div><div><small>Unidad de organización</small><strong>Gerencia de Logística</strong></div>${re?`<div><small>Asignación vigente</small><strong>${row.cod}<br>${row.col}</strong></div>`:''}</div>
+   <div class="dts"><label class="fld"><span>${re?'Nuevo colaborador':'Colaborador'} <i>*</i></span><div class="inp" data-h="gcol"><select id="gCol" aria-label="Colaborador"><option value="">Seleccionar</option>${opts.map(c=>`<option>${c}</option>`).join('')}</select></div></label>
+   <label class="fld"><span>Actividad <i>*</i></span><div class="inp ${re?'ro':''}" data-h="gact"><select id="gAct" aria-label="Actividad" ${re?'disabled':''}>${re?`<option value="${row.act}">${row.act.charAt(0)+row.act.slice(1).toLowerCase()}</option>`:'<option value="">Seleccionar</option><option value="SEGMENTACIÓN">Segmentación</option><option value="REQUERIMIENTO">Requerimiento</option>'}</select></div></label></div>`,
+   btns:[MB('Cancelar',()=>{},{o:1}),MB('Guardar',()=>{
+     const v=gv();if(!v.c||!v.a)return;const act=v.a.toUpperCase();
+     const tail=re?`se reasignará la actividad <b>${act}</b> de <b>${row.col.toUpperCase()}</b> a <b>${v.c.toUpperCase()}</b>.`:`se asignará la actividad <b>${act}</b> al colaborador <b>${v.c.toUpperCase()}</b>.`;
+     openModal({title:re?'¿Desea confirmar la Reasignación?':'¿Desea confirmar la Asignación?',t:'info',hint:'mok',w:480,body:'Al aceptar, '+tail,btns:[MB('Cancelar',()=>{},{o:1}),MB('Aceptar',(b)=>{
+       b.innerHTML='<span class="spin"></span>Guardando…';b.disabled=true;
+       setTimeout(()=>{
+         const G=S.asg;G.n++;
+         const nr={id:'g'+G.n,cod:'ASIG-'+String(G.n).padStart(3,'0')+'-2027',col:v.c,act,f:'25/08/2027',h:'10:09:41 PM',desc:re?row.desc:'-',st:'Asignado'};
+         if(re){row.st='Reasignado';}
+         else G.rows.filter(r=>r.act===act&&r.desc===nr.desc&&r.st==='Asignado').forEach(r=>r.st='Reasignado');
+         G.rows.push(nr);G.flash=nr.id;G.done=true;G.searched=true;
+         pushNt('asg',re?'Reasignación registrada':'Asignación registrada',`${act} · ${v.c.toUpperCase()}`,'asg');
+         closeModal();render(true);
+         ntf('Resultado exitoso',(re?'Se ha reasignado la actividad ':'Se ha asignado la actividad ')+`<b>${act}</b> al colaborador <b>${v.c.toUpperCase()}</b>.`);
+         setTimeout(()=>{G.flash=null;},2400);
+       },800);
+     },{keep:1,id:'mok'})]});
+   },{keep:1,id:'gguardar',dis:1})]});
+}
+
+function filtered(){
+  if(!S.searched)return [];
+  const t=S.q.trim().toLowerCase();
+  let r=S.segs.filter(x=>(!t||x.code.toLowerCase().includes(t)||String(x.year)===t)&&(!S.est||x.st===S.est));
+  if(S.sort){const k=S.sort.k,d=S.sort.d;r=r.slice().sort((a,b)=>(a[k]>b[k]?1:-1)*d);}
+  return r;
+}
+
+function head(title,step,extra=''){
+  const T=['Definición de la segmentación','Clasificación de bienes y servicios','Clasificación de Obras y Consultoría de Obras','Cronograma e interacción con el mercado'];
+  const doneFirst=step===1&&W.saved;
+  const p=(step-1+(doneFirst?0.0:0))/3;
+  return `<div class="crumb"><a data-a="home">${I.home}</a>›<a data-a="cancel">Evaluación de la Segmentación</a>›<span>Nueva Segmentación</span><span class="sp"></span><button class="expand" data-a="expand">${W.narrow?'Expandir':'Contraer'} barra ${I.panel}</button></div>
+  <div class="card"><h1 class="ttl">${title}</h1>
+  <ol class="stp" style="--p:${p}">${T.map((t,i)=>`<li class="${(i+1<step||(i===0&&doneFirst))?'done':(i+1===step?'cur':'')}"><span class="dot">${(i+1<step||(i===0&&doneFirst))?I.chk:''}</span><span class="lbl">${t}</span></li>`).join('')}</ol>
+  <div class="dcard"><b>Datos de la Segmentación</b>
+    <div class="it"><div class="bub">${I.bld}</div><div><small>Código de segmentación:</small><strong class="${W.saved&&step===1&&W.justSaved?'ch':''}">${W.saved?'SEG-2027-002':'-'}</strong></div></div>
+    <div class="it"><div class="bub">${I.cal}</div><div class="kv"><small style="grid-column:1/3">Fecha y hora</small><span>Inicio</span><b>${W.saved?'15/01/2027 - 14:15:28':'-'}</b><span>Término</span><b>${W.finished?'15/01/2027 - 14:31:07':'-'}</b></div></div>
+    <div class="it"><div class="bub">${I.bld}</div><div><small>Estado</small><strong>${W.saved?'En proceso':'-'}</strong></div></div>
+    <div class="it"><div class="bub">${I.usr}</div><div class="kv"><small style="grid-column:1/3">Usuarios</small><span>Creación</span><b>${W.saved?USER:'-'}</b><span>Finalización</span><b>-</b></div></div>
+  </div>${extra}`;
+}
+const tools=(ph)=>`<span class="sp"></span><div class="inp srch"><span>${I.search}</span><input placeholder="Búsqueda interna" aria-label="Búsqueda interna" data-a-in="intern"></div><button class="ic" data-a="toast" data-msg="Exportación a PDF simulada" aria-label="PDF">${I.pdf}</button><button class="ic" data-a="toast" data-msg="Exportación a Excel simulada" aria-label="Excel">${I.xls}</button><button class="btn o" data-a="toast" data-msg="Exportación avanzada simulada">${I.exp}Exportar avanzado</button>`;
+const foot=(prev,next,nextLabel='Siguiente',nextIcon=I.right,nextDis=false,nextId='sig')=>`<div class="foot">${prev}<span class="sp"></span>${next?`<button class="btn lg" data-a="${nextId==='enviar'?'enviar':'sig'}" data-h="${nextId}" ${nextDis?'disabled':''}>${nextLabel} ${nextIcon}</button>`:''}</div>`;
+
+function step1(){
+  let tb,total=W.pac.length;
+  if(W.pacLoading) tb=Array.from({length:6},(_,i)=>`<tr class="skl" style="--i:${i}">${'<td><div></div></td>'.repeat(9)}</tr>`).join('');
+  else if(!W.pacLoaded) tb='';
+  else{
+    const from=(W.page-1)*10,sl=W.pac.slice(from,from+10);
+    tb=sl.map((r,i)=>`<tr style="--i:${i}"><td>${String(from+i+1).padStart(2,'0')}</td><td>${r.ref}</td><td>${r.d}</td><td>${r.t}</td><td>${r.o}</td><td class="c n">${r.it}</td><td><div class="money"><b>S/</b><span>${fmt(r.q)}</span></div></td><td>${r.m}</td><td><span class="mk">${r.act!==r.sug?'<span class="star">*</span>':''}</span><select class="sel" data-a-ch="act" data-i="${from+i}" aria-label="Acción"><option ${r.act==='Se segmenta'?'selected':''}>Se segmenta</option><option ${r.act==='No se segmenta'?'selected':''}>No se segmenta</option></select></td><td class="c"><button class="ic" data-a="eye" data-i="${from+i}" aria-label="Detalle">${I.eye}</button></td></tr>`).join('');
+  }
+  const pages=Math.ceil(total/10);
+  const bar=`<div class="sbar"><h2>Contrataciones del PAC</h2><span class="vr"></span><button class="btn" data-a="obtener" data-h="obtener" ${(W.pacLoaded||W.pacLoading)?'disabled':''}>${W.pacLoading?'<span class="spin"></span>':''}Obtener PAC</button>${q('Trae las contrataciones registradas en el PAC vigente de la entidad.')}${tools()}</div>`;
+  const table=`<div class="tw"><table><thead><tr>${th('N°')}${th('N° Ref.<br>PAC')}${th('Descripción')}${th('Tipo de procedimiento')}${th('Objeto de<br>contratación')}${th('Número<br>de Item','c')}${th('Cuantía (Soles)')}${th('Mes estimado de<br>Convocatoria')}<th>Acción ${q('Valor sugerido por el sistema. Si lo cambias, la fila se marca con *.')}</th><th class="c">Detalle</th></tr></thead><tbody>${tb}</tbody></table>${(!W.pacLoaded&&!W.pacLoading)?`<div class="emptyp">Presione “Obtener PAC” para listar las contrataciones.</div>`:''}</div>
+  ${W.pacLoaded?`<div class="tfoot">Total de registros: ${total}<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>10</option></select><div class="pg"><button data-a="page" data-p="${W.page-1}" ${W.page===1?'disabled':''}>‹</button>${Array.from({length:pages},(_,i)=>`<button class="${W.page===i+1?'cur':''}" data-a="page" data-p="${i+1}">${i+1}</button>`).join('')}<button data-a="page" data-p="${W.page+1}" ${W.page===pages?'disabled':''}>›</button></div></div>`:''}`;
+  const f=`<div class="foot"><button class="btn o lg" data-a="cancel">Cancelar</button><span class="sp"></span><button class="btn o lg" data-a="guardar" data-h="guardar" ${(!W.pacLoaded||W.saved&&!W.dirty)?'disabled':''}>Guardar</button><button class="btn lg" data-a="sig" data-h="sig" ${W.saved&&!W.dirty?'':'disabled'}>Siguiente ${I.right}</button></div>`;
+  return `<div class="view">${head('Definición de la segmentación',1)}${bar}${table}${f}</div><div class="leg"><h3>Leyenda</h3><p><span class="star">*</span> El valor de la acción sugerida por el sistema fue modificado.</p></div></div>`;
+}
+const legBox=(h,rows,extra='')=>`<div class="leg"><h3>${h}</h3>${extra}${rows.map(r=>`<p><b>${r[0]}</b> = ${r[1]}</p>`).join('')}</div>`;
+function cbCell(r,c,i,step){
+  if(r.pend) return `<button class="cb dash" data-a="${step}c" data-i="${i}" data-c="${c}" aria-label="Pendiente">${I.dash}</button>`;
+  const on=step==='s2'?r.c[c]:r.c[c];
+  return `<button class="cb ${on?'on':''}" data-a="${step}c" data-i="${i}" data-c="${c}" aria-pressed="${!!on}">${on?I.chk:''}</button>`;
+}
+function clCell(c){return c?`<span class="cl">${bars(LV[c])}${c}</span>`:`<span class="cl" style="color:#8b96a9">${bars(0)}—</span>`;}
+function step2(){
+  const tot=S2D.reduce((a,r)=>a+r[4],0);
+  const rows=W.s2.map((r,i)=>{const c=cls2(r),pc=r.d[4]/tot*100;
+    const risk=r.pend?'':(r.c.some(x=>x)?'ALTO':'BAJO');
+    return `<tr style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.d[0]}</td><td>${r.d[1]}</td><td>${r.d[2]}</td><td>${r.d[3]}</td><td><div class="money"><b>S/</b><span>${fmt(r.d[4])}</span></div></td><td class="n">${pc.toFixed(2)} %</td><td><span class="pill">${r.d[5]}</span></td>${[0,1,2,3].map(k=>`<td class="c" style="border-left:${k===0?'1px solid #e1e7f0':'0'}">${cbCell(r,k,i,'s2')}</td>`).join('')}<td style="border-left:1px solid #e1e7f0;font-weight:500">${risk}</td><td>${clCell(c)}</td></tr>`;}).join('');
+  const t=`<div class="tw"><table style="min-width:1100px"><thead><tr><th colspan="8"></th><th colspan="4" class="g c">Condiciones de Riesgo</th><th colspan="2" class="g"></th></tr><tr>${th('N°')}${th('N° Ref.<br>PAC')}${th('Descripción')}${th('Tipo de<br>procedimiento')}${th('Objeto de<br>contratac.')}${th('Cuantía')}<th>% ${q('Peso de la contratación sobre el total de la cuantía.')}</th><th>Nivel de<br>Cuantía ${q('Alta si supera el umbral de cuantía de la entidad.')}</th>${LEG12.map((l,k)=>`<th class="c ${k===0?'g':''}">${l[0]} ${q(l[1])}</th>`).join('')}<th class="g">Nivel de<br>Riesgo</th><th>Clasificación</th></tr></thead><tbody>${rows}
+   <tr class="tot"><td>01</td><td></td><td>UMBRAL DE CUANTÍA</td><td>${fmt(tot*0.1).replace(',',' ')}</td><td>TOTAL</td><td><div class="money"><b>S/</b><span>${fmt(tot)}</span></div></td><td colspan="8"></td></tr></tbody></table></div>
+  <div class="tfoot">Total de registros: 10<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>10</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button disabled>›</button></div></div>`;
+  const f=`<div class="foot"><button class="btn o lg" data-a="ant">${I.left} Anterior</button><span class="sp"></span><button class="btn lg" data-a="sig" data-h="sig">Siguiente ${I.right}</button></div>`;
+  return `<div class="view">${head('Clasificación de bienes y servicios',2)}<div class="sbar"><h2>Contrataciones de bienes y servicios</h2>${tools()}</div>${t}${f}</div><div class="leg"><h3>Leyenda</h3><p><b style="color:var(--blue)">ABC</b> = El valor de la cuantía sugerida por el sistema fue modificado.</p>${LEG12.map(r=>`<p><b>${r[0]}</b> = ${r[1]}</p>`).join('')}<p style="margin-top:8px;color:var(--muted)">Clasificación: cuantía alta/baja combinada con riesgo alto (alguna condición marcada) o bajo.</p></div></div>`;
+}
+function step3(){
+  const rows=W.s3.map((r,i)=>{const c=cls3(r);
+    const ioCell=r.pend?`<button class="cb dash" data-a="s3c" data-i="${i}" data-c="io" ${i===firstPend3()?'data-h="pend"':''}>${I.dash}</button>`:`<button class="cb ${r.io?'on':''}" data-a="s3c" data-i="${i}" data-c="io">${r.io?I.chk:''}</button>`;
+    const crit=[0,1,2,3].map(k=>{
+      if(r.pend) return `<td class="c" style="border-left:${k===0?'1px solid #e1e7f0':'0'}"><button class="cb dash" data-a="s3c" data-i="${i}" data-c="${k}">${I.dash}</button></td>`;
+      if(r.io) return `<td class="c" style="border-left:${k===0?'1px solid #e1e7f0':'0'}"><button class="cb dis" disabled></button></td>`;
+      return `<td class="c" style="border-left:${k===0?'1px solid #e1e7f0':'0'}"><button class="cb ${r.c[k]?'on':''}" data-a="s3c" data-i="${i}" data-c="${k}" aria-pressed="${!!r.c[k]}">${r.c[k]?I.chk:''}</button></td>`;}).join('');
+    return `<tr class="${r.flash?'flash':''}" style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.d[0]}</td><td style="max-width:300px">${r.d[1]}</td><td>${r.d[2]}</td><td>${r.d[3]}</td><td><div class="money"><b>S/</b><span>${fmt(r.d[4])}</span></div></td><td class="c">${ioCell}</td>${crit}<td style="border-left:1px solid #e1e7f0">${clCell(c)}</td></tr>`;}).join('');
+  const t=`<div class="tw"><table style="min-width:1150px"><thead><tr><th colspan="7"></th><th colspan="4" class="g c">Criterios para la clasificación de obras y consultoría de obras</th><th class="g"></th></tr><tr>${th('N°')}${th('N° Ref.<br>PAC')}${th('Descripción')}${th('Procedimiento de<br>selección')}${th('Objeto')}${th('Cuantía')}<th class="c">Intervención<br>tipo IOARR</th>${LEG3.map((l,k)=>`<th class="c ${k===0?'g':''}">${l[0]} ${q(l[1])}</th>`).join('')}<th class="g">Clasificación</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="tfoot">Total de registros: 120<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>50</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button data-a="toast" data-msg="Las páginas 2 y 3 no están en esta demo">2</button><button data-a="toast" data-msg="Las páginas 2 y 3 no están en esta demo">3</button><button data-a="toast" data-msg="Las páginas 2 y 3 no están en esta demo">›</button></div></div>
+  <div class="foot"><button class="btn o lg" data-a="ant">${I.left} Anterior</button><span class="sp"></span><button class="btn lg" data-a="sig" data-h="sig">Siguiente ${I.right}</button></div>`;
+  return `<div class="view">${head('Clasificación de Obras y Consultoría de Obras',3)}<div class="sbar"><h2>Contrataciones de obras y consultoría de obras</h2>${tools()}</div>${t}</div>${legBox('Leyenda - Criterios para determinar la clasificación de obras y consultoría de obras (I al IV):',LEG3)}</div>`;
+}
+function firstPend3(){return W.s3.findIndex(r=>r.pend);}
+function step4(){
+  const rows=W.s4.map((r,i)=>`<tr style="--i:${i}"><td>${String(i+1).padStart(2,'0')}</td><td>${r.ref}</td><td style="max-width:260px">${r.desc}</td><td>${r.t}</td><td>${r.obj}</td><td>${clCell(r.cl)}</td><td><span class="mk">${r.int!==r.sug?'<span class="star">*</span>':''}</span><select class="sel" data-a-ch="int" data-i="${i}" aria-label="Interacción con el mercado">${INTS.map(o=>`<option ${o===r.int?'selected':''}>${o}</option>`).join('')}</select></td><td style="min-width:150px"><button class="btn reg ${r.area?'ok':''}" data-a="area" data-i="${i}" ${i===0?'data-h="area"':''}>${r.area?r.area:'Seleccionar'}</button></td><td>${r.m}</td><td style="min-width:140px"><button class="btn reg ${r.cr?'ok':''}" data-a="crono" data-i="${i}" ${i===0?'data-h="crono"':''}>${I.cal.replace('15','13')} ${r.cr?r.cr:'Registrar'}</button></td></tr>`).join('');
+  const t=`<div class="tw"><table style="min-width:1180px"><thead><tr>${th('N°')}${th('N° Ref.<br>PAC')}${th('Descripción')}${th('Procedimiento de<br>selección')}${th('Objeto')}${th('Clasificación')}${th('Interacción con el<br>mercado')}<th>Área usuaria ${q('Área que solicita y utilizará la contratación.')}</th>${th('Mes estimado de<br>convocatoria')}${th('Cronograma')}</tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="tfoot">Total de registros: 10<span class="sp"></span><span>Registros por página</span><select class="sel" style="width:60px" disabled><option>50</option></select><div class="pg"><button disabled>‹</button><button class="cur">1</button><button disabled>›</button></div></div>
+  <div class="foot"><button class="btn o lg" data-a="ant">${I.left} Anterior</button><span class="sp"></span><button class="btn lg" data-a="enviar" data-h="enviar">Enviar ${I.send}</button></div>`;
+  return `<div class="view">${head('Cronograma e interacción con el mercado',4)}<div class="sbar"><h2>Contrataciones de bienes, servicios, obras y consultoría de obras</h2>${tools()}</div>${t}</div><div class="leg"><h3>Leyenda</h3><p><span class="star">*</span> El valor del tipo de interacción con el mercado sugerido por el sistema fue modificado.</p></div></div>`;
+}
+
+function render(keepScroll){
+  const y=window.scrollY;
+  $('#wrap').classList.toggle('narrow',!!(W&&S.view==='wiz'&&W.narrow));
+  $('#subin').innerHTML=subnav();
+  $('#app').innerHTML = S.view==='list'?vList():S.view==='edit'?vEdit():S.view==='acf'?vAcf():S.view==='asg'?vAsg():[null,step1,step2,step3,step4][W.step]();
+  const q1=$('#q');if(q1){q1.addEventListener('input',e=>{S.q=e.target.value;S.err=false;hints();});q1.addEventListener('keydown',e=>{if(e.key==='Enter')A.buscar();});}
+  const q4=$('#gq');if(q4){q4.addEventListener('input',e=>{S.asg.q=e.target.value;hints();});q4.addEventListener('keydown',e=>{if(e.key==='Enter')A.asgbuscar();});}
+  const q3=$('#aq');if(q3){q3.addEventListener('input',e=>{S.acf.q=e.target.value;hints();});q3.addEventListener('keydown',e=>{if(e.key==='Enter')A.acfbuscar();});}
+  const q2=$('#eq');if(q2){q2.addEventListener('input',e=>{S.ed.q=e.target.value;});q2.addEventListener('keydown',e=>{if(e.key==='Enter')A.edbuscar();});}
+  if(keepScroll)window.scrollTo(0,y);
+  hints();
+}
+
+/* ---------- guía ---------- */
+function hintKey(){
+  if(modal) return typeof modal.hint==='function'?modal.hint():(modal.hint||null);
+  if(S.view==='asg'){const G=S.asg;if(!G.searched)return 'gbuscar';return G.done?'gok':'gnuevo';}
+  if(S.acfm){const M=S.acfm;if(!M.obj)return 'aobj';if(!M.ref)return 'aref';if(!M.added)return 'aagregar';if(!M.saved){acfSync();const d=M.det;return (d.t&&+d.pz>0&&d.fc&&d.d.trim())?'aguardar':'adet';}return M.st==='Publicado'?null:'apublicar';}
+  if(S.view==='acf'){const C=S.acf;if(!C.searched)return C.q.trim()?'abuscar':'aq';return C.done?'aok':'anuevo';}
+  if(S.view==='edit') return S.ed.done?'edvolver':'editpen';
+  if(S.view==='list'){ if(!S.q.trim()&&!S.searched) return 'q'; if(!S.searched) return 'buscar'; if(!S.ops) return 'ops'; return 'nuevo'; }
+  if(W.step===1){ if(!W.pacLoaded) return 'obtener'; if(!W.saved||W.dirty) return 'guardar'; return 'sig'; }
+  if(W.step===2) return 'sig';
+  if(W.step===3) return firstPend3()>=0?'pend':'sig';
+  if(W.step===4) return W.s4.every(r=>r.area&&r.cr)?'enviar':(W.s4[0].area?(W.s4[0].cr?'enviar':'crono'):'area');
+}
+const COACH={
+ q:['Escribe un año','Haz clic en el buscador y escribe <b>2027</b>.',null],
+ buscar:['Busca','Pulsa <b>Buscar</b> para listar las segmentaciones del año.',null],
+ ops:['Abre el menú de operaciones','Aquí están las acciones sobre las segmentaciones.',null],
+ nuevo:['Crea una nueva segmentación','Elige <b>Nuevo</b> para iniciar el asistente de 4 pasos. También puedes probar <b>Editar Área Usuaria</b> o <b>Consultar N° de referencia PAC</b>.',null],
+ editpen:['Edita el área usuaria','Pulsa el <b>lápiz</b> de la primera fila para abrir el formulario de cambio.',null],
+ medit:['Completa y guarda','Elige el órgano y la unidad nuevos, escribe el sustento y pulsa <b>Guardar</b>.','Completar con valores de ejemplo'],
+ mpac:['Consulta un N° de referencia','Escribe un número (por ejemplo <b>8</b>) y pulsa <b>Buscar</b>.','Escribir 8 por mí'],
+ edvolver:['Listo','El área usuaria quedó actualizada. Pulsa <b>Volver</b> para regresar a la lista.',null],
+ obtener:['Trae el PAC','<b>Obtener PAC</b> carga las contrataciones del plan anual. Luego puedes cambiar la acción de cada fila.',null],
+ guardar:['Guarda los datos','Pulsa <b>Guardar</b> para generar el código de la segmentación.',null],
+ sig:['Avanza','Pulsa <b>Siguiente</b>. En los pasos 2 y 3 puedes marcar condiciones y criterios antes.',null],
+ pend:['Completa la clasificación','Hay filas pendientes (con guion). Marca <b>IOARR</b> o los criterios; la clasificación se calcula sola.','Completar pendientes con valores de ejemplo'],
+ enviar:['Último paso','Opcional: asigna un <b>área usuaria</b> y registra un <b>cronograma</b> en cada fila. Luego pulsa <b>Enviar</b>.','Rellenar áreas y cronogramas de ejemplo'],
+ area:['Área usuaria','Pulsa <b>Seleccionar</b> en la primera fila.',null],
+ crono:['Cronograma','Pulsa <b>Registrar</b> en la primera fila.',null],
+ gbuscar:['Busca asignaciones','Pulsa <b>Buscar</b> (puedes dejar el campo vacío) para listar las asignaciones.',null],
+ gnuevo:['Crea una asignación','Pulsa <b>+ Nuevo</b>. También puedes ver (ojo) o <b>reasignar</b> (personas) una asignación vigente.',null],
+ gok:['Listo','La asignación nueva aparece al final y la anterior de la misma actividad pasó a <b>Reasignado</b>. Prueba reasignar otra.',null],
+ gcol:['Elige al colaborador','Selecciona a quién le asignas la actividad.','Elegir colaborador y actividad por mí'],
+ gact:['Elige la actividad','Selecciona <b>Segmentación</b> o <b>Requerimiento</b>.','Elegir colaborador y actividad por mí'],
+ gguardar:['Guarda','Pulsa <b>Guardar</b> y confirma en el cuadro de diálogo.',null],
+ aq:['Busca un ACF','Haz clic en el buscador y escribe <b>adquisición</b> (o deja vacío para ver todo).','Escribir “adquisición” por mí'],
+ abuscar:['Busca','Pulsa <b>Buscar</b> para listar los anuncios.',null],
+ anuevo:['Crea un anuncio','Pulsa <b>+ Nuevo</b> para abrir el formulario de creación. También puedes ver (ojo) o editar (lápiz) los borradores.',null],
+ aok:['Listo','El anuncio quedó <b>Publicado</b>. Prueba ver, editar o eliminar otros borradores, o vuelve a <b>Evaluación de la Segmentación</b>.',null],
+ aobj:['Elige el objeto','Selecciona <b>Bien</b> como objeto de contratación.','Elegir Bien y 234 por mí'],
+ aref:['Busca la referencia','Escribe <b>23</b> y elige <b>234 - Materiales de escritorio</b>.','Elegir 234 por mí'],
+ aagregar:['Agrega los ítems','Los ítems vienen marcados. Pulsa <b>Agregar</b> para incluirlos en el anuncio.',null],
+ adet:['Completa el detalle','Elige tipo de procedimiento, plazo, fecha (2027) y describe el requerimiento.','Completar con valores de ejemplo'],
+ aguardar:['Guarda el borrador','Pulsa <b>Guardar</b>: se genera el código del ACF y queda en estado Borrador.',null],
+ apublicar:['Publica','Pulsa <b>Publicar</b> y confirma. Después no se podrá editar.',null],
+ mok:['Confirma','Pulsa el botón del cuadro de diálogo.',null]
+};
+function hints(){
+  document.querySelectorAll('.hint').forEach(e=>e.classList.remove('hint'));
+  const c=$('#coach');
+  if(!guideOn){c.innerHTML='';return;}
+  let k=hintKey();
+  if(!k){c.innerHTML='';return;}
+  let el=document.querySelector((modal?'#layer ':(S.acfm?'#layerA ':''))+'[data-h="'+k+'"]');
+  if(!el&&modal){el=document.querySelector('#layer .btn.lg:last-child');k='mok';}
+  if(el)el.classList.add('hint');
+  if(el&&!modal&&['pend','area','crono','nuevo','obtener','guardar'].includes(k)){ /* no autoscroll agresivo */ }
+  const t=COACH[k]||COACH.mok;
+  c.innerHTML=`<div class="coach${(modal||S.acfm)?' m':''}"><span class="dotg"></span><div><small>Recorrido guiado</small>${t[1]}${t[2]?`<br><a data-a="shortcut" data-k="${k}">${t[2]}</a>`:''}</div><button class="x" data-a="guide" aria-label="Ocultar guía">×</button></div>`;
+}
+
+/* ---------- acciones ---------- */
+const A={
+ toast:el=>toast(el.dataset.msg),
+ out:()=>toast('Esta sección está fuera del recorrido de la demo'),
+ home:()=>toast('Inicio: fuera del recorrido de la demo'),
+ guide:()=>{guideOn=!guideOn;const b=$('#bGuide');b.textContent='Recorrido guiado: '+(guideOn?'sí':'no');b.classList.toggle('on',guideOn);document.body.classList.toggle('gOn',guideOn);hints();},
+ reset:()=>{fresh();closePanel();updateBell();updateHeader();$('#lo').innerHTML='';render();drawModal();drawACF();$('#toastbox').innerHTML='';window.scrollTo(0,0);},
+ ovl:()=>{},
+ bell:()=>{if(S.hd==='notif'){closePanel();return;}S.hd='notif';S.nt.tab='all';drawPanel();},
+ usermenu:()=>{if(S.hd==='user'){closePanel();return;}S.hd='user';drawPanel();},
+ nttab:el=>{S.nt.tab=el.dataset.t;drawPanel();},
+ ntall:()=>{S.nt.list.forEach(x=>x.u=false);updateBell();drawPanel();},
+ ntopen:el=>{const n=S.nt.list.find(x=>x.id===el.dataset.id);n.u=false;updateBell();closePanel();if(n.go){const v=S.view;A.sec({dataset:{s:n.go}});if(S.view===v&&n.go!=='seg')toast('Ya estás en '+({acf:'Anuncio de la Contratación Futura',asg:'Gestión de Asignaciones'}[n.go]||'esta sección'));}},
+ myprofile:()=>{closePanel();openModal({title:'Mi perfil',t:'info',w:560,x:1,body:`<dl class="dl"><dt>Nombres</dt><dd>Juan de la Piedra</dd><dt>DNI</dt><dd>12345678</dd><dt>Correo</dt><dd>juan.delapiedra@ejemplo.gob.pe</dd><dt>Teléfono</dt><dd>999 000 000</dd><dt>Entidad</dt><dd>20123456789 - ENTIDAD DE EJEMPLO</dd><dt>Órgano desconcentrado</dt><dd>Sede Central</dd><dt>Unidad de organización</dt><dd>Gerencia de operaciones</dd><dt>Perfil activo</dt><dd>${PERFILES[S.perfil][0]}</dd></dl>`,btns:[MB('Cerrar',()=>{},{o:1})]});},
+ chperfil:()=>{closePanel();openModal({title:'Cambiar de perfil',t:'info',w:520,x:1,body:`<p style="margin:0 0 12px;color:var(--muted)">Elige con qué perfil quieres trabajar en esta sesión.</p><div class="rad">${PERFILES.map((p,k)=>`<label><input type="radio" name="pf" value="${k}" ${S.perfil===k?'checked':''}>${p[0]}</label>`).join('')}</div>`,btns:[MB('Cancelar',()=>{},{o:1}),MB('Cambiar',()=>{const v=document.querySelector('input[name=pf]:checked');const k=v?+v.value:S.perfil;closeModal();if(k!==S.perfil){S.perfil=k;updateHeader();toast('Perfil activo: '+PERFILES[k][0]);}else toast('Ya estás con ese perfil');},{keep:1})]});},
+ ntprefs:()=>{closePanel();openModal({title:'Preferencias de notificaciones',t:'info',w:520,x:1,body:`<p style="margin:0 0 12px;color:var(--muted)">Elige qué avisos quieres recibir en la campana.</p><div class="rad">${Object.keys(NTL).map(k=>`<label><input type="checkbox" data-pref="${k}" ${S.nt.pref[k]?'checked':''}>${NTL[k]}</label>`).join('')}</div>`,btns:[MB('Listo',()=>{},{o:1})]});},
+ logout:()=>{closePanel();openModal({title:'¿Cerrar sesión?',t:'warn',w:460,body:'Saldrás del sistema. Los datos de esta demo se conservan hasta que pulses <b>Reiniciar</b>.',btns:[MB('Cancelar',()=>{},{o:1}),MB('Cerrar sesión',()=>{$('#lo').innerHTML=`<div class="lo"><div class="lc"><div class="lg"><span>OECE</span><i></i><span>SE@CE</span></div><h2>Has cerrado sesión</h2><p>Tu sesión en SEACE 4.0 terminó correctamente.</p><button class="btn lg" data-a="login" style="margin:0 auto">Iniciar sesión</button></div></div>`;const b=document.querySelector('#lo .btn');b&&b.focus();})]});},
+ login:()=>{$('#lo').innerHTML='';timer=933;toast('Sesión iniciada como Juan de la Piedra');},
+
+ asgadv:()=>{const G=S.asg;G.adv=!G.adv;const a=$('.adv'),t=$('.tg');a.classList.toggle('open',G.adv);t.classList.toggle('on',G.adv);t.setAttribute('aria-pressed',G.adv);},
+ asglimpiar:()=>{const G=S.asg;Object.assign(G,{q:'',act:'',est:'',fr:'',to:'',desc:'',col:'',searched:false});render();},
+ asgbuscar:()=>{const G=S.asg;G.q=($('#gq')||{}).value||'';if(G.adv){G.act=$('#gfAct').value;G.est=$('#gfEst').value;G.col=$('#gfCol').value;G.fr=$('#gfFr').value;G.to=$('#gfTo').value;G.desc=$('#gfDe').value;}G.searched=true;G.loading=true;render();setTimeout(()=>{G.loading=false;render();},700);},
+ asgnuevo:()=>asgModal('new'),
+ asgre:el=>{const r=S.asg.rows.find(x=>x.id===el.dataset.id);if(r.st!=='Asignado'){toast('Esta asignación ya fue reasignada');return;}asgModal('re',r);},
+ asgeye:el=>{const r=S.asg.rows.find(x=>x.id===el.dataset.id);openModal({title:'Detalle de la asignación',t:'info',w:600,body:`<dl class="dl"><dt>Código</dt><dd>${r.cod}</dd><dt>Asignador</dt><dd>${ASIGNADOR}</dd><dt>Colaborador asignado</dt><dd>${r.col.toUpperCase()}</dd><dt>Actividad</dt><dd>${r.act}</dd><dt>Fecha y hora</dt><dd>${r.f} ${r.h}</dd><dt>Descripción de la contratación</dt><dd>${r.desc}</dd><dt>Estado</dt><dd>${r.st}</dd></dl>`,btns:[MB('Cerrar',()=>{},{o:1})]});},
+ ntfx:()=>{$('#toastbox').innerHTML='';},
+
+ sec:el=>{
+   const t=el.dataset.s,tgt=t==='acf'?'acf':t==='asg'?'asg':'list';
+   if(t==='seg'&&S.view!=='acf'&&S.view!=='asg')return;
+   if(S.view===tgt)return;
+   const go=()=>{S.view=tgt;S.ops=false;if(tgt!=='list')W=null;render();window.scrollTo(0,0);};
+   if(S.view==='wiz'){openModal({title:'¿Salir de la segmentación?',t:'warn',body:'Si cambias de sección, los datos que no guardaste se perderán.',btns:[MB('Seguir aquí',()=>{},{o:1}),MB('Salir',go)]});return;}
+   go();
+ },
+ acfadv:()=>{const C=S.acf;C.adv=!C.adv;const a=$('.adv'),t=$('.tg');a.classList.toggle('open',C.adv);t.classList.toggle('on',C.adv);t.setAttribute('aria-pressed',C.adv);},
+ acflimpiar:()=>{const C=S.acf;C.q='';C.ad='';C.fr='';C.to='';C.searched=false;render();},
+ acfbuscar:()=>{const C=S.acf;C.q=($('#aq')||{}).value||'';if(C.adv){C.ad=$('#aad').value;C.fr=$('#afr').value;C.to=$('#ato').value;}C.searched=true;C.loading=true;render();setTimeout(()=>{C.loading=false;render();},700);},
+ acfnuevo:()=>acfOpen(null),
+ acfedit:el=>{const r=S.acf.rows.find(x=>x.id===el.dataset.id);r&&acfOpen(r);},
+ acfeye:el=>{const r=S.acf.rows.find(x=>x.id===el.dataset.id);openModal({title:'Detalle del ACF',t:'info',w:600,body:`<dl class="dl"><dt>Código</dt><dd>${r.code}</dd><dt>Entidad</dt><dd>${r.ent}</dd><dt>Estado</dt><dd>${r.st}</dd><dt>Fecha de publicación</dt><dd>${r.fp} ${r.hr}</dd><dt>Tipo de procedimiento</dt><dd>${r.t}</dd><dt>Objeto de contratación</dt><dd>${r.o}</dd><dt>Descripción preliminar</dt><dd>${r.d}</dd><dt>Fecha aprox. de convocatoria</dt><dd>${r.fc}</dd><dt>Plazo de entrega/ejecución</dt><dd>${r.pz} días</dd></dl>`,btns:[MB('Cerrar',()=>{},{o:1})]});},
+ acfdel:el=>{const id=el.dataset.id,r=S.acf.rows.find(x=>x.id===id);openModal({title:'Eliminar borrador',t:'warn',body:`¿Deseas eliminar el borrador <b>${r.code}</b>? Esta acción no se puede deshacer.`,btns:[MB('Cancelar',()=>{},{o:1}),MB('Eliminar',()=>{const tr=document.querySelector(`tr[data-id="${id}"]`);tr&&tr.classList.add('gone');setTimeout(()=>{S.acf.rows=S.acf.rows.filter(x=>x.id!==id);render(true);toast('Borrador eliminado');},320);})]});},
+ arefpick:el=>{
+   const M=S.acfm,r=CAT[M.obj].find(x=>x[0]===el.dataset.r);
+   M.ref=r[0];M.refTxt=r[0]+' - '+r[1];M.loading=true;M.sel=[];M.pg=1;drawACF();
+   setTimeout(()=>{if(!S.acfm)return;M.loading=false;M.sel=ITM[M.ref].map((_,i)=>i);drawACF();},650);
+ },
+ aselr:el=>{const M=S.acfm,i=+el.dataset.i;M.sel=M.sel.includes(i)?M.sel.filter(x=>x!==i):M.sel.concat(i);drawACF();},
+ aselall:()=>{const M=S.acfm,n=acfItems().length;M.sel=M.sel.length===n?[]:acfItems().map((_,i)=>i);drawACF();},
+ apg:el=>{const M=S.acfm,p=+el.dataset.p,n=Math.ceil(acfItems().length/5);if(p>=1&&p<=n){M.pg=p;drawACF();}},
+ aadd:()=>{const M=S.acfm;acfSync();M.added=true;M.nItems=M.sel.length;drawACF();toast(M.nItems+(M.nItems===1?' ítem agregado':' ítems agregados')+' al ACF');const d=$('#aDet');d&&d.scrollIntoView({block:'center',behavior:'smooth'});},
+ aremove:()=>{const M=S.acfm;M.added=false;M.nItems=0;M.det={t:'',pz:'',fc:'',d:'',al:''};M.errs={};drawACF();toast('Ítems removidos del ACF');},
+ asave:()=>{
+   const M=S.acfm;acfSync();
+   if(!acfVal()){drawACF();const e=document.querySelector('#layerA .errt');e&&e.scrollIntoView({block:'center',behavior:'smooth'});return;}
+   M.saving='g';drawACF();
+   setTimeout(()=>{if(!S.acfm)return;const r=acfCommit();render(true);drawACF();toast('Borrador guardado como '+r.code);pushNt('acf','Borrador de ACF guardado',`El anuncio ${r.code} quedó en estado Borrador.`,'acf');setTimeout(()=>{S.acf.flash=null;},2400);},700);
+ },
+ apub:()=>{
+   const M=S.acfm;acfSync();
+   if(!acfVal()){drawACF();const e=document.querySelector('#layerA .errt');e&&e.scrollIntoView({block:'center',behavior:'smooth'});return;}
+   openModal({title:'¿Deseas publicar el ACF?',t:'warn',hint:'mok',body:'Al publicarlo, el anuncio será visible para los proveedores y <b>ya no podrás editarlo ni eliminarlo</b>.',btns:[MB('Cancelar',()=>{},{o:1}),MB('Publicar',(b)=>{
+     b.innerHTML='<span class="spin"></span>Publicando…';b.disabled=true;
+     setTimeout(()=>{
+       const r=acfCommit('Publicado');pushNt('acf','ACF publicado',`El anuncio ${r.code} fue publicado correctamente.`,'acf');
+       openModal({title:'ACF publicado',t:'ok',hint:'mok',body:`El anuncio <b>${r.code}</b> se publicó correctamente. Lo verás en la lista con estado <b>Publicado</b>.`,btns:[MB('Aceptar',()=>{S.acf.done=true;acfClose();},{id:'mok'})]});
+     },900);
+   },{keep:1,id:'mok'})]});
+ },
+ acancel:()=>{
+   const M=S.acfm;if(!M)return;acfSync();
+   const dirty=!M.saved&&(M.added||M.obj);
+   if(dirty){openModal({title:'¿Cancelar el registro del ACF?',t:'warn',body:'Si sales ahora, los datos que no guardaste se perderán.',btns:[MB('Seguir aquí',()=>{},{o:1}),MB('Salir',()=>{acfClose();})]});return;}
+   acfClose();
+ },
+
+ mclose:()=>closeModal(),
+ editarea:()=>{S.ops=false;S.view='edit';render();window.scrollTo(0,0);},
+ edvolver:()=>{S.view='list';render();window.scrollTo(0,0);},
+ edlimpiar:()=>{S.ed.q='';S.ed.searched=false;render();},
+ edbuscar:()=>{S.ed.q=($('#eq')||{}).value||S.ed.q;S.ed.searched=true;S.ed.loading=true;render();setTimeout(()=>{S.ed.loading=false;render();},650);},
+ edit:el=>{
+   const r=S.ed.rows.find(x=>x.ref===el.dataset.ref);
+   openModal({title:'Editar Área usuaria',t:'info',w:640,hint:'medit',body:`
+    <div class="box"><div><small>Entidad</small><strong>${ENT}</strong></div><div><small>Código</small><strong>${r.code}</strong></div><div><small>N° de referencia PAC</small><strong>${r.ref}</strong></div><div><small>Descripción</small><strong>${r.d[0]+r.d.slice(1).toLowerCase()}</strong></div></div>
+    <div class="mh2">Área usuaria actual</div>
+    <div class="dts"><label class="fld"><span>Órgano desconcentrado <i>*</i></span><div class="inp ro"><input value="${r.org}" readonly></div></label><label class="fld"><span>Unidad de organización <i>*</i></span><div class="inp ro"><input value="${r.unit}" readonly></div></label></div>
+    <div class="mh2">Área usuaria nueva</div>
+    <div class="dts"><label class="fld"><span>Órgano desconcentrado <i>*</i></span><div class="inp" id="w1"><select id="nOrg"><option value="">Seleccione</option>${Object.keys(ORG).map(o=>`<option>${o}</option>`).join('')}</select></div><div class="errt" id="e1"></div></label>
+    <label class="fld"><span>Unidad de organización <i>*</i></span><div class="inp" id="w2"><select id="nUni" disabled><option value="">Seleccione primero el órgano</option></select></div><div class="errt" id="e2"></div></label></div>
+    <label class="fld"><span>Sustento <i>*</i></span><textarea class="ta" id="nSus" maxlength="500" placeholder="Se solicita actualizar la unidad de organización para que corresponda al tipo de contratación (Obra). Esta corrección permite continuar el trámite con la unidad responsable correcta."></textarea><div class="cnt"><span id="cnt">0</span>/500</div><div class="errt" id="e3"></div></label>`,
+    btns:[MB('Cancelar',()=>{},{o:1}),MB('Guardar',(b)=>{
+      const org=$('#nOrg').value,uni=$('#nUni').value,sus=$('#nSus').value.trim();
+      $('#e1').textContent=org?'':'Selecciona el órgano desconcentrado.';
+      $('#e2').textContent=uni?'':'Selecciona la unidad de organización.';
+      $('#e3').textContent=sus?'':'Escribe el sustento del cambio.';
+      if(!org||!uni||!sus)return;
+      if(org===r.org&&uni===r.unit){$('#e2').textContent='Elige un área distinta a la actual.';return;}
+      b.disabled=true;b.innerHTML='<span class="spin"></span>Guardando…';
+      setTimeout(()=>{r.org=org;r.unit=uni;r.area=ORG[org][0]+'-'+uni.split(' - ').pop();S.ed.flash=r.ref;S.ed.done=true;pushNt('seg','Área usuaria actualizada',`Se actualizó el área usuaria de ${r.code} a ${r.area}.`,'seg');closeModal();render(true);toast('Área usuaria actualizada correctamente');setTimeout(()=>{S.ed.flash=null;},2400);},700);
+    },{keep:1,id:'medit'})]});
+ },
+ consultapac:()=>{
+   S.ops=false;render(true);
+   openModal({title:'Consulta PAC',t:'info',x:1,w:700,hint:'mpac',body:`
+    <div class="box" style="grid-template-columns:1fr;gap:10px"><div class="g2"><div><small>Nombre de Entidad</small><div class="inp ro"><input value="${ENT}" readonly></div></div><div><small>Año</small><div class="inp ro"><input value="2027" readonly>${I.cal}</div></div></div>
+    <div><small>N° Referencia PAC</small><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="inp" style="width:120px" data-h="mpac"><input id="pacn" inputmode="numeric" maxlength="6" aria-label="N° de referencia PAC"></div><button class="btn o" id="pacl" data-a="paclimpiar" disabled>${I.clean}Limpiar</button><button class="btn" id="pacb" data-a="pacbuscar" disabled>${I.search}Buscar</button></div><div class="errt" id="pace"></div></div></div>
+    <div id="pacres"></div>`,btns:[MB('Cerrar',()=>{},{id:'mcl'})]});
+ },
+ paclimpiar:()=>{$('#pacn').value='';$('#pacres').innerHTML='';$('#pace').textContent='';$('#pacb').disabled=true;$('#pacl').disabled=true;$('#pacn').focus();},
+ pacbuscar:()=>{
+   const v=$('#pacn').value.trim();
+   if(!/^\d+$/.test(v)){$('#pace').textContent='Ingresa solo números.';return;}
+   $('#pace').textContent='';const b=$('#pacb');b.disabled=true;b.innerHTML='<span class="spin"></span>Buscando…';
+   setTimeout(()=>{
+     b.innerHTML=I.search+'Buscar';b.disabled=false;
+     const found=buildPac().some(p=>p.ref===String(+v));
+     const sg=S.segs.find(x=>x.code==='SEG-2027-002');const st=sg?sg.st:'EN PROCESO';
+     $('#pacres').innerHTML=found?`<div class="note"><h4>Nota del "Detalle de los items"</h4>El N° Referencia PAC ${+v} está incluido en la segmentación SEG-2027-002 en estado ${st}.</div>`:`<div class="note w"><h4>Sin coincidencias</h4>El N° Referencia PAC ${+v} no está incluido en ninguna segmentación de 2027.</div>`;
+   },650);
+ },
+ mb:el=>{if(!modal)return;const b=modal.btns[+el.dataset.i];if(!b.keep)closeModal();b.fn&&b.fn(el);},
+ adv:()=>{S.adv=!S.adv;const a=$('.adv'),t=$('.tg');a.classList.toggle('open',S.adv);t.classList.toggle('on',S.adv);t.setAttribute('aria-pressed',S.adv);},
+ limpiar:()=>{S.q='';S.searched=false;S.est='';S.err=false;S.ops=false;render();},
+ buscar:()=>{
+   S.q=($('#q')||{}).value||S.q;const e=$('#est');if(e)S.est=e.value;
+   if(!S.q.trim()&&!S.est){S.err=true;render();return;}
+   S.err=false;S.searched=true;S.loading=true;S.ops=false;render();
+   setTimeout(()=>{S.loading=false;render();},750);
+ },
+ ops:()=>{S.ops=!S.ops;render(true);},
+ nuevo:()=>{S.ops=false;newW();S.view='wiz';render();window.scrollTo({top:0});},
+ sort:()=>{},
+ del:el=>{const code=el.dataset.code;openModal({title:'Eliminar segmentación',t:'warn',body:`¿Deseas eliminar la segmentación <b>${code}</b>? Esta acción no se puede deshacer.`,btns:[MB('Cancelar',()=>{},{o:1}),MB('Eliminar',()=>{const tr=document.querySelector(`tr[data-code="${code}"]`);tr&&tr.classList.add('gone');setTimeout(()=>{S.segs=S.segs.filter(x=>x.code!==code);render(true);toast('Segmentación eliminada');},320);})]});},
+ cancel:()=>{openModal({title:'¿Cancelar la segmentación?',t:'warn',body:'Si sales ahora, los datos que no guardaste se perderán.',btns:[MB('Seguir aquí',()=>{},{o:1}),MB('Salir',()=>{S.view='list';W=null;render();window.scrollTo(0,0);})]});},
+ expand:()=>{W.narrow=!W.narrow;render(true);},
+ obtener:()=>{W.pacLoading=true;render(true);setTimeout(()=>{W.pacLoading=false;W.pacLoaded=true;render(true);},950);},
+ page:el=>{const p=+el.dataset.p;if(p>=1&&p<=Math.ceil(W.pac.length/10)){W.page=p;render(true);}},
+ eye:el=>{const r=W.pac[+el.dataset.i];openModal({title:'Detalle de la contratación',t:'info',w:520,body:`<dl class="dl"><dt>N° Ref. PAC</dt><dd>${r.ref}</dd><dt>Descripción</dt><dd>${r.d}</dd><dt>Tipo de procedimiento</dt><dd>${r.t}</dd><dt>Objeto de contratación</dt><dd>${r.o}</dd><dt>Número de ítem</dt><dd>${r.it}</dd><dt>Cuantía</dt><dd>S/ ${fmt(r.q)}</dd><dt>Mes estimado de convocatoria</dt><dd>${r.m}</dd><dt>Acción sugerida</dt><dd>${r.sug}</dd></dl>`,btns:[MB('Cerrar',()=>{},{o:1})]});},
+ guardar:()=>{
+   W.dirty=false;W.justSaved=true;
+   openModal({title:'Datos de la segmentación guardados',t:'ok',hint:'mok',body:'Se grabaron correctamente los datos de la segmentación <b>SEG-2027-002</b>.<br><br>Recuerde, si realiza modificaciones en el PAC antes de finalizar esta evaluación de la segmentación, deberá realizar todo el proceso nuevamente desde el principio.',btns:[MB('Aceptar',()=>{W.saved=true;render(true);setTimeout(()=>{W.justSaved=false;},1300);},{id:'mok'})]});
+ },
+ ant:()=>{W.step--;render();window.scrollTo(0,0);},
+ sig:()=>{
+   if(W.step===1){openModal({title:'¿Deseas continuar?',t:'warn',body:'Si realizaste cambios, debes guardarlos antes de continuar. De lo contrario, se perderán.',btns:[MB('Cancelar',()=>{},{o:1}),MB('Continuar',()=>{W.step=2;render();window.scrollTo(0,0);},{id:'mok'})],hint:'mok'});return;}
+   if(W.step===2){W.step=3;render();window.scrollTo(0,0);return;}
+   if(W.step===3){
+     if(firstPend3()>=0){openModal({title:'Clasificación pendiente de completar',t:'warn',hint:'mok',body:'Debe culminar con el registro de la <b>“Clasificación de obras y consultorías de obras”</b> pendientes',btns:[MB('Aceptar',()=>{W.s3.forEach(r=>r.flash=r.pend);render(true);const f=document.querySelector('tr.flash');f&&f.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>{W.s3.forEach(r=>r.flash=false);},2400);},{id:'mok'})]});return;}
+     buildS4();W.step=4;render();window.scrollTo(0,0);return;
+   }
+ },
+ s2c:el=>{const r=W.s2[+el.dataset.i],c=+el.dataset.c;if(r.pend){r.pend=false;r.c=[0,0,0,0];}r.c[c]=r.c[c]?0:1;render(true);},
+ s3c:el=>{const r=W.s3[+el.dataset.i],c=el.dataset.c;if(r.pend){r.pend=false;r.io=0;r.c=[0,0,0,0];}
+   if(c==='io'){r.io=r.io?0:1;if(r.io)r.c=[0,0,0,0];}else{if(r.io)return;const k=+c;r.c[k]=r.c[k]?0:1;}
+   render(true);},
+ area:el=>{const i=+el.dataset.i;openModal({title:'Seleccionar área usuaria',t:'info',w:520,body:`<div class="rad">${AREAS.map((a,k)=>`<label><input type="radio" name="ar" value="${k}" ${W.s4[i].area===a?'checked':''}>${a}</label>`).join('')}</div>`,btns:[MB('Cancelar',()=>{},{o:1}),MB('Seleccionar',()=>{const v=document.querySelector('input[name=ar]:checked');if(!v){toast('Elige un área');return;}W.s4[i].area=AREAS[+v.value];closeModal();render(true);},{keep:1})]});},
+ crono:el=>{const i=+el.dataset.i;const cur=W.s4[i];openModal({title:'Registrar cronograma',t:'info',w:520,body:`<p style="margin:0 0 12px;color:var(--muted)">${cur.desc}</p><div class="dts"><div><label class="l" for="d1">Fecha de inicio</label><div class="inp"><input type="date" id="d1" value="2027-03-01"></div></div><div><label class="l" for="d2">Fecha de término</label><div class="inp"><input type="date" id="d2" value="2027-03-15"></div></div></div><div id="de" class="errt"></div>`,btns:[MB('Cancelar',()=>{},{o:1}),MB('Registrar',()=>{const a=$('#d1').value,z=$('#d2').value;if(!a||!z){$('#de').textContent='Completa ambas fechas.';return;}if(z<a){$('#de').textContent='La fecha de término no puede ser anterior a la de inicio.';return;}const f=x=>x.split('-').reverse().slice(0,2).join('/');W.s4[i].cr=f(a)+' – '+f(z);closeModal();render(true);},{keep:1})]});},
+ enviar:()=>{
+   openModal({title:'¿Deseas enviar la segmentación?',t:'warn',hint:'mok',body:'Al enviarla, la segmentación <b>SEG-2027-002</b> quedará finalizada y ya no podrás modificarla.',btns:[MB('Cancelar',()=>{},{o:1}),MB('Enviar',(b)=>{
+     b.innerHTML='<span class="spin"></span>Enviando…';b.disabled=true;
+     setTimeout(()=>{
+       W.finished=true;
+       openModal({title:'Segmentación enviada',t:'ok',hint:'mok',body:'La segmentación <b>SEG-2027-002</b> se finalizó correctamente. La encontrarás en la lista con estado <b>FINALIZADO</b>.',btns:[MB('Aceptar',()=>{
+         const n=W.pac.filter(p=>p.act==='Se segmenta').length;
+         pushNt('seg','Segmentación finalizada','SEG-2027-002 se envió y quedó en estado FINALIZADO.','seg');
+         S.segs.unshift({code:'SEG-2027-002',year:2027,tot:W.pac.length,seg:n,date:'15/01/2027',st:'FINALIZADO'});
+         S.view='list';S.q='2027';S.searched=true;S.loading=true;W=null;render();window.scrollTo(0,0);setTimeout(()=>{S.loading=false;render();},700);
+       },{id:'mok'})]});},900);
+   },{keep:1,id:'mok'})]});
+ },
+ shortcut:el=>{
+   const k=el.dataset.k;
+   if(k==='gcol'||k==='gact'){const c=$('#gCol'),a=$('#gAct');if(c&&!c.value){c.value=COLAB[2];c.dispatchEvent(new Event('change',{bubbles:true}));}if(a&&!a.value&&!a.disabled){a.value='SEGMENTACIÓN';a.dispatchEvent(new Event('change',{bubbles:true}));}return;}
+   if(k==='aq'){const n=$('#aq');if(n){n.value='adquisición';n.dispatchEvent(new Event('input',{bubbles:true}));}return;}
+   if(k==='aobj'||k==='aref'){const M=S.acfm;if(!M)return;if(!M.obj)M.obj='Bien';drawACF();A.arefpick({dataset:{r:'234'}});return;}
+   if(k==='adet'){const M=S.acfm;if(!M)return;M.det={t:'LICITACIÓN PÚBLICA',pz:'30',fc:'2027-09-15',d:'Adquisición de lapiceros de tinta azul y negra para abastecer las necesidades operativas de las diferentes áreas de la entidad, garantizando la disponibilidad de materiales.',al:'Comprende el suministro y entrega de lapiceros de tinta azul y negra, de acuerdo con las especificaciones técnicas, cantidades y condiciones establecidas por la entidad.'};M.errs={};drawACF();return;}
+   if(k==='mpac'){const n=$('#pacn');if(n){n.value='8';n.dispatchEvent(new Event('input',{bubbles:true}));}return;}
+   if(k==='medit'){const o=$('#nOrg');if(!o)return;o.value='Dirección Zonal Lima';o.dispatchEvent(new Event('change',{bubbles:true}));const u=$('#nUni');u.value=ORG['Dirección Zonal Lima'][1][1];const t=$('#nSus');t.value='Se solicita actualizar la unidad de organización para que corresponda al tipo de contratación.';t.dispatchEvent(new Event('input',{bubbles:true}));['#e1','#e2','#e3'].forEach(i=>$(i).textContent='');return;}
+   if(k==='pend'){W.s3.forEach((r,i)=>{if(r.pend){const d=S3DONE[i];r.pend=false;r.io=d.io;r.c=d.c.slice();}});render(true);}
+   if(k==='enviar'){W.s4.forEach((r,i)=>{r.area=AREAS[i%AREAS.length];r.cr='0'+(1+i%9)+'/03 – 1'+(i%9)+'/03';});render(true);}
+ }
+};
+document.addEventListener('click',e=>{
+  timer=933;
+  if(S.hd&&!e.target.closest('#hpanel,[data-a=bell],[data-a=usermenu]'))closePanel();
+  if(!e.target.closest('.tah')){const l=$('#aList');l&&l.classList.remove('on');}
+  const el=e.target.closest('[data-a]');
+  if(S.ops&&!e.target.closest('.menu')&&el?.dataset.a!=='ops'){S.ops=false;render(true);}
+  if(!el)return;
+  if(el.dataset.a==='ovl'){return;}
+  const f=A[el.dataset.a];f&&f(el);
+});
+document.addEventListener('change',e=>{
+  if(e.target.dataset&&e.target.dataset.pref){S.nt.pref[e.target.dataset.pref]=e.target.checked;toast((e.target.checked?'Recibirás':'Ya no recibirás')+' avisos de '+NTL[e.target.dataset.pref].toLowerCase());return;}
+  if(e.target.id==='gCol'||e.target.id==='gAct'){const ok=($('#gCol').value&&$('#gAct').value);const b=document.querySelector('#layer .ma .btn.lg:last-child');if(b)b.disabled=!ok;hints();return;}
+  if(e.target.id==='aObj'){const M=S.acfm;acfSync();M.obj=e.target.value;M.ref='';M.refTxt='';M.sel=[];drawACF();return;}
+  if(e.target.id==='aT'||e.target.id==='aFc'||e.target.id==='aPz'){const k={aT:'t',aFc:'fc',aPz:'pz'}[e.target.id];const x=$('#e_'+k);x&&(x.innerHTML='');e.target.closest('.inp').classList.remove('err');hints();return;}
+  if(e.target.id==='est'){S.est=e.target.value;return;}
+  if(e.target.id==='nUni'){$('#e2').textContent='';return;}
+  if(e.target.id==='nOrg'){$('#e1').textContent='';$('#e2').textContent='';const u=$('#nUni');const o=e.target.value;u.disabled=!o;u.innerHTML=o?'<option value="">Seleccione</option>'+ORG[o][1].map(x=>`<option>${x}</option>`).join(''):'<option value="">Seleccione primero el órgano</option>';return;}
+  const el=e.target.closest('[data-a-ch]');if(!el)return;
+  if(el.dataset.aCh==='act'){const r=W.pac[+el.dataset.i];r.act=el.value;W.dirty=W.saved?true:W.dirty;const mk=el.parentElement.querySelector('.mk');mk.innerHTML=r.act!==r.sug?'<span class="star">*</span>':'';if(W.saved){render(true);toast('Hiciste cambios: vuelve a guardar para continuar');}hints();}
+  if(el.dataset.aCh==='int'){const r=W.s4[+el.dataset.i];r.int=el.value;const mk=el.parentElement.querySelector('.mk');mk.innerHTML=r.int!==r.sug?'<span class="star">*</span>':'';}
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='aRef'){acfList(e.target.value);return;}
+  if(e.target.id==='aD'||e.target.id==='aAl'){const c=$(e.target.id==='aD'?'#cD':'#cA');c.textContent=e.target.value.length;if(e.target.id==='aD'){const x=$('#e_d');x&&(x.innerHTML='');e.target.classList.remove('err');}hints();return;}
+  if(e.target.id==='aPz'){hints();return;}
+  if(e.target.id==='nSus'){$('#cnt').textContent=e.target.value.length;$('#e3').textContent='';return;}
+  if(e.target.id==='pacn'){const has=!!e.target.value.trim();$('#pacb').disabled=!has;$('#pacl').disabled=!has;return;}
+  const el=e.target.closest('[data-a-in]');if(!el)return;const t=el.value.trim().toLowerCase();document.querySelectorAll('.view tbody tr').forEach(tr=>{tr.style.display=(!t||tr.textContent.toLowerCase().includes(t))?'':'none';});});
+document.addEventListener('focusin',e=>{if(e.target.id==='aRef')acfList(e.target.value);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.hd){closePanel();return;}if(e.key==='Escape'&&modal&&!modal.hint){closeModal();}});
+window.addEventListener('scroll',()=>{if(S.hd)closePanel();},{passive:true});
+window.addEventListener('resize',()=>{if(S.hd)closePanel();});
+
+/* temporizador de sesión */
+setInterval(()=>{if(timer>0)timer--;const m=Math.floor(timer/60),s=timer%60;const t=$('#tmr');if(t)t.textContent=m+'m '+String(s).padStart(2,'0')+'s';},1000);
+render();
+})();
+</script>
+
+</body></html>

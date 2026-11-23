@@ -11,6 +11,7 @@ Cualquier persona (ciudadanía, proveedores, entidades) puede buscar licitacione
 ## Ver el prototipo
 
 - Página publicada (GitHub Pages): [sam2207r.github.io/buscador-publico-seace](https://sam2207r.github.io/buscador-publico-seace/)
+- Prototipo del módulo de Actuaciones Preparatorias (segmentación, anuncio de la contratación futura y gestión de asignaciones): [sam2207r.github.io/buscador-publico-seace/prototipo](https://sam2207r.github.io/buscador-publico-seace/prototipo/)
 - Prototipo en Figma Make: [abrir buscador](https://www.figma.com/make/L9p6jQMMn6gB8svnyXPweb/%F0%9F%94%B5AZUL--Public-Search-Interface--copia-?fullscreen=1&code-node-id=0-9)
 
 ## Qué incluye
