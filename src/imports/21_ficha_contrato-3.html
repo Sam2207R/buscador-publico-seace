@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SEACE 4.0 · Ficha de Contrato</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Roboto','Segoe UI',sans-serif;font-size:16px;line-height:1.5;background:#F4F4F4;color:#111;min-height:100vh}
+:root{
+  --r:#C0282A;--rd:#9e1f21;--rl:#fde8e8;
+  --b:#0056AC;--bd:#184397;--bl:#E1F0FF;
+  --grn:#126B49;--grn-bg:#E3F3EC;
+  --org:#D75600;--org-bg:#FFF3EA;
+  --focus:#FFD147;
+  --k:#111;--k2:#333;--k3:#555;--k4:#888;
+  --n100:#F4F4F4;--n200:#E8E8E8;--n300:#D0D0D0;--n400:#B0B0B0;--n500:#888;
+  --w:#fff;--g1:#F4F4F4;--g2:#E8E8E8;--g3:#D0D0D0;
+  --mono:'IBM Plex Mono',monospace;
+  --rad:4px;--rad-lg:8px;
+  --sh:0 1px 3px rgba(0,0,0,.08);--sh-md:0 4px 14px rgba(0,0,0,.10);
+  --linea:#E8E8E8;
+}
+
+/* ── NAV BACK ── */
+.nav-back{
+  background:#fff;border-bottom:2px solid var(--r);
+  padding:0 22px;height:50px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:1000;
+  box-shadow:0 2px 6px rgba(192,40,42,.08);
+}
+.nav-back-left{display:flex;align-items:center;gap:8px}
+.nav-back-brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-dot{width:28px;height:28px;background:var(--r);border-radius:50%;
+  color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-brand-name{font-size:12px;font-weight:700;color:var(--r);line-height:1}
+.nav-brand-sub{font-size:10px;color:var(--k3)}
+.nav-div{width:1px;height:26px;background:var(--n300);margin:0 10px}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--r);text-decoration:none}
+.back-link:hover{color:var(--rd)}
+.nav-right-links{display:flex;align-items:center;gap:0}
+.nav-rl{font-size:11px;color:var(--k3);text-decoration:none;font-weight:500;padding:0 9px}
+.nav-rl:hover{color:var(--r)}
+.nav-sep{color:var(--n400);font-size:11px}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{
+  background:var(--n100);border-bottom:1px solid var(--n300);
+  padding:7px 24px;display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--k3);flex-wrap:wrap;
+}
+.breadcrumb a{color:var(--b);text-decoration:underline;font-weight:500}
+.breadcrumb a:hover{color:var(--bd)}
+.bc-sep{color:var(--n400)}
+.bc-cur{color:var(--k);font-weight:700}
+
+/* ══════════════════════════════════════════════════
+   FICHA IDEC — CABECERA PADRE (sólo referencia, no editable)
+   ══════════════════════════════════════════════════ */
+.idec-ref-bar{
+  background:#fff;border-bottom:3px solid var(--r);
+  padding:10px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.idec-ref-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.idec-ref-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--rl);color:var(--r);
+  border:1px solid rgba(192,40,42,.22);border-radius:20px;
+  font-size:9.5px;font-weight:700;padding:2px 9px;white-space:nowrap;flex-shrink:0;
+}
+.idec-ref-code{font-size:14px;font-weight:800;color:var(--k);font-family:var(--mono);white-space:nowrap}
+.idec-ref-sep{color:var(--n400);font-size:13px}
+.idec-ref-ent{font-size:12px;font-weight:700;color:var(--r)}
+.idec-ref-desc{font-size:11.5px;color:var(--k3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:480px;}
+.idec-ref-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.idec-ref-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:700;color:var(--b);text-decoration:underline;cursor:pointer;
+}
+.idec-ref-link:hover{color:var(--bd)}
+
+/* ── TRAZABILIDAD ── */
+.traz-bar{
+  background:var(--n200);border-bottom:1px solid var(--n300);
+  padding:7px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.traz-group{display:flex;align-items:center;gap:6px}
+.traz-lbl{font-size:9.5px;font-weight:800;color:var(--n500);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.traz-pills{display:flex;align-items:center;gap:0}
+.traz-arr{color:var(--n400);font-size:9px;margin:0 3px}
+.fp{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:700;white-space:nowrap;line-height:1.5}
+.fp-done{background:#EAF3DE;color:#3B6D11}
+.fp-active{background:var(--r);color:#fff}
+.fp-pending{background:var(--n200);color:var(--n500);border:.5px solid var(--n300)}
+.traz-sep{width:1px;height:16px;background:var(--n300)}
+
+/* ══════════════════════════════════════════════════
+   CABECERA DEL CONTRATO
+   ══════════════════════════════════════════════════ */
+.cont-header{
+  background:#fff;border-bottom:1.5px solid var(--linea);
+  padding:18px 24px 16px;
+}
+.cont-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.cont-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--rl);color:var(--r);
+  border:1px solid rgba(192,40,42,.22);border-radius:20px;
+  font-size:10.5px;font-weight:700;padding:2px 10px;margin-bottom:8px;
+}
+.cont-code-lbl{font-size:10px;font-weight:700;color:var(--r);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+.cont-code{font-size:20px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1;margin-bottom:4px}
+.cont-nom{font-size:13px;font-weight:700;color:var(--k2);margin-bottom:3px}
+.cont-desc{font-size:12.5px;color:var(--k3);line-height:1.55;max-width:720px}
+.cont-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.est-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--rad);font-size:12px;font-weight:700}
+.est-vigente{background:#dcfce7;color:#166534}
+.est-observado{background:var(--org-bg);color:var(--org);border:1px solid #FDBA74}
+.est-nulo{background:#FEE2E2;color:#B91C1C}
+.header-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* KPI strip cabecera */
+.cont-kpis{display:flex;align-items:stretch;gap:0;border-top:1.5px solid var(--linea);border-bottom:1.5px solid var(--linea);overflow-x:auto}
+.ck{flex:1;min-width:110px;padding:9px 14px;border-right:1px solid var(--linea);display:flex;flex-direction:column;gap:2px}
+.ck:last-child{border-right:none}
+.ckl{font-size:9.5px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.03em}
+.ckv{font-size:16px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1}
+.ckv.red{color:var(--r)}
+.ckv.grn{color:var(--grn)}
+.ckv.org{color:var(--org)}
+.ck-sub{font-size:10px;color:var(--n500)}
+
+/* NAVEGACIÓN POR CONTRATOS (selector de contrato dentro del IDEC) */
+.cont-nav-bar{
+  background:#fff;border-bottom:2px solid var(--n200);
+  padding:0 24px;display:flex;align-items:center;gap:0;overflow-x:auto;
+  position:sticky;top:50px;z-index:90;
+}
+.cont-nav-tab{
+  padding:10px 16px;border:none;background:none;font-family:inherit;
+  font-size:12.5px;font-weight:600;color:var(--k3);cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:5px;transition:all .14s;
+}
+.cont-nav-tab:hover{color:var(--r)}
+.cont-nav-tab.on{color:var(--r);border-bottom-color:var(--r);font-weight:700}
+.cont-nav-count{
+  font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:10px;
+  background:var(--n200);color:var(--k3);
+}
+.cont-nav-tab.on .cont-nav-count{background:var(--r);color:#fff}
+.cont-nav-sep{width:1px;height:20px;background:var(--n200);margin:auto 4px}
+
+/* ══════════════════════════════════════════════════
+   LAYOUT PRINCIPAL — scroll continuo
+   ══════════════════════════════════════════════════ */
+.page-wrap{max-width:1100px;margin:0 auto;padding:20px 24px 60px}
+
+/* Separador de sección */
+.sec-divider{
+  display:flex;align-items:center;gap:10px;
+  margin:24px 0 14px;
+}
+.sec-divider-line{flex:1;height:1px;background:var(--linea)}
+.sec-divider-label{
+  font-size:10.5px;font-weight:800;color:var(--k4);
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;
+}
+
+/* Ancla de sección (smooth scroll target) */
+.sec-anchor{scroll-margin-top:100px}
+
+/* ── ACORDEONES ── */
+.ac-wrap{border:1.5px solid var(--linea);border-radius:var(--rad-lg);margin-bottom:8px;overflow:hidden;background:#fff}
+.ac-hdr{
+  padding:11px 16px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;background:#fff;border:none;width:100%;font-family:inherit;transition:background .13s;
+}
+.ac-hdr:hover{background:var(--rl)}
+.ac-wrap.open .ac-hdr{background:var(--rl);border-bottom:1.5px solid rgba(192,40,42,.12)}
+.ac-tit{font-size:12.5px;font-weight:700;color:var(--r);display:flex;align-items:center;gap:7px}
+.ac-chev{color:var(--r);transition:transform .2s;font-size:13px;flex-shrink:0}
+.ac-wrap.open .ac-chev{transform:rotate(180deg)}
+.ac-body{display:none;padding:14px 16px}
+.ac-wrap.open .ac-body{display:block}
+
+/* ── DATA GRID ── */
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:3px 14px}
+.dg-f{display:flex;flex-direction:column;gap:1px;padding:5px 0;border-bottom:1px solid var(--n200)}
+.dg-f.full{grid-column:1/-1}
+.dg-f.w2{grid-column:span 2}
+.dl{font-size:10px;color:var(--k3);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.dv{font-size:12.5px;color:var(--k);font-weight:500;line-height:1.4}
+.dv.mono{font-family:var(--mono);font-weight:700}
+.dv.monto{font-family:var(--mono);font-weight:800;color:var(--r);font-size:14px}
+.dv.lnk{color:var(--b);text-decoration:underline;cursor:pointer}
+.dv.grn{color:var(--grn);font-weight:700}
+.dv.org{color:var(--org);font-weight:700}
+.dv.red{color:var(--r);font-weight:700}
+
+/* ── KPI BAND dentro del contenido ── */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.kpi-box{background:var(--n100);border:1.5px solid var(--linea);border-radius:var(--rad);padding:10px 12px}
+.kpi-box.dest{background:var(--rl);border-color:rgba(192,40,42,.2)}
+.kbl{font-size:10px;font-weight:700;color:var(--k4);text-transform:uppercase;letter-spacing:.03em}
+.kbv{font-size:18px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1;margin-top:2px}
+.kbv.red{color:var(--r)}
+.kbv.grn{color:var(--grn)}
+.kbv.org{color:var(--org)}
+
+/* ── BARRA DE PROGRESO ── */
+.prog-wrap{margin-bottom:14px}
+.prog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.prog-lbl{font-size:10px;font-weight:700;color:var(--k4);text-transform:uppercase;letter-spacing:.03em}
+.prog-pct{font-size:13px;font-weight:800;color:var(--k);font-family:var(--mono)}
+.prog-bar{height:7px;background:var(--n200);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px}
+.pf-grn{background:var(--grn)}
+.pf-org{background:var(--org)}
+.pf-red{background:var(--r)}
+
+/* ── TABLA ── */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;border-radius:var(--rad-lg);overflow:hidden;border:1px solid var(--linea)}
+.tbl th{background:var(--k);color:#fff;padding:7px 11px;text-align:left;font-size:11px;font-weight:700}
+.tbl td{padding:7px 11px;border-bottom:1px solid var(--n200);color:var(--k2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:var(--n100)}
+td.mono{font-family:var(--mono);font-weight:700;font-size:11.5px}
+.st-ok{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:#dcfce7;color:#166534}
+.st-pe{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:var(--n200);color:var(--n500)}
+.st-obs{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:var(--org-bg);color:var(--org)}
+
+/* ── GARANTÍA ── */
+.gar-card{background:var(--rl);border:1px solid rgba(192,40,42,.18);border-radius:var(--rad-lg);padding:14px;margin-bottom:8px}
+.gar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.gar-tipo-lbl{font-size:11px;font-weight:800;color:var(--r);text-transform:uppercase;letter-spacing:.04em}
+.gar-sub{font-size:11.5px;color:var(--k3);margin-top:2px}
+.gar-est{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.gar-v{background:#dcfce7;color:#166534}
+.gar-nv{background:#FEE2E2;color:#B91C1C}
+
+/* ── ENTREGABLE ── */
+.ent-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;
+  border:1px solid var(--linea);border-radius:var(--rad);margin-bottom:5px;background:#fff}
+.ent-ico{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.eico-ok{background:#dcfce7;color:#166534}
+.eico-pe{background:var(--n200);color:var(--n500)}
+.ent-desc{font-size:12.5px;color:var(--k);font-weight:500;line-height:1.4;margin-bottom:2px}
+.ent-fecha{font-size:11px;color:var(--k4);font-family:var(--mono)}
+
+/* ── ASIENTO CUADERNO ── */
+.asiento{padding:10px 14px;border:1px solid var(--linea);border-radius:var(--rad);margin-bottom:5px;background:#fff}
+.asiento-head{display:flex;align-items:center;gap:7px;margin-bottom:4px;flex-wrap:wrap}
+.asiento-n{font-size:11px;font-weight:800;color:var(--r);font-family:var(--mono)}
+.asiento-tipo{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:var(--rl);color:var(--r)}
+.asiento-fecha{font-size:10.5px;color:var(--k4);margin-left:auto;font-family:var(--mono)}
+.asiento-titulo{font-size:12.5px;font-weight:700;color:var(--k);margin-bottom:3px;line-height:1.4}
+.asiento-user{font-size:11px;color:var(--k3);display:flex;align-items:center;gap:4px}
+
+/* ── DOC ITEM ── */
+.doc-item{display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border:1px solid var(--linea);border-radius:var(--rad);margin-bottom:5px;background:#fff}
+.doc-ico{flex-shrink:0;color:var(--r)}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-size:12.5px;font-weight:700;color:var(--k);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-meta{font-size:11px;color:var(--k4)}
+.doc-dl{font-size:11.5px;font-weight:700;color:var(--r);text-decoration:underline;cursor:pointer;white-space:nowrap}
+
+/* ── BANCO INVERSIONES ── */
+.inv-card{background:var(--n100);border:1.5px solid var(--linea);border-radius:var(--rad);padding:12px 14px;margin-top:12px}
+.inv-cui{display:inline-flex;align-items:center;gap:6px;margin-bottom:6px}
+.inv-cui-badge{background:var(--r);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:4px;font-family:var(--mono)}
+.inv-nombre{font-size:12.5px;color:var(--k2);margin-bottom:8px;line-height:1.5}
+.inv-fase-bar{padding:7px 10px;background:var(--bl);border-radius:var(--rad);font-size:11.5px;color:var(--b);margin-bottom:8px}
+.inv-link{font-size:12px;color:var(--b);font-weight:700;text-decoration:underline;display:inline-flex;align-items:center;gap:4px}
+
+/* ── ALERTA / NOVEDAD ── */
+.alert-warn{background:var(--org-bg);border:1px solid #FDBA74;border-radius:var(--rad);padding:9px 12px;font-size:12px;display:flex;align-items:flex-start;gap:7px;color:var(--org);margin-bottom:10px}
+.alert-ok{background:#F0FDF4;border:1px solid #bbf7d0;border-radius:var(--rad);padding:9px 12px;font-size:12px;display:flex;align-items:center;gap:7px;color:var(--grn);margin-bottom:10px}
+.alert-info{background:var(--bl);border:1px solid #93C5FD;border-radius:var(--rad);padding:9px 12px;font-size:12px;display:flex;align-items:center;gap:7px;color:var(--b);margin-bottom:10px}
+.novedad{background:#FFF9E6;border:1px solid #F5C842;border-radius:var(--rad);padding:7px 11px;font-size:12px;display:flex;align-items:center;gap:7px;color:#7A5400;margin-bottom:10px}
+
+/* ── TRANSPARENCIA ── */
+.transp-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--n200);font-size:12px;color:var(--k2)}
+.transp-row:last-child{border-bottom:none}
+.tch{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.tch-ok{background:#dcfce7;color:#166534}
+.tch-warn{background:var(--org-bg);color:var(--org)}
+.tch-no{background:#FEE2E2;color:#B91C1C}
+.ocds-bar{display:flex;align-items:center;gap:10px;margin-top:10px;background:var(--n100);border-radius:var(--rad);padding:10px 14px}
+.ocds-num{font-size:24px;font-weight:800;color:var(--r);font-family:var(--mono)}
+
+/* ── MAPA ── */
+#contMap{height:220px;border-radius:var(--rad-lg);border:1.5px solid var(--linea);margin-top:8px}
+
+/* ── BOTONES ── */
+.btn-r{padding:7px 14px;background:var(--r);color:#fff;border:none;border-radius:var(--rad);font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none;transition:background .14s;font-family:inherit}
+.btn-r:hover{background:var(--rd)}
+.btn-out{padding:7px 14px;background:#fff;color:var(--b);border:1.5px solid var(--b);border-radius:var(--rad);font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none;transition:all .14s;font-family:inherit}
+.btn-out:hover{background:var(--bl)}
+.btn-dk{padding:7px 14px;background:var(--k);color:#fff;border:none;border-radius:var(--rad);font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-family:inherit}
+.btn-dk:hover{background:var(--k2)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* ── PROVEEDOR BLOQUE ── */
+.prov-block{background:#fff;border:1.5px solid var(--linea);border-radius:var(--rad-lg);padding:14px;margin-bottom:8px}
+.prov-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.prov-label{font-size:10px;font-weight:800;color:var(--k4);text-transform:uppercase;letter-spacing:.04em}
+.prov-estado{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--grn)}
+
+/* ── CONTRATOS NAVEGACIÓN LATERAL (selector) ── */
+/* El cont-nav-bar ya está definido arriba */
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.kpi-row{grid-template-columns:1fr 1fr}.cont-kpis{flex-wrap:wrap}}
+@media(max-width:600px){
+  .kpi-row{grid-template-columns:1fr}
+  .nav-right-links{display:none}
+  .cont-header-top{flex-direction:column}
+  .cont-nav-bar{position:static}
+  .nav-back{position:sticky}
+}
+
+/* ── WCAG 2.2 Nivel AA – Accesibilidad ── */
+:focus-visible{outline:3px solid #BF0909;outline-offset:2px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+.skip-link{font-family:'Roboto','Segoe UI',sans-serif}
+button,a,[role="button"]{min-height:24px;min-width:24px}
+/* Contraste no textual 1.4.11 */
+input:focus,select:focus,textarea:focus{outline:3px solid #BF0909;outline-offset:1px}
+/* 2.4.11 Foco no obstruido */
+*:focus-visible{position:relative;z-index:100}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link" style="position:absolute;top:-999px;left:-999px;background:var(--r,#BF0909);color:#fff;padding:8px 16px;z-index:9999;font-weight:700;border-radius:4px;text-decoration:none;font-family:inherit" onFocus="this.style.top='8px';this.style.left='8px'" onBlur="this.style.top='-999px';this.style.left='-999px'">Ir al contenido principal</a>
+
+<!-- ══ NAV BACK ══ -->
+<div class="nav-back">
+  <div class="nav-back-left">
+    <a href="00_home.html" class="nav-back-brand">
+      <div class="nav-dot">S4</div>
+      <div>
+        <div class="nav-brand-name">SEACE 4.0</div>
+        <div class="nav-brand-sub">Buscador Público</div>
+      </div>
+    </a>
+    <div class="nav-div"></div>
+    <a href="20_contratos_lista.html" class="back-link">
+      <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver a contratos del IDEC
+    </a>
+  </div>
+  <div class="nav-right-links">
+    <a href="00_home.html" class="nav-rl">🏠 Inicio</a><span class="nav-sep">|</span>
+    <a href="01_busca_indicadores.html" class="nav-rl">Indicadores</a><span class="nav-sep">|</span>
+    <a href="02_explora.html" class="nav-rl">Explora</a><span class="nav-sep">|</span>
+    
+    <a href="04_auditoria.html" class="nav-rl">Auditoría</a><span class="nav-sep">|</span>
+    <a href="05_ayuda.html" class="nav-rl">Ayuda</a>
+  </div>
+</div>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="00_home.html">Inicio</a><span class="bc-sep">›</span>
+  <a href="06_resultados.html?fase=contratos">Resultados · Contratos</a><span class="bc-sep">›</span>
+  <a href="20_contratos_lista.html">IDEC-2026-001234 · Lista contratos</a><span class="bc-sep">›</span>
+  <span class="bc-cur">CONTRATO N° 05-2026-MDM-Q/GM</span>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FICHA IDEC — REFERENCIA PADRE (solo contexto)
+     No se edita desde aquí · enlace para ir al IDEC
+     ══════════════════════════════════════════════ -->
+<div class="idec-ref-bar">
+  <div class="idec-ref-left">
+    <span class="idec-ref-tag">
+      <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      IDEC padre
+    </span>
+    <span class="idec-ref-code">IDEC-2026-001234</span>
+    <span class="idec-ref-sep">·</span>
+    <span class="idec-ref-ent">MUNICIPALIDAD DISTRITAL DE CORTEGANA</span>
+    <span class="idec-ref-sep">·</span>
+    <span class="idec-ref-desc">Adquisición de hojuelas precocidas — Programa de Complementación Alimentaria</span>
+  </div>
+  <div class="idec-ref-right">
+    <span style="font-size:11px;color:var(--k4)">Contrato 1 de 4</span>
+    <a href="07_ficha_idec.html" class="idec-ref-link">
+      <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Ir a Ficha IDEC
+    </a>
+  </div>
+</div>
+
+<!-- ══ TRAZABILIDAD ══ -->
+<div class="traz-bar">
+  <div class="traz-group">
+    <span class="traz-lbl">IDEC:</span>
+    <div class="traz-pills">
+      <span class="fp fp-done">
+        <svg aria-hidden="true" focusable="false" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+        Act. Preparatorias
+      </span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-done">
+        <svg aria-hidden="true" focusable="false" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+        Selección
+      </span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-active">Contratos</span>
+    </div>
+  </div>
+  <div class="traz-sep"></div>
+  <div class="traz-group">
+    <span class="traz-lbl">Este contrato:</span>
+    <div class="traz-pills">
+      <span class="fp fp-done">Suscripción</span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-done">Garantías</span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-active">Ejecución 60%</span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-pending">Conformidad</span>
+      <span class="traz-arr">›</span>
+      <span class="fp fp-pending">Liquidación</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CABECERA DEL CONTRATO ══ -->
+<div class="cont-header">
+  <div class="cont-header-top">
+    <div style="flex:1;min-width:0">
+      <div class="cont-tag">
+        <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        Contrato · Ejecución Contractual
+      </div>
+      <span class="cont-code-lbl">Número de contrato</span>
+      <div class="cont-code">CONTRATO N° 05-2026-MDM-Q/GM</div>
+      <div class="cont-nom">LP-SM-1-2025-MDM-1 · Licitación Pública · Bien</div>
+      <div class="cont-desc" style="margin-top:6px">Adquisición de hojuelas precocidas para el Programa de Complementación Alimentaria — Lote 1: Sierra Norte. Incluye transporte hasta almacenes municipales de Cortegana según cronograma de despacho.</div>
+    </div>
+    <div class="cont-header-right">
+      <span class="est-badge est-vigente">● Vigente</span>
+      <div class="header-actions">
+        <button class="btn-dk" onclick="alert('Descargando...')">
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+          Descargar
+        </button>
+        <button class="btn-out">
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+          Compartir
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- KPI strip -->
+  <div class="cont-kpis">
+    <div class="ck">
+      <span class="ckl">Cuantía</span>
+      <span class="ckv red">S/ 412,500.00</span>
+    </div>
+    <div class="ck">
+      <span class="ckl">Pagado (60%)</span>
+      <span class="ckv grn">S/ 247,500</span>
+    </div>
+    <div class="ck">
+      <span class="ckl">Pendiente (40%)</span>
+      <span class="ckv org">S/ 165,000</span>
+    </div>
+    <div class="ck">
+      <span class="ckl">Suscripción</span>
+      <span class="ckv" style="font-size:13px">30/03/2026</span>
+    </div>
+    <div class="ck">
+      <span class="ckl">Término</span>
+      <span class="ckv" style="font-size:13px">31/07/2026</span>
+    </div>
+    <div class="ck">
+      <span class="ckl">Proveedor</span>
+      <span class="ckv" style="font-size:11.5px;font-weight:700">AGROINDUSTRIAS DEL NORTE S.A.C.</span>
+      <span class="ck-sub">RUC 20527909059</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVEGACIÓN ENTRE CONTRATOS DEL IDEC ══ -->
+<div class="cont-nav-bar">
+  <button class="cont-nav-tab on" onclick="irContrato(1,this)">
+    Contrato 1
+    <span class="cont-nav-count">Vigente</span>
+  </button>
+  <div class="cont-nav-sep"></div>
+  <button class="cont-nav-tab" onclick="irContrato(2,this)">
+    Contrato 2
+    <span class="cont-nav-count">Vigente</span>
+  </button>
+  <div class="cont-nav-sep"></div>
+  <button class="cont-nav-tab" onclick="irContrato(3,this)">
+    Contrato 3
+    <span class="cont-nav-count" style="background:#FEE2E2;color:#B91C1C">Observado</span>
+  </button>
+  <div class="cont-nav-sep"></div>
+  <button class="cont-nav-tab" onclick="irContrato(4,this)">
+    Contrato 4
+    <span class="cont-nav-count" style="background:var(--bl);color:var(--b)">Pendiente</span>
+  </button>
+  <div style="margin-left:auto;padding:0 14px;display:flex;align-items:center">
+    <a href="20_contratos_lista.html" style="font-size:11px;color:var(--b);text-decoration:underline;font-weight:700;display:flex;align-items:center;gap:4px">
+      <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Ver lista completa
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CUERPO EN SCROLL CONTINUO — SIN PESTAÑAS
+     ══════════════════════════════════════════════ -->
+<div class="page-wrap">
+
+  <!-- ─── SECCIÓN 1: DATOS DEL CONTRATO ─── -->
+  <div class="sec-divider sec-anchor" id="sec-datos">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">1 · Datos del contrato</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        1.1 Información general
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <div class="dg">
+        <div class="dg-f full">
+          <span class="dl">Descripción del objeto</span>
+          <span class="dv">Adquisición de hojuelas precocidas para el Programa de Complementación Alimentaria — Lote 1: Sierra Norte</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Número de contrato</span>
+          <span class="dv mono">CONTRATO N° 05-2026-MDM-Q/GM</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Nomenclatura del proceso</span>
+          <span class="dv mono">LP-SM-1-2025-MDM-1</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Cuantía</span>
+          <span class="dv monto">S/ 412,500.00</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Moneda</span>
+          <span class="dv">Soles (PEN)</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Objeto</span>
+          <span class="dv">Bien</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Fecha de suscripción</span>
+          <span class="dv mono">30/03/2026</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Fecha de publicación SEACE</span>
+          <span class="dv mono">26/05/2026 02:05</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Fecha de inicio</span>
+          <span class="dv mono">31/03/2026</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Fecha de término</span>
+          <span class="dv mono">31/07/2026</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Lugar de ejecución</span>
+          <span class="dv">CAJAMARCA / SANTA CRUZ / CORTEGANA</span>
+        </div>
+        <div class="dg-f">
+          <span class="dl">Normativa</span>
+          <span class="dv">Ley N° 32069</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-dk">
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+          Descargar contrato PDF
+        </button>
+        <button class="btn-dk">
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+          Descargar todos los documentos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        1.2 Entidad contratante y contratista
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:10px;font-weight:800;color:var(--k4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Entidad contratante</div>
+          <div class="dg">
+            <div class="dg-f full"><span class="dl">Denominación</span><span class="dv" style="color:var(--r);font-weight:700">MUNICIPALIDAD DISTRITAL DE CORTEGANA</span></div>
+            <div class="dg-f"><span class="dl">RUC</span><span class="dv mono">20214061474</span></div>
+            <div class="dg-f full"><span class="dl">Dirección</span><span class="dv">JR. GRAU N° 100 - CORTEGANA, CAJAMARCA</span></div>
+            <div class="dg-f full"><span class="dl">Responsable OEC</span><span class="dv">HUAMÁN SÁNCHEZ, PEDRO LUIS</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:800;color:var(--k4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Contratista / Proveedor</div>
+          <div class="dg">
+            <div class="dg-f full"><span class="dl">Denominación</span><span class="dv lnk" onclick="window.location='12_ficha_proveedor.html'">AGROINDUSTRIAS DEL NORTE S.A.C.</span></div>
+            <div class="dg-f"><span class="dl">RUC</span><span class="dv mono">20527909059</span></div>
+            <div class="dg-f"><span class="dl">Estado RNP</span><span class="dv grn">● Habilitado</span></div>
+            <div class="dg-f full"><span class="dl">Representante legal</span><span class="dv">QUIROZ VEGA, ERNESTO ALFREDO</span></div>
+            <div class="dg-f"><span class="dl">Tipo</span><span class="dv">Persona jurídica · No MYPE</span></div>
+            <div class="dg-f"><span class="dl">Sanciones vigentes</span><span class="dv grn">● Ninguna</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SECCIÓN 2: ÍTEM ─── -->
+  <div class="sec-divider sec-anchor" id="sec-item">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">2 · Ítem contratado</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4a1 1 0 011 1v10a1 1 0 01-1 1h-4"/></svg>
+        2.1 Bien / Servicio / Obra
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <div class="novedad">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        <strong>Novedad SEACE 4.0:</strong> Ítem vinculado al CUBSO unificado y al Banco de Inversiones MEF (CUI).
+      </div>
+      <div class="dg">
+        <div class="dg-f full"><span class="dl">Descripción del ítem</span><span class="dv">Adquisición de hojuelas precocidas multi-cereal (avena, quinua, kiwicha, maca, soya) con leche entera en polvo y azúcar para el programa alimentario.</span></div>
+        <div class="dg-f full"><span class="dl">CUBSO</span><span class="dv mono">5612150600070970</span></div>
+        <div class="dg-f full"><span class="dl">Lugar de entrega</span><span class="dv">CAJAMARCA / SANTA CRUZ / CORTEGANA</span></div>
+        <div class="dg-f"><span class="dl">Cuantía del ítem</span><span class="dv monto">S/ 412,500.00</span></div>
+        <div class="dg-f"><span class="dl">Cantidad contratada</span><span class="dv mono">45,800 kg</span></div>
+        <div class="dg-f"><span class="dl">Unidad de medida</span><span class="dv">Kilogramo</span></div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-cui">
+          <span class="inv-cui-badge">CUI 2275110</span>
+          <span style="font-size:12px;font-weight:700;color:var(--k)">Banco de Inversiones · MEF</span>
+        </div>
+        <div class="inv-nombre">MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS EDUCATIVOS DEL NIVEL SECUNDARIO DE LA I.E. SAN FRANCISCO DE ASÍS - MARCAPATA - QUISPICANCHI - CUSCO</div>
+        <div class="inv-fase-bar"><strong>Fase:</strong> Ejecución &nbsp;·&nbsp; <strong>Estado:</strong> En ejecución &nbsp;·&nbsp; <strong>Monto:</strong> S/ 412,500.00</div>
+        <a href="https://ofi5.mef.gob.pe" target="_blank" class="inv-link">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          Ver en Banco de Inversiones — ofi5.mef.gob.pe
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SECCIÓN 3: GARANTÍAS ─── -->
+  <div class="sec-divider sec-anchor" id="sec-garantias">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">3 · Garantías</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="gar-card">
+    <div class="gar-head">
+      <div>
+        <div class="gar-tipo-lbl">Garantía de fiel cumplimiento</div>
+        <div class="gar-sub">Carta Fianza · BANCO BBVA PERÚ</div>
+      </div>
+      <span class="gar-est gar-nv">✕ No vigente</span>
+    </div>
+    <div class="dg">
+      <div class="dg-f"><span class="dl">N° de garantía</span><span class="dv mono">0011-0083-9800004616-33</span></div>
+      <div class="dg-f"><span class="dl">Cuantía</span><span class="dv monto">S/ 36,840.00</span></div>
+      <div class="dg-f"><span class="dl">Fecha de emisión</span><span class="dv mono">18/03/2026</span></div>
+      <div class="dg-f"><span class="dl">Fecha de vencimiento</span><span class="dv mono red">16/06/2026 ⚠</span></div>
+      <div class="dg-f"><span class="dl">Entidad emisora</span><span class="dv">BANCO BBVA PERÚ</span></div>
+      <div class="dg-f"><span class="dl">Fecha publicación SEACE</span><span class="dv mono">26/05/2026 02:05</span></div>
+      <div class="dg-f full"><span class="dl">Archivo adjunto</span><span class="dv lnk">Carta_Fianza_0011-0083-9800004616-33.pdf ↓</span></div>
+    </div>
+    <div class="alert-warn" style="margin-top:12px;margin-bottom:0">
+      <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4m0 4h.01"/></svg>
+      <div><strong>Garantía vencida.</strong> El contrato continúa en ejecución (60% de avance). La entidad debe solicitar al contratista la renovación o sustitución de la garantía conforme al Art. 178° del Reglamento de la Ley N° 32069.</div>
+    </div>
+  </div>
+
+  <!-- ─── SECCIÓN 4: AVANCE FINANCIERO ─── -->
+  <div class="sec-divider sec-anchor" id="sec-avance-fin">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">4 · Avance financiero</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-box dest">
+      <div class="kbl">Cuantía total</div>
+      <div class="kbv red">S/ 412,500</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kbl">Pagado (60%)</div>
+      <div class="kbv grn">S/ 247,500</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kbl">Pendiente (40%)</div>
+      <div class="kbv org">S/ 165,000</div>
+    </div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-head">
+      <span class="prog-lbl">Ejecución financiera</span>
+      <span class="prog-pct">60%</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill pf-org" style="width:60%"></div></div>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        4.1 Valorizaciones registradas
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <table class="tbl">
+        <thead><tr><th>N°</th><th>Período</th><th>Cuantía</th><th>Fecha de pago</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Abr 2026</td><td class="mono">S/ 82,500.00</td><td class="mono" style="font-size:11px">15/04/2026</td><td><span class="st-ok">✓ Pagado</span></td></tr>
+          <tr><td>2</td><td>May 2026</td><td class="mono">S/ 82,500.00</td><td class="mono" style="font-size:11px">16/05/2026</td><td><span class="st-ok">✓ Pagado</span></td></tr>
+          <tr><td>3</td><td>Jun 2026</td><td class="mono">S/ 82,500.00</td><td class="mono" style="font-size:11px">12/06/2026</td><td><span class="st-ok">✓ Pagado</span></td></tr>
+          <tr><td>4</td><td>Jul 2026</td><td class="mono">S/ 82,500.00</td><td style="color:var(--n500)">—</td><td><span class="st-pe">Pendiente</span></td></tr>
+          <tr><td>5</td><td>Jul 2026 (final)</td><td class="mono">S/ 82,500.00</td><td style="color:var(--n500)">—</td><td><span class="st-pe">Pendiente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        4.2 Penalidades aplicadas
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <div class="alert-ok">
+        <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Sin penalidades registradas. El proveedor no registra penalidades por mora en sus últimos 12 contratos con conformidad.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SECCIÓN 5: AVANCE FÍSICO ─── -->
+  <div class="sec-divider sec-anchor" id="sec-avance-fis">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">5 · Avance físico — Entregables</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-box"><div class="kbl">Completados</div><div class="kbv grn">3</div></div>
+    <div class="kpi-box"><div class="kbl">Pendientes</div><div class="kbv org">2</div></div>
+    <div class="kpi-box"><div class="kbl">Total entregables</div><div class="kbv">5</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-head">
+      <span class="prog-lbl">Avance físico</span>
+      <span class="prog-pct">55%</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill pf-org" style="width:55%"></div></div>
+  </div>
+
+  <div class="ent-item">
+    <div class="ent-ico eico-ok">✓</div>
+    <div><div class="ent-desc">Plan de distribución y cronograma logístico aprobado</div><div class="ent-fecha">05/04/2026</div></div>
+  </div>
+  <div class="ent-item">
+    <div class="ent-ico eico-ok">✓</div>
+    <div><div class="ent-desc">Primera entrega parcial — 18,410 kg almacenes zona norte</div><div class="ent-fecha">22/04/2026</div></div>
+  </div>
+  <div class="ent-item">
+    <div class="ent-ico eico-ok">✓</div>
+    <div><div class="ent-desc">Segunda entrega parcial — 18,410 kg almacenes zona centro</div><div class="ent-fecha">20/05/2026</div></div>
+  </div>
+  <div class="ent-item">
+    <div class="ent-ico eico-pe">○</div>
+    <div><div class="ent-desc">Tercera entrega parcial — 4,980 kg almacenes pendientes</div><div class="ent-fecha" style="color:var(--org)">Pendiente — Programado Jul 2026</div></div>
+  </div>
+  <div class="ent-item">
+    <div class="ent-ico eico-pe">○</div>
+    <div><div class="ent-desc">Informe final de conformidad y acta de cierre</div><div class="ent-fecha" style="color:var(--n500)">Pendiente — Al término del contrato</div></div>
+  </div>
+
+  <!-- ─── SECCIÓN 6: CUADERNO ─── -->
+  <div class="sec-divider sec-anchor" id="sec-cuaderno">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">6 · Cuaderno de incidencias</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="ac-wrap open">
+    <button class="ac-hdr" onclick="togAc(this)">
+      <span class="ac-tit">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        6.1 Datos del cuaderno
+      </span>
+      <span class="ac-chev">▼</span>
+    </button>
+    <div class="ac-body">
+      <div class="dg" style="margin-bottom:14px">
+        <div class="dg-f full"><span class="dl">Obra / Prestación</span><span class="dv">REHABILITACIÓN DE PUENTES PAQUETE 7 — OBRA 3: PUENTE LA PISHGA Y ACCESOS</span></div>
+        <div class="dg-f"><span class="dl">CUI</span><span class="dv mono">2437746</span></div>
+        <div class="dg-f"><span class="dl">Fecha suscripción</span><span class="dv mono">01/12/2023</span></div>
+        <div class="dg-f"><span class="dl">Fecha apertura</span><span class="dv mono">01/10/2024</span></div>
+        <div class="dg-f"><span class="dl">Residente</span><span class="dv">TELLO GONZALES, JOSE REYNALDO</span></div>
+        <div class="dg-f"><span class="dl">Supervisor</span><span class="dv">MEZA CARBAJAL, GREGORIO WENCESLAO</span></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--k4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Últimos asientos</div>
+      <div class="asiento">
+        <div class="asiento-head">
+          <span class="asiento-n">#390</span>
+          <span class="asiento-tipo">CONSTATACIÓN FÍSICA</span>
+          <span class="asiento-fecha">18/06/2025 04:55 PM</span>
+        </div>
+        <div class="asiento-titulo">PARTIDAS ATRASADAS DE ACUERDO AL CRONOGRAMA DE AVANCE DE OBRA</div>
+        <div class="asiento-user"><svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>MEZA CARBAJAL, GREGORIO WENCESLAO — Supervisor</div>
+      </div>
+      <div class="asiento">
+        <div class="asiento-head">
+          <span class="asiento-n">#389</span>
+          <span class="asiento-tipo">ADICIONALES DE OBRA</span>
+          <span class="asiento-fecha">18/06/2025 10:55 AM</span>
+        </div>
+        <div class="asiento-titulo">RATIFICACIÓN DE LA NECESIDAD DEL ADICIONAL N° 02</div>
+        <div class="asiento-user"><svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>MEZA CARBAJAL, GREGORIO WENCESLAO — Supervisor</div>
+      </div>
+      <div class="asiento">
+        <div class="asiento-head">
+          <span class="asiento-n">#388</span>
+          <span class="asiento-tipo">OTRAS OCURRENCIAS</span>
+          <span class="asiento-fecha">16/06/2025 11:19 PM</span>
+        </div>
+        <div class="asiento-titulo">OCURRENCIA DE LLUVIAS INTENSAS — ZONA NORTE DEL PROYECTO</div>
+        <div class="asiento-user"><svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>TELLO GONZALES, JOSE REYNALDO — Residente</div>
+      </div>
+      <button class="btn-out" style="margin-top:8px;font-size:12px;padding:6px 12px">Ver todos los asientos (390)</button>
+    </div>
+  </div>
+
+  <!-- ─── SECCIÓN 7: DOCUMENTOS ─── -->
+  <div class="sec-divider sec-anchor" id="sec-docs">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">7 · Documentos</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div class="doc-item">
+    <div class="doc-ico"><svg aria-hidden="true" focusable="false" width="20" height="24" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v20a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="doc-info"><div class="doc-name">CONTRATO LP01-2026.pdf</div><div class="doc-meta">26/05/2026 · 0.77 MB</div></div>
+    <span class="doc-dl">↓ Descargar</span>
+  </div>
+  <div class="doc-item">
+    <div class="doc-ico"><svg aria-hidden="true" focusable="false" width="20" height="24" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v20a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="doc-info"><div class="doc-name">Carta_Fianza_0011-0083-9800004616-33.pdf</div><div class="doc-meta">26/05/2026 · 0.42 MB</div></div>
+    <span class="doc-dl">↓ Descargar</span>
+  </div>
+  <div class="doc-item">
+    <div class="doc-ico"><svg aria-hidden="true" focusable="false" width="20" height="24" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v20a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="doc-info"><div class="doc-name">Acta_Conformidad_1ra_Entrega.pdf</div><div class="doc-meta">25/04/2026 · 0.38 MB</div></div>
+    <span class="doc-dl">↓ Descargar</span>
+  </div>
+  <div class="doc-item">
+    <div class="doc-ico"><svg aria-hidden="true" focusable="false" width="20" height="24" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v20a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="doc-info"><div class="doc-name">Acta_Conformidad_2da_Entrega.pdf</div><div class="doc-meta">23/05/2026 · 0.41 MB</div></div>
+    <span class="doc-dl">↓ Descargar</span>
+  </div>
+  <div class="doc-item">
+    <div class="doc-ico"><svg aria-hidden="true" focusable="false" width="20" height="24" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v20a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="doc-info"><div class="doc-name">Acta_Conformidad_3ra_Entrega.pdf</div><div class="doc-meta">20/06/2026 · 0.39 MB</div></div>
+    <span class="doc-dl">↓ Descargar</span>
+  </div>
+
+  <!-- ─── SECCIÓN 8: TRANSPARENCIA ─── -->
+  <div class="sec-divider sec-anchor" id="sec-transp">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">8 · Transparencia e integridad (OCDS)</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--linea);border-radius:var(--rad-lg);padding:14px;margin-bottom:10px">
+    <div style="font-size:12.5px;font-weight:700;color:var(--k);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Criterios de publicidad — estándar OCDS
+    </div>
+    <div class="transp-row"><span>Contrato firmado publicado en SEACE</span><span class="tch tch-warn">○</span></div>
+    <div class="transp-row"><span>Cuantía del contrato registrada</span><span class="tch tch-ok">✓</span></div>
+    <div class="transp-row"><span>Proveedor identificado (RUC)</span><span class="tch tch-ok">✓</span></div>
+    <div class="transp-row"><span>Registro de pagos / Valorizaciones</span><span class="tch tch-ok">✓</span></div>
+    <div class="transp-row"><span>Actas de conformidad publicadas</span><span class="tch tch-ok">✓</span></div>
+    <div class="ocds-bar">
+      <div class="ocds-num">4/5</div>
+      <div style="font-size:11.5px;color:var(--k3);line-height:1.4">criterios OCDS cumplidos.<br>Pendiente: publicación del archivo del contrato firmado.</div>
+    </div>
+  </div>
+  <div class="alert-ok">
+    <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    Riesgo bajo. Proveedor sin sanciones, valorizaciones al día. Pendiente: renovación de carta fianza vencida.
+  </div>
+
+  <!-- ─── SECCIÓN 9: UBICACIÓN ─── -->
+  <div class="sec-divider sec-anchor" id="sec-ubi">
+    <span class="sec-divider-line"></span>
+    <span class="sec-divider-label">9 · Ubicación del lugar de ejecución</span>
+    <span class="sec-divider-line"></span>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--k3);margin-bottom:6px">
+    <span>CAJAMARCA / SANTA CRUZ / CORTEGANA</span>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--k4)">Lat: -6.050 · Lng: -79.010</span>
+  </div>
+  <div id="contMap"></div>
+
+</div><!-- /page-wrap -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ── ACORDEONES ── */
+function togAc(btn){
+  btn.closest('.ac-wrap').classList.toggle('open');
+}
+
+/* ── SELECTOR DE CONTRATO (simulado) ── */
+function irContrato(n, btn){
+  document.querySelectorAll('.cont-nav-tab').forEach(function(t){ t.classList.remove('on'); });
+  btn.classList.add('on');
+  // En producción navegaría a la URL del contrato correspondiente
+  if(n !== 1) alert('Contrato ' + n + ': navegación a ficha del contrato ' + n + ' del IDEC-2026-001234');
+}
+
+/* ── MAPA LEAFLET ── */
+(function(){
+  var map = L.map('contMap',{zoomControl:true}).setView([-6.050,-79.010],12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap',maxZoom:18
+  }).addTo(map);
+  var icon = L.divIcon({
+    html:'<div style="background:#C0282A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>',
+    className:'',iconSize:[14,14],iconAnchor:[7,7]
+  });
+  L.marker([-6.050,-79.010],{icon:icon}).addTo(map)
+    .bindPopup('<strong>Lugar de ejecución</strong><br>Cortegana, Santa Cruz, Cajamarca<br><small>CONTRATO N° 05-2026-MDM-Q/GM</small>')
+    .openPopup();
+})();
+</script>
+</body>
+</html>

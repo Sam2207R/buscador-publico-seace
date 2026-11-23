@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SEACE 4.0 · Anuncios de Contratación Futura</title>
+<style>
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   gob.pe Design System · Estándares digitales del Estado
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  font-family:'Roboto','Segoe UI',sans-serif;
+  font-size:16px;line-height:1.5;
+  background:#F6F9FC;color:#26292E;min-height:100vh;
+}
+:root{
+  /* ── Rojo corporativo (R) ── */
+  --r:#BF0909;--rd:#DC362E;--rl:#FCEEEE;--r300:#F9DEDC;
+  /* ── Azul CTA (B) ── */
+  --b:#0056AC;--bd:#184397;--bl:#E1F0FF;
+  /* ── Verde alertas positivas ── */
+  --grn:#126B49;--grn-bg:#E3F3EC;
+  /* ── Naranja alertas ── */
+  --org:#D75600;--org-bg:#FFF3EA;
+  /* ── Amarillo focus ── */
+  --focus:#FFD147;
+  /* ── Escala de grises ── */
+  --k:#26292E;--k2:#3C3E43;--k3:#515458;--k4:#979797;
+  /* ── Neutros ── */
+  --n100:#F6F9FC;--n200:#EDF0F4;--n300:#DEE3EA;
+  --n400:#C5CDDA;--n500:#8A94A2;
+  /* ── Compat aliases ── */
+  --w:#fff;--g1:#F6F9FC;--g2:#DEE3EA;--g3:#C5CDDA;--g4:#8A94A2;
+  --mono:'IBM Plex Mono',monospace;
+  --rad:4px;--rad-lg:8px;
+  --sh:0 1px 3px rgba(0,0,0,.08);--sh-md:0 4px 14px rgba(0,0,0,.10);
+}
+
+/* ── CABECERA ── */
+.nav{
+  position:sticky;top:0;z-index:999;background:#fff;
+  border-bottom:3px solid var(--r);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:56px;
+  box-shadow:0 2px 6px rgba(0,0,0,.07);
+}
+.nav-brand,.nav-left,.nav-brand-wrap{display:flex;align-items:center}
+.nav-brand{gap:10px;text-decoration:none}
+.nav-dot,.nav-logo-dot{
+  width:32px;height:32px;background:var(--r);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:11px;flex-shrink:0;
+}
+.nav-brand-name,.nav-brand-txt .name,.nav-brand-logo{
+  font-size:13px;font-weight:700;color:var(--r);line-height:1;
+}
+.nav-brand-sub{font-size:10px;color:var(--k3);font-weight:400}
+.nav-divider,.nav-div{width:1px;height:28px;background:var(--n300);margin:0 14px}
+.nav-sistema,.nav-sis{font-size:14px;color:var(--k2);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-notif{
+  padding:8px 16px;background:var(--r);color:#fff;border:none;
+  border-radius:var(--rad);font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  transition:background .15s;font-family:inherit;white-space:nowrap;
+}
+.nav-notif:hover{background:var(--rd)}
+.nav-notif:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ── NAV SECUNDARIA ── */
+.accesos,.accesos-bar{
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border-bottom:1px solid var(--n300);
+  padding:0 16px;flex-wrap:wrap;
+}
+.acc-btn,.acc{
+  padding:10px 14px;border:none;background:transparent;
+  font-size:14px;font-weight:500;color:var(--k3);cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+  border-bottom:3px solid transparent;transition:all .14s;
+  white-space:nowrap;font-family:inherit;
+}
+.acc-btn:hover,.acc:hover{color:var(--r)}
+.acc-btn.on,.acc.on{color:var(--r);border-bottom-color:var(--r);font-weight:700}
+.acc-sep{color:var(--n400);padding:0 3px;font-size:12px}
+
+/* ── MIGA DE PAN ── */
+.breadcrumb{
+  background:var(--n100);border-bottom:1px solid var(--n300);
+  padding:9px 24px;display:flex;align-items:center;gap:6px;
+  font-size:14px;color:var(--k3);
+}
+.breadcrumb a,.breadcrumb-home,.back-link{
+  color:var(--b);text-decoration:underline;font-weight:500;
+}
+.breadcrumb a:hover{color:var(--bd)}
+.bc-sep{color:var(--n400)}
+.back,.back-link-bar{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:14px;font-weight:500;color:var(--b);
+  text-decoration:underline;padding:9px 24px;
+  background:var(--n100);border-bottom:1px solid var(--n300);width:100%;
+}
+.back:hover,.back-link-bar:hover{color:var(--bd)}
+
+/* ── BOTÓN PRIMARIO — rojo ── */
+.btn-r,.btn-primary,.btn-buscar,.aux-sb,
+.sb-btn-search,.btn-search,.home-search-btn,.s-btn,.sb-sbtn,.ver-btn{
+  padding:10px 20px;background:var(--r);color:#fff;border:none;
+  border-radius:var(--rad);font-size:14px;font-weight:700;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;transition:background .15s;
+  font-family:inherit;white-space:nowrap;
+}
+.btn-r:hover,.btn-primary:hover,.aux-sb:hover,.sb-btn-search:hover,
+.ver-btn:hover,.btn-buscar:hover{background:var(--rd)}
+.btn-r:focus,.btn-primary:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ── BOTÓN SECUNDARIO — azul borde ── */
+.btn-outline,.btn-secondary,.btn-limpiar,.sb-btn-clear,.btn-clear,.t-exp,.tb-export{
+  padding:10px 20px;background:#fff;color:var(--b);
+  border:2px solid var(--b);border-radius:var(--rad);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;transition:all .15s;
+  font-family:inherit;white-space:nowrap;
+}
+.btn-outline:hover,.btn-secondary:hover,.btn-clear:hover{background:var(--bl)}
+.btn-outline:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ── BOTÓN TERCIARIO — enlace ── */
+.btn-link,.btn-ghost,.busq-avz,.adv-toggle{
+  padding:6px 0;background:transparent;color:var(--b);border:none;
+  font-size:14px;font-weight:500;cursor:pointer;
+  text-decoration:underline;font-family:inherit;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.btn-link:hover,.btn-ghost:hover{color:var(--bd)}
+
+/* ── BUSCADOR ── */
+.search-box,.search-bar,.search-wrap,.inner-search,.aux-search{
+  display:flex;border:2px solid var(--r);
+  border-radius:var(--rad);overflow:hidden;
+  box-shadow:0 2px 8px rgba(191,9,9,.08);
+}
+.search-box input,.search-bar input,.search-wrap input,
+.s-input,.sb-sinput,.aux-si,.home-s-input{
+  flex:1;height:48px;border:none!important;outline:none!important;
+  font-size:16px;padding:0 16px;font-family:inherit;
+  color:var(--k);background:#fff;
+}
+.search-year,.s-year,.sb-year{
+  background:var(--k);color:#fff;padding:0 16px;
+  font-size:14px;font-weight:700;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:4px;flex-shrink:0;font-family:inherit;
+}
+.search-btn-icon,.s-btn,.sb-sbtn{
+  background:var(--r)!important;border:none;
+  width:48px;height:48px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;flex-shrink:0;
+}
+.s-btn:hover,.sb-sbtn:hover{background:var(--rd)!important}
+
+/* ── INPUTS ── */
+input[type="text"],input[type="date"],input[type="email"],
+input[type="number"],input[type="search"],select,
+.f-input,.f-select,.sb-select,.sb-date,.adv-input,.adv-select,.sb-input{
+  font-family:'Roboto','Segoe UI',sans-serif;
+  font-size:16px;color:var(--k);
+  border:1px solid var(--k)!important;border-radius:var(--rad);
+  padding:8px 12px;background:#fff;width:100%;line-height:1.5;
+}
+input:focus,select:focus,.f-input:focus,.f-select:focus,.sb-select:focus{
+  outline:3px solid var(--focus)!important;outline-offset:2px;border-color:var(--b)!important;
+}
+
+/* ── CHECKBOXES ── */
+input[type="checkbox"],input[type="radio"]{
+  width:18px;height:18px;accent-color:var(--r);cursor:pointer;flex-shrink:0;
+}
+.f-check-row,.sb-check{
+  display:flex;align-items:center;gap:8px;
+  font-size:16px;color:var(--k);cursor:pointer;padding:3px 0;
+}
+.f-check-row:hover,.sb-check:hover{color:var(--r)}
+
+/* ── TARJETAS — gob.pe card ── */
+.card,.panel,.kpi,.cm-card,.rcard{
+  background:#fff;border:1px solid var(--n300);
+  border-radius:var(--rad-lg);padding:24px;
+  position:relative;box-shadow:var(--sh);
+}
+.card::after,.cm-card::after,.panel::after{
+  content:'';height:5px;background:var(--r);
+  position:absolute;bottom:0;right:0;left:0;
+  border-radius:0 0 var(--rad-lg) var(--rad-lg);
+}
+.card:hover,.cm-card:hover{box-shadow:var(--sh-md)}
+.panel-title,.f-section-title{
+  font-size:16px;font-weight:700;color:var(--k);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  border-left:4px solid var(--r);padding-left:8px;
+}
+
+/* ── ETIQUETAS / BADGES ── */
+.badge,.chip,.obj-badge,.fp,.obj-bien,.obj-serv,.obj-obra,
+.fase-pill,.traz-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:4px;
+  font-size:12px;font-weight:700;
+}
+.obj-bien,.badge-bien{background:var(--rl);color:var(--r)}
+.obj-serv,.badge-serv{background:var(--bl);color:var(--b)}
+.obj-obra,.badge-obra{background:var(--grn-bg);color:var(--grn)}
+.badge-adj,.b-adjudicado,.estado-adj{background:var(--grn-bg);color:var(--grn)}
+.badge-desierto,.b-desierto{background:var(--rl);color:var(--r)}
+.badge-proceso,.b-proceso{background:var(--org-bg);color:var(--org)}
+.badge-vigente{background:var(--grn-bg);color:var(--grn)}
+/* Chips de fases */
+.chip,.fp-ap,.fp-sel,.fp-ec,.fp-cm{
+  border:1px solid var(--n300);background:var(--n100);color:var(--k3);
+}
+.chip.on{background:var(--r);color:#fff;border-color:var(--r)}
+.chip:hover:not(.on){border-color:var(--r);color:var(--r)}
+
+/* ── TABLA ── */
+.grid-tbl th,.modal-table th,.modal-crono-table th{
+  background:var(--n100);padding:10px 12px;
+  font-size:14px;font-weight:700;color:var(--k);
+  border-bottom:2px solid var(--r);text-align:left;
+}
+.grid-tbl td,.modal-table td,.modal-crono-table td{
+  padding:10px 12px;border-bottom:1px solid var(--n300);
+  font-size:14px;color:var(--k2);
+}
+.grid-tbl tr:hover td{background:var(--n100)}
+
+/* ── SIDEBAR FILTROS ── */
+.sb,.sidebar{background:#fff;border-right:1px solid var(--n300)}
+.sb-head,.sb-toggle-bar{
+  background:var(--r);color:#fff;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;font-size:14px;font-weight:700;
+}
+.sb-body,.sb-content{padding:16px;display:flex;flex-direction:column;gap:14px}
+.sb-body.closed,.sb-content.closed{display:none}
+.f-grup,.sb-grupo{display:flex;flex-direction:column;gap:6px}
+.f-lbl,.sb-label{font-size:14px;font-weight:700;color:var(--k);margin-bottom:2px}
+.f-divider,.sb-divider{border:none;border-top:1px solid var(--n300);margin:4px 0}
+.sb-btns,.sb-btn-row{display:flex;gap:8px;margin-top:4px}
+
+/* ── KPI CARDS ── */
+.kpi{border-top:3px solid var(--r);padding:16px 20px}
+.kpi::after{display:none}
+.kpi-ey{font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--n500);margin-bottom:6px}
+.kpi-val{font-size:28px;font-weight:800;color:var(--k);
+  margin-bottom:3px;font-family:var(--mono)}
+.kpi-sub{font-size:14px;font-weight:500}
+.kpi-sub.g{color:var(--grn)}.kpi-sub.r{color:var(--r)}.kpi-sub.y{color:var(--org)}
+
+/* ── AUX HERO — páginas 01-05 ── */
+.aux-hero{background:var(--k);padding:44px 48px 0;position:relative;overflow:hidden}
+.aux-hero::after{content:'';position:absolute;right:-100px;top:-100px;
+  width:400px;height:400px;border-radius:50%;background:rgba(191,9,9,.10)}
+.aux-ey{font-size:11px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--r300);margin-bottom:7px}
+.aux-h1{font-size:30px;font-weight:800;color:#fff;margin-bottom:8px;
+  max-width:500px;position:relative;z-index:1}
+.aux-p{font-size:16px;color:rgba(255,255,255,.75);max-width:500px;
+  line-height:1.6;margin-bottom:22px}
+.quick-bar{display:grid;grid-template-columns:repeat(4,1fr);
+  margin-top:28px;border-top:1px solid rgba(255,255,255,.08)}
+.quick-c{padding:16px;cursor:pointer;border-right:1px solid rgba(255,255,255,.07);
+  transition:background .13s}
+.quick-c:last-child{border-right:none}
+.quick-c:hover{background:rgba(255,255,255,.07)}
+.quick-ic{font-size:18px;margin-bottom:5px}
+.quick-l{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.quick-s{font-size:12px;color:rgba(255,255,255,.55)}
+
+/* ── PANEL / RESULTS HEADER ── */
+.page-title,.tb-title{font-size:24px;font-weight:700;color:var(--k)}
+.page-sub{font-size:14px;color:var(--k3);margin-bottom:14px}
+.page-sub strong{color:var(--r)}
+.tb-count,.count-badge{
+  padding:3px 12px;background:var(--r);color:#fff;
+  border-radius:20px;font-size:14px;font-weight:700;
+  display:inline-flex;align-items:center;
+}
+
+/* ── ETAPAS HOME ── */
+.etapa{
+  background:var(--r);border-radius:var(--rad-lg);
+  padding:20px 12px 18px;cursor:pointer;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;transition:all .15s;
+}
+.etapa:hover{background:var(--rd);transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(191,9,9,.28)}
+.etapa-ic{width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.18);display:flex;
+  align-items:center;justify-content:center;font-size:20px}
+.etapa-lbl{font-size:13px;font-weight:700;color:#fff;line-height:1.25}
+.etapa-desc{font-size:11px;color:rgba(255,255,255,.75);line-height:1.4}
+
+/* ── VISTA SWITCHER ── */
+.vista-switcher-bar,#vistasSwitcher,.vista-sw-btn,.vsw-btn,
+.vista-sw-btn,.opciones-switch{
+  background:#fff;border-bottom:1px solid var(--n300);display:flex;padding:0 20px;
+}
+.vsw-btn,.vista-sw-btn{
+  padding:10px 16px;border:none;background:transparent;
+  font-size:14px;font-weight:700;color:var(--k3);cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-1px;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all .14s;white-space:nowrap;font-family:inherit;
+}
+.vsw-btn:hover,.vista-sw-btn:hover{color:var(--r)}
+.vsw-btn.vsw-on,.vsw-btn.sw-on,.vista-sw-btn.sw-on{
+  color:var(--r);border-bottom-color:var(--r)
+}
+
+/* ── BACK NAV BAR (ficha IDEC) ── */
+.back-nav-bar,.back-bar-nav{
+  position:sticky;top:0;z-index:1000;background:#fff;
+  border-bottom:1px solid var(--n300);
+  padding:8px 24px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.back-nav-left,.back-bar-left{
+  display:flex;align-items:center;gap:5px;
+  font-size:14px;font-weight:500;color:var(--b);text-decoration:underline;
+}
+.back-nav-left:hover,.back-bar-left:hover{color:var(--bd)}
+.back-nav-right a,.back-bar-right a{
+  font-size:13px;color:var(--k3);text-decoration:none;font-weight:500;
+}
+.back-nav-right a:hover,.back-bar-right a:hover{color:var(--r)}
+.back-nav-sep,.back-bar-right .sep{color:var(--n400)}
+
+/* ── RAIL / PROCESO (ficha IDEC) ── */
+.rail-item{
+  width:100%;padding:12px 14px;text-align:left;background:#fff;
+  border:none;border-bottom:1px solid var(--n300);
+  cursor:pointer;transition:all .13s;
+  display:flex;flex-direction:column;gap:3px;font-family:inherit;
+}
+.rail-item:hover{background:var(--n100)}
+.rail-item.activo{
+  background:var(--rl)!important;
+  border-left:4px solid var(--r)!important;padding-left:10px!important;
+}
+.rail-item-codigo{font-size:11px;font-weight:700;color:var(--r);font-family:var(--mono)}
+.rail-item-desc{font-size:13px;color:var(--k2);line-height:1.35}
+.rail-item-monto{font-size:12px;font-weight:700;color:var(--k);font-family:var(--mono)}
+.rail-lista-header{
+  background:var(--k);color:#fff;padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:14px;font-weight:700;position:sticky;top:0;z-index:10;
+}
+.rail-lista-header h3{font-size:14px;font-weight:700;color:#fff;margin:0}
+.contador{background:var(--r);color:#fff;padding:2px 8px;
+  border-radius:10px;font-size:12px;font-weight:700}
+
+/* ── TABS DE FASE ── */
+.fase-tabs,.tabs-fases{
+  display:flex!important;background:#fff!important;
+  border-bottom:2px solid var(--n300)!important;
+}
+.tab-fase{
+  padding:10px 16px!important;border:none!important;background:transparent!important;
+  font-size:14px!important;font-weight:700!important;color:var(--k3)!important;
+  cursor:pointer!important;border-bottom:3px solid transparent!important;
+  margin-bottom:-2px!important;display:flex!important;align-items:center!important;
+  gap:6px!important;transition:all .14s!important;white-space:nowrap!important;
+  font-family:inherit!important;
+}
+.tab-fase.actual,.tab-fase:hover{color:var(--r)!important;border-bottom-color:var(--r)!important}
+.num-tab{
+  width:22px;height:22px;border-radius:50%;background:var(--n300);
+  color:var(--k3);font-size:11px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.tab-fase.actual .num-tab{background:var(--r)!important;color:#fff!important}
+.check-tab{
+  width:20px;height:20px;border-radius:50%;background:var(--grn);
+  color:#fff;font-size:10px;display:inline-flex;align-items:center;justify-content:center;
+}
+
+/* ── IDEC CARD ── */
+.idec-card,.idec-top-card{
+  background:#fff;border-bottom:1px solid var(--n300);padding:20px 24px 16px;
+}
+.idec-card-tag,.idec-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--rl);color:var(--r);border:1px solid rgba(191,9,9,.2);
+  border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;
+}
+.idec-tag-dot,.idec-card-tag-dot{width:7px;height:7px;background:var(--r);border-radius:50%}
+.idec-code-val{font-size:22px;font-weight:800;color:var(--k);font-family:var(--mono)}
+.idec-code-lbl{font-size:11px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.05em}
+.idec-entity,.idec-entity-name,.idec-card-entity{font-size:14px;font-weight:700;color:var(--r);margin-bottom:6px}
+.idec-desc,.idec-desc-text,.idec-card-desc{font-size:14px;color:var(--k3);line-height:1.55;margin-bottom:14px}
+.idec-date-lbl,.idec-card-date-l{font-size:11px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.04em}
+.idec-date-val,.idec-card-date-v{font-size:14px;font-weight:800;color:var(--r);font-family:var(--mono)}
+.idec-kpis,.idec-kpis-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  padding-top:14px;border-top:1px solid var(--n300);
+}
+.idec-kpi,.idec-kpi-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:var(--rad-lg);border:1px solid var(--n300);background:var(--n100);
+  transition:all .13s;
+}
+.idec-kpi:hover,.idec-kpi-item:hover{border-color:var(--r);background:var(--rl)}
+.idec-kpi-val{font-size:20px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1;display:block}
+.idec-kpi-lbl{font-size:11px;color:var(--n500);font-weight:500;margin-top:2px;display:block}
+.kpi-ic-red,.kpi-red{background:var(--rl);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-ic-green,.kpi-green{background:var(--grn-bg);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-ic-amber,.kpi-amber{background:#FFF3EA;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── FICHA PROCESO HEAD ── */
+.ficha-proceso-head{
+  background:var(--r)!important;padding:12px 16px!important;
+  border-radius:var(--rad-lg) var(--rad-lg) 0 0!important;
+  display:flex!important;align-items:flex-start!important;
+  justify-content:space-between!important;gap:12px!important;
+}
+.codigo-lp{font-size:14px!important;font-weight:800!important;color:#fff!important;font-family:var(--mono)}
+.desc-lp{font-size:13px!important;color:rgba(255,255,255,.82)!important;margin-top:4px}
+.monto-label{font-size:11px!important;font-weight:700!important;color:rgba(255,255,255,.65)!important;text-transform:uppercase}
+.monto-lp{font-size:18px!important;font-weight:800!important;color:#fff!important;font-family:var(--mono)}
+
+/* ── RISK INDICATORS ── */
+.risk-wrap{background:#fff;border:1px solid var(--n300);border-radius:var(--rad-lg);margin-bottom:14px;overflow:hidden;box-shadow:var(--sh)}
+.risk-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--n300);cursor:pointer;user-select:none}
+.risk-header:hover{background:var(--n100)}
+.risk-header.open{background:var(--rl);border-bottom-color:var(--r300)}
+.risk-title{font-size:14px;font-weight:700;color:var(--r);display:flex;align-items:center;gap:7px}
+.risk-title-icon{width:28px;height:28px;border-radius:6px;background:var(--rl);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.risk-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.rp-alto{background:var(--rl);color:var(--r);border:1px solid rgba(191,9,9,.25)}
+.rp-medio{background:var(--org-bg);color:var(--org);border:1px solid rgba(215,86,0,.25)}
+.rp-bajo{background:var(--grn-bg);color:var(--grn);border:1px solid rgba(18,107,73,.25)}
+
+/* ── ACCORDION (ficha) ── */
+.ac-wrap{border:1px solid var(--n300);border-radius:var(--rad-lg);overflow:hidden;margin-bottom:10px}
+.ac-hdr{background:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .13s}
+.ac-hdr:hover{background:var(--n100)}
+.ac-wrap.ac-open .ac-hdr{background:var(--rl);border-bottom:1px solid var(--r300)}
+.ac-tit{font-size:14px;font-weight:700;color:var(--r);display:flex;align-items:center;gap:6px}
+.ac-chev{color:var(--r);transition:transform .2s;font-size:12px}
+.ac-bdy{padding:14px}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(38,41,46,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:var(--rad-lg);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.20);display:flex;flex-direction:column;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-hdr{padding:16px 20px 14px;border-bottom:3px solid var(--r);flex-shrink:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.modal-hdr-left h3{font-size:20px;font-weight:700;color:var(--k);margin-bottom:2px}
+.modal-hdr-left span{font-size:14px;font-weight:700;color:var(--r)}
+.modal-close{width:32px;height:32px;border:none;background:var(--n200);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--k3);font-size:16px;flex-shrink:0;font-family:inherit}
+.modal-close:hover{background:var(--r);color:#fff}
+.modal-body{padding:20px;flex:1;display:flex;flex-direction:column;gap:14px}
+.modal-section{background:#fff;border:1px solid var(--n300);border-radius:var(--rad);padding:16px}
+.modal-section-title{font-size:16px;font-weight:700;color:var(--k);margin-bottom:12px;display:flex;align-items:center;gap:6px;border-left:4px solid var(--r);padding-left:8px}
+.modal-fl{font-size:12px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:2px}
+.modal-fv{font-size:14px;color:var(--k);display:block}
+.modal-estado{display:inline-flex;padding:4px 12px;border-radius:4px;font-size:14px;font-weight:700;background:var(--grn-bg);color:var(--grn);margin-top:4px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--n300);flex-shrink:0;display:flex;justify-content:flex-end}
+.modal-btn-cerrar{padding:10px 24px;background:var(--n200);color:var(--k);border:1px solid var(--n300);border-radius:var(--rad);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.modal-btn-cerrar:hover{background:var(--n300)}
+
+/* ── TRAZABILIDAD ── */
+.traz-lbl,.traz-l{font-size:12px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.04em;margin-right:4px}
+
+/* ── PAGINACIÓN ── */
+.pg-btn{width:30px;height:30px;border:1px solid var(--n300);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--k2);font-size:14px;font-weight:700;transition:all .13s;font-family:inherit}
+.pg-btn:hover{border-color:var(--r);color:var(--r)}
+.pg-btn.on{background:var(--r);color:#fff;border-color:var(--r)}
+
+/* ── EXPORT / TOOLBAR ── */
+.t-btn,.t-vbtn{width:30px;height:30px;border:1px solid var(--n300);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--k3);transition:all .13s}
+.t-btn.on,.t-vbtn.on{background:var(--k);color:#fff;border-color:var(--k)}
+
+/* ── NOTA UX ── */
+.nota-ux{background:#fff;border-top:1px solid var(--n300);padding:10px 20px;font-size:14px;color:var(--k3)}
+
+/* ── AVISO ── */
+.aviso-warn,.alert-warn{background:var(--org-bg);border:1px solid var(--org);border-radius:var(--rad);padding:10px 14px;font-size:14px;color:var(--org);display:flex;align-items:center;gap:8px}
+.aviso-info{background:var(--bl);border:1px solid var(--b);border-radius:var(--rad);padding:10px 14px;font-size:14px;color:var(--b)}
+
+/* ── MAS BUSCADOS / HOME ── */
+.mas-card{border:1px solid var(--n300);border-radius:var(--rad-lg);padding:12px 14px;cursor:pointer;background:#fff;transition:all .14s;display:flex;align-items:center;gap:8px;text-decoration:none}
+.mas-card:hover{border-color:var(--r);box-shadow:var(--sh-md)}
+.mas-icon{width:28px;height:28px;border-radius:50%;background:var(--rl);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.mas-info strong{font-size:14px;color:var(--k);display:block;font-weight:700}
+.mas-info span{font-size:12px;color:var(--n500)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .idec-kpis,.idec-kpis-row{grid-template-columns:1fr 1fr}
+  h1{font-size:28px}h2{font-size:22px}h3{font-size:20px}
+}
+@media(max-width:600px){
+  .quick-bar{grid-template-columns:1fr 1fr}
+  .nav-sistema,.nav-sis{display:none}
+}
+
+/* gob.pe font: Roboto — injected via GOBPE block */
+
+/* html/body — see GOBPE system below */
+/* :root — see GOBPE system below */
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:999;background:var(--w);border-bottom:2px solid var(--r);
+  display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;
+  box-shadow:0 2px 8px rgba(192,40,42,.08)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-dot{width:32px;height:32px;background:var(--r);border-radius:50%;display:flex;
+  align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:11px}
+.nav-brand-txt{display:flex;flex-direction:column;gap:0}
+.nav-brand-name{font-size:12.5px;font-weight:800;color:var(--r);line-height:1}
+.nav-brand-sub{font-size:10px;color:var(--k3);font-weight:500}
+.nav-divider{width:1px;height:32px;background:var(--g2);margin:0 14px}
+.nav-sistema{font-size:14px;color:var(--k2);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-notif{padding:7px 14px;background:var(--r);color:#fff;border:none;border-radius:var(--rad);
+  font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+  text-decoration:none;transition:background .15s;white-space:nowrap}
+.nav-notif:hover{background:var(--rd)}
+
+/* ── ACCESOS BAR ── */
+.accesos{display:flex;align-items:center;justify-content:center;gap:0;
+  background:#f0f0f0;border-bottom:1px solid var(--g2);flex-wrap:wrap;padding:0 16px}
+.acc-btn{padding:10px 14px;border:none;background:transparent;font-size:11.5px;
+  font-weight:600;color:var(--k3);cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+  border-bottom:3px solid transparent;white-space:nowrap}
+.acc-btn:hover,.acc-btn.on{color:var(--r);border-bottom-color:var(--r)}
+.acc-sep{color:var(--g3);font-size:10px;padding:0 2px}
+
+/* ── BACK ── */
+.back{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;
+  color:var(--r);text-decoration:none;padding:10px 24px;border-bottom:1px solid var(--g2);
+  background:#fff;width:100%}
+.back:hover{text-decoration:underline}
+
+/* ── PANEL / CARD ── */
+.panel{background:#fff;border:1px solid var(--g2);border-radius:var(--rad-lg);
+  padding:18px;box-shadow:var(--sh)}
+.panel-title{font-size:13px;font-weight:800;color:var(--k);margin-bottom:13px;
+  display:flex;align-items:center;gap:6px}
+.panel-title::before{content:'';width:3px;height:14px;background:var(--r);border-radius:2px;display:block}
+
+/* ── KPI ── */
+.kpi-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid var(--g2);border-radius:var(--rad-lg);padding:16px 18px;
+  border-top:3px solid var(--r)}
+.kpi-ey{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--g4);margin-bottom:6px}
+.kpi-val{font-size:26px;font-weight:800;color:var(--k);margin-bottom:3px;font-family:var(--mono)}
+.kpi-sub{font-size:11px;font-weight:500}
+.kpi-sub.g{color:#16a34a}.kpi-sub.y{color:#d97706}.kpi-sub.r{color:var(--r)}
+
+/* ── BUTTONS ── */
+.btn-r{padding:8px 16px;background:var(--r);color:#fff;border:none;border-radius:var(--rad);
+  font-size:12.5px;font-weight:700;cursor:pointer;transition:background .15s;display:inline-flex;
+  align-items:center;gap:5px}
+.btn-r:hover{background:var(--rd)}
+.btn-outline{padding:7px 13px;background:#fff;color:var(--k);border:1.5px solid var(--g3);
+  border-radius:var(--rad);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-outline:hover{border-color:var(--r);color:var(--r)}
+.btn-k{padding:8px 16px;background:var(--k);color:#fff;border:none;border-radius:var(--rad);
+  font-size:12px;font-weight:700;cursor:pointer}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.badge-r{background:var(--rl);color:var(--r)}.badge-g{background:#dcfce7;color:#166534}
+.badge-y{background:#fef3c7;color:#92400e}.badge-k{background:#f3f4f6;color:#374151}
+.badge-b{background:#e0f2fe;color:#0369a1}
+
+/* ── 2-COL LAYOUT ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+/* ── AUX HERO ── */
+.aux-hero{background:var(--k);padding:44px 48px 0;position:relative;overflow:hidden}
+.aux-hero::after{content:'';position:absolute;right:-100px;top:-100px;width:400px;height:400px;
+  border-radius:50%;background:rgba(192,40,42,.12)}
+.aux-ey{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--r);margin-bottom:7px}
+.aux-h1{font-size:25px;font-weight:800;color:#fff;margin-bottom:8px;max-width:480px;
+  position:relative;z-index:1}
+.aux-p{font-size:12.5px;color:rgba(255,255,255,.70);max-width:480px;line-height:1.6;
+  margin-bottom:22px}
+.aux-search{display:flex;max-width:460px;border-radius:var(--rad);overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);margin-bottom:0;position:relative;z-index:1}
+.aux-si{flex:1;height:44px;border:none;padding:0 14px;font-size:13px;font-family:inherit;outline:none}
+.aux-sb{background:var(--r);border:none;padding:0 18px;height:44px;color:#fff;
+  font-size:12.5px;font-weight:700;cursor:pointer}
+.aux-emoji{position:absolute;right:48px;top:50%;transform:translateY(-60%);
+  font-size:64px;opacity:.25;z-index:0}
+.quick-bar{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;
+  border-top:1px solid rgba(255,255,255,.08)}
+.quick-c{padding:14px 16px;cursor:pointer;border-right:1px solid rgba(255,255,255,.07);
+  transition:background .13s}
+.quick-c:last-child{border-right:none}
+.quick-c:hover{background:rgba(255,255,255,.07)}
+.quick-ic{font-size:16px;margin-bottom:4px}
+.quick-l{font-size:11.5px;font-weight:700;color:#fff;margin-bottom:2px}
+.quick-s{font-size:10px;color:rgba(255,255,255,.5)}
+.aux-body{padding:32px 48px 48px;background:var(--g1)}
+
+
+.page-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 96px)}
+/* SIDEBAR */
+.sb{background:#fff;border-right:1.5px solid var(--g2);transition:width .2s}
+.sb-toggle-bar{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--g2);
+  background:var(--r);color:#fff;user-select:none}
+.sb-toggle-bar:hover{background:#222}
+.sb-toggle-label{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.sb-toggle-icon{transition:transform .2s}
+.sb-content{padding:14px;display:flex;flex-direction:column;gap:12px}
+.sb-grupo{display:flex;flex-direction:column;gap:5px}
+.sb-label{font-size:9.5px;font-weight:800;color:var(--k3);text-transform:uppercase;letter-spacing:.05em}
+.sb-select,.sb-input,.sb-date{width:100%;padding:6px 8px;border:1.5px solid var(--g3);
+  border-radius:var(--rad);font-size:11.5px;font-family:inherit;color:var(--k);background:#fff}
+.sb-select:focus,.sb-input:focus,.sb-date:focus{outline:none;border-color:var(--r)}
+.sb-check{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--k);cursor:pointer}
+.sb-divider{border:none;border-top:1px dashed var(--g2);margin:2px 0}
+.sb-dyn{background:var(--rl);border-radius:var(--rad);padding:10px;border:1px solid rgba(192,40,42,.20)}
+.sb-dyn-title{font-size:14px!important;font-size:10px;font-weight:800;color:var(--r);text-transform:uppercase;
+  letter-spacing:.04em;margin-bottom:7px;display:flex;align-items:center;gap:4px}
+.sb-opt{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--k);
+  cursor:pointer;padding:3px 0}
+.sb-opt:hover{color:var(--r)}
+.sb-btn-row{display:flex;gap:6px;margin-top:4px}
+.sb-btn-row .btn-outline{flex:1;font-size:11px;padding:6px}
+.sb-btn-row .btn-r{flex:1;font-size:11px;padding:6px}
+
+/* MAIN */
+.main-area{padding:18px 20px 40px;overflow:auto}
+.page-title{font-size:20px;font-weight:800;color:var(--r);margin-bottom:3px}
+.page-sub{font-size:12px;color:var(--k3);margin-bottom:16px}
+.inner-search{display:flex;max-width:640px;border:2px solid var(--r);border-radius:var(--rad);
+  overflow:hidden;margin-bottom:16px}
+.is-year{background:var(--k);color:#fff;padding:0 13px;height:40px;font-size:12.5px;
+  font-weight:800;border:none;cursor:pointer;white-space:nowrap}
+.is-input{flex:1;height:40px;border:none;outline:none;font-size:13px;padding:0 12px;font-family:inherit}
+.is-btn{background:var(--r);border:none;width:40px;height:40px;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+/* chips */
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--g3);
+  background:#fff;color:var(--k3);transition:all .13s;white-space:nowrap}
+.chip.on{background:var(--r);color:#fff;border-color:var(--r)}
+.chip:hover:not(.on){border-color:var(--r);color:var(--r)}
+.chip-n{font-size:9.5px;padding:1px 5px;border-radius:8px}
+.chip.on .chip-n{background:rgba(255,255,255,.25);color:#fff}
+.chip:not(.on) .chip-n{background:var(--g1);color:var(--g4)}
+/* toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:7px}
+.t-count{display:inline-flex;padding:3px 9px;background:var(--r);color:#fff;
+  border-radius:10px;font-size:11px;font-weight:700;margin-left:7px}
+.t-right{display:flex;gap:6px;align-items:center}
+.t-vbtn{width:28px;height:28px;border:1.5px solid var(--g3);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;
+  color:var(--k3);transition:all .13s}
+.t-vbtn.on{background:var(--k);color:#fff;border-color:var(--k)}
+.t-sel{padding:5px 8px;border:1.5px solid var(--g3);border-radius:var(--rad);
+  font-size:11.5px;background:#fff;color:var(--k)}
+.t-exp{display:flex;align-items:center;gap:4px;padding:5px 9px;border:1.5px solid var(--g3);
+  border-radius:var(--rad);font-size:11.5px;background:#fff;cursor:pointer;font-weight:600;color:var(--k)}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:#fff;border-radius:var(--rad-lg);border:1.5px solid var(--g2);
+  padding:13px;display:flex;flex-direction:column;box-shadow:var(--sh);transition:all .14s}
+.card:hover{border-color:var(--r);box-shadow:0 4px 14px rgba(192,40,42,.12);transform:translateY(-1px)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.card-cod{font-size:10px;font-weight:700;color:var(--r);font-family:var(--mono)}
+.card-icons{display:flex;gap:5px;align-items:center}
+.card-alert{position:relative;color:#f59e0b;font-size:15px;cursor:default;display:inline-flex;align-items:center}.card-alert::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);right:0;background:#1a1a1a;color:#fff;font-size:11px;font-weight:500;font-family:inherit;white-space:nowrap;padding:5px 9px;border-radius:5px;line-height:1.4;pointer-events:none;opacity:0;transition:opacity .15s;z-index:99}.card-alert::before{content:'';position:absolute;top:calc(100% + 1px);right:7px;border:5px solid transparent;border-bottom-color:#1a1a1a;pointer-events:none;opacity:0;transition:opacity .15s;z-index:99}.card-alert:hover::after,.card-alert:hover::before{opacity:1}
+.card-eye{width:27px;height:27px;border-radius:var(--rad);border:1.5px solid var(--g3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;
+  color:var(--k3);text-decoration:none;transition:all .13s}
+.card-eye:hover{background:var(--r);color:#fff;border-color:var(--r)}
+.card-ent{font-size:12px;font-weight:800;color:var(--k);margin-bottom:4px;line-height:1.3}
+.card-desc{font-size:10.5px;color:var(--k3);line-height:1.4;margin-bottom:7px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-obj{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:9.5px;font-weight:700;margin-bottom:8px}
+.obj-bien{background:var(--rl);color:var(--r)}.obj-serv{background:#e0f2fe;color:#0369a1}.obj-obra{background:#dcfce7;color:#166534}
+.card-dates{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
+.card-date{display:flex;flex-direction:column;gap:1px}
+.cd-l{font-size:9.5px;color:var(--g4);font-weight:700}
+.cd-v{font-size:11px;color:var(--k2)}
+.card-traz{display:flex;align-items:center;gap:3px;margin-top:auto;padding-top:8px;border-top:1px solid var(--g1)}
+.traz-l{font-size:9px;font-weight:800;color:var(--g4);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+/* ── STEPPER PILLS (Propuesta 1) ── */
+.traz-pills{display:flex;align-items:center;gap:0;flex-wrap:nowrap}
+.traz-step-arrow{color:#C5CDDA;font-size:8px;margin:0 2px;line-height:1}
+.fp{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap;line-height:1.4}
+.fp-done{background:#EAF3DE;color:#3B6D11}
+.fp-active{background:#BF0909;color:#fff}
+.fp-pending{background:#F1EFE8;color:#888780;border:0.5px solid #D3D1C7}
+.ver-btn{margin-left:auto;padding:3px 8px;background:var(--r);color:#fff;
+  border-radius:var(--rad);font-size:9.5px;font-weight:700;text-decoration:none}
+@media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.page-wrap{grid-template-columns:1fr}}
+
+
+/* STAR & EYE */
+.card-star{width:27px;height:27px;border-radius:var(--rad);border:1.5px solid var(--g3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;
+  color:var(--g4);transition:all .13s}
+.card-star:hover{border-color:#f59e0b;color:#f59e0b}
+.card-star.starred{border-color:#f59e0b;background:#fffbeb;color:#f59e0b}
+
+/* ROCOS SECTION */
+#rocos-filters{display:none;border-top:1px dashed var(--g3);margin-top:8px;padding-top:10px}
+#rocos-results{display:none}
+.rocos-header{background:var(--k);color:#fff;border-radius:var(--rad) var(--rad) 0 0;
+  padding:10px 14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;
+  margin-bottom:0}
+.rocos-header span{background:var(--r);padding:2px 8px;border-radius:4px;font-size:10px}
+.rocos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.rcard{background:#fff;border-radius:var(--rad-lg);border:1.5px solid var(--g2);
+  padding:0;overflow:hidden;box-shadow:var(--sh);transition:all .14s}
+.rcard:hover{border-color:var(--r);box-shadow:0 4px 14px rgba(192,40,42,.12);transform:translateY(-1px)}
+.rcard-header{background:var(--k);padding:8px 12px;display:flex;align-items:center;justify-content:space-between}
+.rcard-header-left{display:flex;align-items:center;gap:6px}
+.rcard-entidad{font-size:10px;font-weight:700;color:#fff;font-family:var(--mono)}
+.rcard-n{font-size:10px;color:rgba(255,255,255,.6)}
+.rcard-body{padding:12px}
+.rcard-tipo-orden{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:9.5px;
+  font-weight:800;background:var(--rl);color:var(--r);margin-bottom:8px}
+.rcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.rcard-field{display:flex;flex-direction:column;gap:1px;padding:3px 0;
+  border-bottom:1px solid var(--g1)}
+.rcard-field.full{grid-column:1/-1}
+.rcard-fl{font-size:9.5px;font-weight:700;color:var(--g4);text-transform:uppercase;letter-spacing:.03em}
+.rcard-fv{font-size:11px;color:var(--k);font-weight:500}
+.rcard-fv.mono{font-family:var(--mono);font-weight:700;color:var(--k)}
+.rcard-fv.monto{font-family:var(--mono);font-weight:800;color:var(--r);font-size:12px}
+.rcard-estado{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:9.5px;
+  font-weight:700;background:#dcfce7;color:#166534;margin-top:2px}
+.rcard-obs{font-size:10.5px;color:var(--k3);font-style:italic;margin-top:5px;
+  padding-top:5px;border-top:1px dashed var(--g2)}
+@media(max-width:900px){.rocos-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.rocos-grid{grid-template-columns:1fr}}
+
+
+/* ════════ MODAL LOGIN ════════ */
+.login-overlay{position:fixed;inset:0;background:rgba(38,41,46,.6);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px}
+.login-overlay.open{display:flex}
+.login-box{background:#fff;border-radius:8px;width:100%;max-width:420px;box-shadow:0 12px 48px rgba(0,0,0,.22);overflow:hidden;animation:fadeUp .2s ease}
+.login-head{background:var(--r);padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.login-head-brand{display:flex;align-items:center;gap:10px}
+.login-head-dot{width:32px;height:32px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800}
+.login-head-txt{color:#fff}
+.login-head-title{font-size:16px;font-weight:700}
+.login-head-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px}
+.login-close{width:28px;height:28px;border:none;background:rgba(255,255,255,.2);border-radius:50%;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.login-close:hover{background:rgba(255,255,255,.35)}
+.login-body{padding:24px}
+.login-field{margin-bottom:16px}
+.login-label{font-size:14px;font-weight:700;color:var(--k);display:block;margin-bottom:5px}
+.login-input{width:100%;padding:10px 12px;border:1.5px solid var(--k);border-radius:4px;font-size:16px;font-family:inherit;color:var(--k);background:#fff}
+.login-input:focus{outline:3px solid var(--focus);outline-offset:2px;border-color:var(--b)}
+.login-error{background:var(--rl);border:1px solid var(--r300);border-radius:4px;padding:8px 12px;font-size:13px;color:var(--r);margin-bottom:14px;display:none}
+.login-error.show{display:block}
+.login-btn{width:100%;padding:12px;background:var(--r);color:#fff;border:none;border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
+.login-btn:hover{background:var(--rd)}
+.login-footer-txt{font-size:12px;color:var(--n500);text-align:center}
+.login-footer-txt a{color:var(--b)}
+/* ════════ PANEL FAVORITOS ════════ */
+.favs-overlay{position:fixed;inset:0;background:rgba(38,41,46,.6);z-index:3000;display:none;align-items:flex-start;justify-content:flex-end;padding:12px}
+.favs-overlay.open{display:flex}
+.favs-box{background:#fff;border-radius:8px;width:720px;max-width:95vw;max-height:calc(100vh - 24px);overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.22);display:flex;flex-direction:column;animation:fadeUp .2s ease}
+.favs-head{background:var(--k);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.favs-head-title{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px}
+.favs-close{width:28px;height:28px;border:none;background:rgba(255,255,255,.15);border-radius:50%;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.favs-close:hover{background:rgba(255,255,255,.3)}
+.favs-body{overflow-y:auto;flex:1;padding:14px}
+.fav-card{border:1px solid var(--n300);border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer;background:#fff;position:relative;transition:box-shadow .13s}
+.fav-card:hover{box-shadow:var(--sh-md);border-color:var(--r)}
+.fav-card::after{content:'';height:4px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:0 0 8px 8px}
+.fav-cod{font-size:11px;font-weight:700;color:var(--r);font-family:var(--mono,monospace);margin-bottom:3px}
+.fav-ent{font-size:13px;font-weight:700;color:var(--k);margin-bottom:2px;line-height:1.3}
+.fav-desc{font-size:11.5px;color:var(--k3,#555);line-height:1.4;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fav-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.fav-fecha{font-size:11px;color:var(--n500,#888);display:flex;align-items:center;gap:4px}
+.fav-remove{font-size:11px;color:var(--r);cursor:pointer;background:none;border:none;font-family:inherit;font-weight:600}
+.favs-empty{text-align:center;padding:32px 16px;color:var(--n500,#888)}
+.favs-footer{padding:12px 18px;border-top:1px solid var(--n300);flex-shrink:0;font-size:12px;color:var(--n500,#888);display:flex;align-items:center;justify-content:space-between}
+.favs-count{font-weight:700;color:var(--k)}
+
+
+/* ── VIEW BUTTONS ── */
+.vbtn{width:32px;height:30px;border:none;border-radius:4px;background:transparent;cursor:pointer;color:var(--k3);display:flex;align-items:center;justify-content:center;transition:all .13s}
+.vbtn.on{background:var(--k)!important;color:#fff!important}
+.vbtn:not(.on):hover{background:var(--n300);color:var(--k)}
+
+/* ── STAR BUTTON ── */
+.star-btn{width:27px;height:27px;border-radius:var(--rad);border:1.5px solid var(--n300);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  background:#fff;color:var(--g4);transition:all .13s;flex-shrink:0;}
+.star-btn:hover{border-color:#f59e0b;color:#f59e0b;background:#fffbeb}
+.star-btn.starred{border-color:#FFD147;background:#fffbeb;color:#FFD147}
+
+/* ── VISTA LISTA ── */
+.cards-lista{display:flex;flex-direction:column;gap:10px}
+.rl-item{
+  background:#fff;border:1px solid var(--n300);border-radius:var(--rad-lg);
+  padding:16px 18px;display:flex;align-items:flex-start;gap:16px;
+  box-shadow:var(--sh);transition:all .14s;
+  position:relative;
+}
+.rl-item::after{content:'';height:4px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:0 0 var(--rad-lg) var(--rad-lg)}
+.rl-item:hover{border-color:var(--r);box-shadow:var(--sh-md)}
+.rl-item-left{flex:1;min-width:0}
+.rl-item-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;min-width:200px}
+.rl-cod{font-size:11px;font-weight:700;color:var(--r);font-family:var(--mono);margin-bottom:3px}
+.rl-ent{font-size:14px;font-weight:700;color:var(--k);margin-bottom:3px}
+.rl-desc{font-size:13px;color:var(--k3);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ── VISTA EXTENDIDA 2 columnas ── */
+.cards-ext-wrap{}
+.ext-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ext-card{
+  background:#fff;border:1px solid var(--n300);border-radius:var(--rad-lg);
+  padding:16px;box-shadow:var(--sh);transition:all .14s;
+  display:flex;flex-direction:column;gap:6px;position:relative;
+}
+.ext-card::after{content:'';height:5px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:0 0 var(--rad-lg) var(--rad-lg)}
+.ext-card:hover{border-color:var(--r);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.ext-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.ext-card-header-left{display:flex;align-items:center;gap:4px}
+.ext-card-header-right{display:flex;align-items:center;gap:4px}
+.ext-cod{font-size:11px;font-weight:700;color:var(--r);font-family:var(--mono)}
+.ext-ent{font-size:13px;font-weight:700;color:var(--k);line-height:1.3}
+.ext-desc{font-size:12px;color:var(--k3);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ext-dates{display:flex;gap:14px;margin-bottom:4px;flex-wrap:wrap}
+.ext-date-l{font-size:10px;color:var(--n500);font-weight:600;display:block}
+.ext-date-v{font-size:12px;color:var(--k2);font-weight:500}
+.ext-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--n300);flex-wrap:wrap;gap:6px}
+.ext-traz{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.ext-ver-btn{
+  padding:5px 11px;background:var(--r);color:#fff;border:none;
+  border-radius:var(--rad);font-size:12px;font-weight:700;
+  text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px;
+  white-space:nowrap;transition:background .14s;
+}
+.ext-ver-btn:hover{background:var(--rd)}
+
+/* ── FAV BADGE on nav button ── */
+.nav-notif-wrap{position:relative;display:inline-flex}
+.fav-badge{
+  position:absolute;top:-6px;right:-6px;
+  width:18px;height:18px;background:#FFD147;color:var(--k);
+  border-radius:50%;font-size:10px;font-weight:800;
+  display:none;align-items:center;justify-content:center;
+  border:2px solid #fff;
+}
+
+@media(max-width:900px){.ext-grid{grid-template-columns:1fr}.rl-item{flex-direction:column}.rl-item-right{width:100%}}
+
+
+/* ── TABLA FAVORITOS ── */
+.favs-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.favs-tbl thead th{
+  padding:10px 12px;font-size:12px;font-weight:700;
+  color:#fff;text-align:left;background:var(--r,#BF0909);
+  position:sticky;top:0;z-index:1;
+}
+.favs-tbl thead th:first-child{border-radius:0}
+.favs-tbl tbody tr{border-bottom:1px solid var(--n300,#DEE3EA);transition:background .12s}
+.favs-tbl tbody tr:last-child{border-bottom:none}
+.favs-tbl tbody tr:hover{background:var(--n100,#F6F9FC)}
+.favs-tbl td{padding:10px 12px;vertical-align:top}
+.fav-tbl-cod{font-size:12px;font-weight:700;color:var(--r,#BF0909);font-family:var(--mono,'IBM Plex Mono',monospace);white-space:nowrap}
+.fav-tbl-ent{font-size:13px;font-weight:700;color:var(--k,#26292E);line-height:1.3}
+.fav-tbl-obj{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.fav-tbl-cubso{font-size:12px;color:var(--k3,#515458);font-family:var(--mono,'IBM Plex Mono',monospace)}
+.fav-tbl-rm{background:none;border:none;cursor:pointer;color:var(--r,#BF0909);font-size:12px;font-weight:600;font-family:inherit;padding:2px 0}
+.fav-tbl-rm:hover{text-decoration:underline}
+
+
+/* ════════════════════════════════════════════════
+   SEACE BUSCADOR — Barra de búsqueda unificada
+   (00_home.html y 06_resultados.html)
+   ════════════════════════════════════════════════ */
+.seace-searchbar{
+  display:flex;
+  max-width:640px;
+  width:100%;
+  margin:0;
+  border:2px solid #BF0909;
+  border-radius:4px;
+  overflow:hidden;
+  box-shadow:0 2px 14px rgba(191,9,9,.14);
+  background:#fff;
+  margin-bottom:16px;
+}
+
+/* ── Selector de año (negro) ── */
+.seace-searchbar select.sb-anio,
+.seace-searchbar .sb-anio {
+  flex-shrink:0 !important;
+  background:#26292E !important;
+  color:#fff !important;
+  padding:0 14px !important;
+  height:50px !important;
+  font-size:14px !important;
+  font-weight:700 !important;
+  border:none !important;
+  outline:none !important;
+  border-right:1px solid rgba(255,255,255,.18) !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+  min-width:92px !important;
+  width:auto !important;
+  cursor:pointer !important;
+  font-family:'Roboto','Segoe UI',sans-serif !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+
+/* ── Campo de texto (blanco) ── */
+.seace-searchbar input.sb-texto,
+.seace-searchbar .sb-texto {
+  flex:1 !important;
+  height:50px !important;
+  border:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+  font-size:15px !important;
+  padding:0 16px !important;
+  font-family:'Roboto','Segoe UI',sans-serif !important;
+  color:#26292E !important;
+  background:#fff !important;
+  width:auto !important;
+  min-width:0 !important;
+  border-radius:0 !important;
+}
+.seace-searchbar input.sb-texto:focus,
+.seace-searchbar .sb-texto:focus {
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
+}
+
+/* ── Botón lupa (rojo) ── */
+.seace-searchbar button.sb-lupa,
+.seace-searchbar .sb-lupa {
+  flex-shrink:0 !important;
+  background:#BF0909 !important;
+  border:none !important;
+  width:54px !important;
+  height:50px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  cursor:pointer !important;
+  transition:background .14s !important;
+  border-radius:0 !important;
+}
+.seace-searchbar button.sb-lupa:hover,
+.seace-searchbar .sb-lupa:hover {
+  background:#DC362E !important;
+}
+
+
+
+/* ── WCAG 2.2 Nivel AA – Accesibilidad ── */
+:focus-visible{outline:3px solid #BF0909;outline-offset:2px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+.skip-link{font-family:'Roboto','Segoe UI',sans-serif}
+button,a,[role="button"]{min-height:24px;min-width:24px}
+/* Contraste no textual 1.4.11 */
+input:focus,select:focus,textarea:focus{outline:3px solid #BF0909;outline-offset:1px}
+/* 2.4.11 Foco no obstruido */
+*:focus-visible{position:relative;z-index:100}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link" style="position:absolute;top:-999px;left:-999px;background:var(--r,#BF0909);color:#fff;padding:8px 16px;z-index:9999;font-weight:700;border-radius:4px;text-decoration:none;font-family:inherit" onFocus="this.style.top='8px';this.style.left='8px'" onBlur="this.style.top='-999px';this.style.left='-999px'">Ir al contenido principal</a>
+
+
+<nav role="navigation" class="nav">
+  <div style="display:flex;align-items:center;gap:0">
+    <a href="00_home.html" class="nav-brand">
+      <div class="nav-dot">gob</div>
+      <div class="nav-brand-txt">
+        <span class="nav-brand-name">gob.pe</span>
+      </div>
+    </a>
+    <div class="nav-divider"></div>
+    <span class="nav-sistema">Sistema Electrónico de Contrataciones del Estado (SEACE)</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-notif-wrap">
+      <a href="#" class="nav-notif" onclick="openSeg(event)">
+        <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+        Oportunidades de negocio a tu correo
+      </a>
+      <span class="fav-badge" id="favBadge"></span>
+    </div>
+  </div>
+</nav>
+<div class="accesos"><a href="01_busca_indicadores.html" class="acc-btn">📊 Indicadores de convocatorias</a><span class="acc-sep">|</span><a href="02_explora.html" class="acc-btn">📈 Explora contrataciones</a><span class="acc-sep">|</span><a href="04_auditoria.html" class="acc-btn">🛡️ Transparencia</a><span class="acc-sep">|</span><a href="05_ayuda.html" class="acc-btn">❓ Ayuda</a></div>
+
+<a href="00_home.html" class="back" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--r);text-decoration:none;padding:10px 20px;background:#fff;border-bottom:1px solid var(--g2);width:100%">
+  <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+  Volver al inicio
+</a>
+
+<div class="page-wrap">
+<aside class="sb" id="sidebar">
+    <div class="sb-toggle-bar" onclick="toggleSB()">
+      <span class="sb-toggle-label">
+        <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        Filtros de búsqueda
+      </span>
+      <span class="sb-toggle-icon" id="sbChev">▲</span>
+    </div>
+    <div class="sb-content" id="sbContent">
+
+      <!-- FASES DE LA CONTRATACIÓN PÚBLICA -->
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px;border-left:4px solid var(--r);padding-left:8px">Fases de la contratación pública</div>
+        <select class="sb-select" id="faseSelect" onchange="onFaseChange(this.value)">
+          <option value="">Todas las fases</option>
+          <option value="ap" selected>Actuaciones preparatorias</option>
+          <option value="sel">Selección</option>
+          <option value="ec">Ejecución contractual</option>
+          <option value="cm">Contratos Menores</option>
+          <option value="rocos">ROCOS – Supuestos excluidos</option>
+        </select>
+      </div>
+
+      <!-- FILTRO DINÁMICO ACTUACIONES PREPARATORIAS -->
+      <div class="sb-grupo sb-dyn" id="dynAP" style="display:flex">
+        <div class="sb-dyn-title">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>
+          Herramientas de actuaciones preparatorias
+        </div>
+        <label class="sb-opt"><input type="radio" name="herr" value="acf" checked> Anuncio de contratación futura</label>
+        <label class="sb-opt"><input type="radio" name="herr" value="dr"> Difusión de requerimientos</label>
+        <label class="sb-opt"><input type="radio" name="herr" value="cc"> Condiciones de contratación</label>
+        <button class="btn-r" onclick="buscarACF()" style="margin-top:4px;font-size:12px;padding:6px 12px;width:100%;justify-content:center">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          Abrir
+        </button>
+      </div>
+
+      <!-- FILTRO DINÁMICO SELECCIÓN — ESTADOS DEL ÍTEM -->
+      <div class="sb-grupo sb-dyn" id="dynSEL" style="display:none">
+        <div class="sb-dyn-title">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Estado del ítem
+        </div>
+        <select class="sb-select">
+          <option value="">Todos los estados</option>
+          <option>Publicado</option>
+          <option>Desierto</option>
+          <option>Nulo</option>
+          <option>Cancelado</option>
+          <option>Adjudicado</option>
+          <option>Consentido</option>
+          <option>Apelado</option>
+          <option>Retrotraído</option>
+          <option>Administrativamente firme</option>
+          <option>Bloqueado</option>
+          <option>Adjudicación sin efecto</option>
+          <option>Nulidad Pendiente</option>
+          <option>No suscrito</option>
+          <option>Perfeccionado</option>
+          <option>Contratado</option>
+          <option>Pérdida de Buena Pro</option>
+        </select>
+      </div>
+
+      <!-- FILTRO DINÁMICO CONTRATOS — ACCIONES -->
+      <div class="sb-grupo sb-dyn" id="dynEC" style="display:none">
+        <div class="sb-dyn-title">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+          Acciones del contrato
+        </div>
+        <label class="sb-opt"><input type="checkbox"> Nulidad</label>
+        <label class="sb-opt"><input type="checkbox"> Contratado</label>
+        <label class="sb-opt"><input type="checkbox"> Garantía</label>
+        <label class="sb-opt"><input type="checkbox"> Adicional</label>
+        <label class="sb-opt"><input type="checkbox"> Reducción</label>
+        <label class="sb-opt"><input type="checkbox"> Conformidad</label>
+        <label class="sb-opt"><input type="checkbox"> Cuaderno de Incidencias</label>
+      </div>
+<!-- ROCOS: ver 08_rocos.html -->
+
+      <hr class="sb-divider">
+
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px">Entidad</div>
+        <select class="sb-select">
+          <option value="">Seleccionar</option>
+          <option>Municipalidad Distrital de Cortegana</option>
+          <option>MINSA</option><option>MTC</option>
+          <option>Gobierno Regional de Loreto</option>
+        </select>
+      </div>
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px">Tipo de procedimiento</div>
+        <select class="sb-select" size="1">
+          <option value="">Seleccionar</option>
+          <optgroup label="── Licitación Pública ──">
+            <option>Licitación pública para bienes</option>
+            <option>Licitación pública para bienes especializados</option>
+            <option>Licitación pública abreviada para bienes</option>
+            <option>Licitación pública de obras</option>
+            <option>Licitación pública abreviada de obras</option>
+            <option>Licitación pública con diálogo competitivo</option>
+            <option>Licitación pública de obras con negociación</option>
+            <option>Licitación pública para mecanismos diferenciados de adquisición (MDA)</option>
+          </optgroup>
+          <optgroup label="── Concurso Público ──">
+            <option>Concurso público de servicios</option>
+            <option>Concurso público para consultorías y servicios de mantenimiento vial</option>
+            <option>Concurso público abreviado</option>
+            <option>Concurso público con precalificación</option>
+            <option>Concurso público con diálogo competitivo</option>
+            <option>Concurso público abreviado para contratación de expertos y gerentes de proyectos</option>
+          </optgroup>
+          <optgroup label="── Otros ──">
+            <option>Adjudicación simplificada</option>
+            <option>Subasta inversa electrónica</option>
+            <option>Selección de consultores individuales</option>
+            <option>Comparación de precios</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px">Objeto de contratación</div>
+        <select class="sb-select">
+          <option value="">Seleccionar</option>
+          <option>Bien</option><option>Servicio</option>
+          <option>Obras</option><option>Consultorías de obras</option>
+        </select>
+      </div>
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px">Versión del SEACE</div>
+        <select class="sb-select" onchange="onVersionChange(this.value)">
+          <option value="">Todas las versiones</option>
+          <option value="4">SEACE 4</option>
+          <option value="3">SEACE 3</option>
+          <option value="2">SEACE 2</option>
+        </select>
+      </div>
+      <div class="sb-grupo">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px">Fecha desde</div>
+        <input class="sb-date" type="date">
+        <div style="font-size:14px;font-weight:700;color:var(--k);margin-bottom:4px;margin-top:8px">Fecha hasta</div>
+        <input class="sb-date" type="date">
+      </div>
+      <label class="sb-check"><input type="checkbox"> Búsqueda avanzada</label>
+      <div class="sb-btn-row">
+        <button class="btn-outline">Limpiar</button>
+        <button class="btn-r" onclick="buscarACF()">Buscar</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main role="main" class="main-area" id="main-content">
+
+    <h1 class="page-title">Buscador Público de Contrataciones del Estado</h1>
+    <p class="page-sub">Mostrando resultados de <strong>Anuncios de Contratación Futura (ACF)</strong> · Actuaciones Preparatorias</p>
+
+    
+    <div class="inner-search" id="seaceSearchBar" style="max-width:700px;margin-bottom:14px">
+      <div class="is-year">2026</div>
+      <input class="is-input" id="seaceQ" type="text" aria-label="Buscar contrataciones"
+        placeholder="Buscar por entidad, objeto, código ACF, descripción…"
+        oninput="filtrar()" onkeydown="if(event.key==='Enter')filtrar()" />
+      <button class="is-btn" onclick="filtrar()" aria-label="Buscar">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+
+    
+    <div class="chips" id="chipsBar">
+      <span style="font-size:11px;font-weight:700;color:var(--k3);margin-right:4px">Tipo:</span>
+      <button class="chip on" onclick="chipFiltrar(this,'tipoSel','')">Todos</button>
+      <button class="chip" onclick="chipFiltrar(this,'tipoSel','Licitación Pública')">Licitación Pública</button>
+      <button class="chip" onclick="chipFiltrar(this,'tipoSel','Adjudicación Simplificada')">Adjudicación Simplificada</button>
+      <button class="chip" onclick="chipFiltrar(this,'tipoSel','Concurso Público')">Concurso Público</button>
+      <span style="font-size:11px;font-weight:700;color:var(--k3);margin-left:8px;margin-right:4px">Objeto:</span>
+      <button class="chip" onclick="chipFiltrar(this,'objeto','Bien')">Bien</button>
+      <button class="chip" onclick="chipFiltrar(this,'objeto','Servicio')">Servicio</button>
+      <button class="chip" onclick="chipFiltrar(this,'objeto','Obra')">Obra</button>
+    </div>
+
+    
+    <div class="toolbar">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span style="font-size:15px;font-weight:700;color:var(--k)">Resultados de búsqueda</span>
+        <span class="t-count" id="tcCount">7 encontrados</span>
+      </div>
+      <div class="t-right">
+        <!-- Vista switcher -->
+        <div style="display:flex;gap:2px;background:var(--g1);border:1.5px solid var(--g2);border-radius:6px;padding:3px">
+          <button id="vbtn-lista" class="vbtn" onclick="setVista('lista')" title="Vista lista" aria-label="Vista lista">
+            <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+            </svg>
+          </button>
+          <button id="vbtn-grid" class="vbtn on" onclick="setVista('grid')" title="Vista grilla" aria-label="Vista grilla">
+            <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </button>
+          <button id="vbtn-ext" class="vbtn" onclick="setVista('ext')" title="Vista extendida" aria-label="Vista extendida">
+            <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/>
+            </svg>
+          </button>
+        </div>
+        <select class="t-sel" id="sortSel" onchange="sortACF()">
+          <option value="">Sin ordenar</option>
+          <option value="fecha-desc">Más recientes</option>
+          <option value="conv-asc">Próxima convocatoria</option>
+          <option value="cant-desc">Mayor cantidad</option>
+          <option value="plazo-desc">Mayor plazo</option>
+        </select>
+        <button class="t-exp" onclick="exportar()"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg> Exportar</button>
+      </div>
+    </div>
+
+    
+    <!-- Resultado ACF -->
+    <div id="resultsArea"></div>
+
+    <!-- Sin resultados -->
+    <div id="noResults" style="display:none;text-align:center;padding:48px 20px;color:var(--k4)">
+      <svg aria-hidden="true" focusable="false" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.3;margin-bottom:10px">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <p style="font-size:15px;font-weight:700;color:var(--k3)">Sin resultados</p>
+      <small style="font-size:12px">Ajuste los filtros o limpie la búsqueda</small><br>
+      <button class="btn-r" onclick="limpiar()" style="margin-top:12px;font-size:12px;padding:6px 14px">Limpiar filtros</button>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- MODAL DETALLE ACF -->
+<div class="modal-overlay" id="modalACF" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal-box" id="modalBox" style="max-width:680px;max-height:90vh">
+    <!-- generado por JS -->
+  </div>
+</div>
+
+
+<!-- ══ MODAL LOGIN ══ -->
+<div class="login-overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
+  <div class="login-box">
+    <div class="login-head">
+      <div class="login-head-brand">
+        <div class="login-head-dot">gob</div>
+        <div class="login-head-txt">
+          <div class="login-head-title">Iniciar sesión</div>
+          <div class="login-head-sub">SEACE · Plataforma digital del Estado</div>
+        </div>
+      </div>
+      <button class="login-close" onclick="closeLogin()">✕</button>
+    </div>
+    <div class="login-body">
+      <div class="login-error" id="loginError"></div>
+      <div class="login-field">
+        <label class="login-label">Usuario</label>
+        <input class="login-input" type="text" id="loginUser"
+          placeholder="RUC · DNI · Correo institucional"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Contraseña</label>
+        <input class="login-input" type="password" id="loginPass"
+          placeholder="Ingrese su contraseña"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="login-btn" onclick="doLogin()">Iniciar sesión</button>
+      <p class="login-footer-txt">¿Olvidó su contraseña? <a href="#">Recuperar acceso</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL FAVORITOS ══ -->
+<div class="favs-overlay" id="favsOverlay" onclick="if(event.target===this)closeFavs()">
+
+<script>
+
+var ACF_DATA = [
+  { id:1, codigo:'ACF-0031-GORELAM',  entidad:'GOBIERNO REGIONAL DE LAMBAYEQUE - HOSPITAL REGIONAL LAMBAYEQUE',
+    fechaPub:'05/05/2026 16:10:34', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'ADQUISICIÓN DE INSUMOS PARA PRUEBAS DE INMUNOHEMATOLOGÍA CON EQUIPO EN COMODATO DEL SERVICIO DE BANCO DE SANGRE DEL DEPARTAMENTO DE APOYO AL DIAGNÓSTICO',
+    alcance:'El presente requerimiento busca la adquisición de insumos para pruebas de inmunohematología siendo un insumo esencial para el cumplimiento del DECRETO SUPREMO N° 017-2022-SA, la cual detalla contar con: grupos sanguíneos fase sérica y globular, fenotipificación extendido y ampliado, pruebas de compatibilidad, Coombs directos prevención de reacciones hemolíticas, rastreo de anticuerpos irregulares para donantes y pacientes fortaleciendo la seguridad transfusional para los pacientes del Hospital Regional Lambayeque.',
+    cantidad:139460, plazo:730, fechaConv:'15/06/2026', region:'LAMBAYEQUE' },
+  { id:2, codigo:'ACF-0032-SUNASS',   entidad:'SUPERINTENDENCIA NACIONAL DE SERVICIOS DE SANEAMIENTO',
+    fechaPub:'22/04/2026 11:28:54', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'ADQUISICIÓN DE ESTACIONES PARA MONITOREO REMOTO DE LA CALIDAD DE LA PRESTACIÓN DEL SERVICIO DE AGUA EN PEQUEÑAS CIUDADES - IOA RR CUI 2693824',
+    alcance:'Contratar una persona natural o jurídica para la adquisición de 28 estaciones de monitoreo remoto, a fin de generar información oportuna y confiable de la calidad de los servicios de agua, brindado por los prestadores de las pequeñas ciudades.',
+    cantidad:28, plazo:100, fechaConv:'30/07/2026', region:'LIMA' },
+  { id:3, codigo:'ACF-0033-MUNIDEV',  entidad:'MUNICIPALIDAD DISTRITAL DE DEAN VALDIVIA',
+    fechaPub:'07/04/2026 17:10:36', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'ADQUISICIÓN DE ÓMNIBUS EN LA GERENCIA DE DESARROLLO SOCIAL DE LA MUNICIPALIDAD DISTRITAL DE DEAN VALDIVIA, DISTRITO DE DEAN VALDIVIA, PROVINCIA DE ISLAY, DEPARTAMENTO DE AREQUIPA; con CUI 2718155.',
+    alcance:'La Entidad requiere la compra de un ómnibus, con la finalidad de optimizar el despliegue y traslado de personal para la atención de la población del distrito de Deán Valdivia. En ese sentido, resulta necesaria la adquisición de un vehículo, para lo cual se solicita la aprobación del ANEXO N.° 05: Solicitud de Modificación del Cuadro Multianual de Necesidades, correspondiente a la adquisición de un ómnibus para la Gerencia de Desarrollo Social.',
+    cantidad:1, plazo:40, fechaConv:'18/05/2026', region:'AREQUIPA' },
+  { id:4, codigo:'ACF-0034-MUNIYAU',  entidad:'MUNICIPALIDAD DISTRITAL DE YAUCA',
+    fechaPub:'31/03/2026 17:53:13', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'Adquisición de cisterna',
+    alcance:'Requerimiento para la adquisición de una cisterna para abastecimiento de agua potable en zonas rurales del distrito de Yauca, Arequipa, según especificaciones técnicas del área usuaria.',
+    cantidad:1, plazo:15, fechaConv:'26/05/2026', region:'AREQUIPA' },
+  { id:5, codigo:'ACF-0035-INEN',     entidad:'INSTITUTO NACIONAL DE ENFERMEDADES NEOPLÁSICAS',
+    fechaPub:'18/03/2026 15:23:41', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'Adquisición de Equipo de Braquiterapia de Alta Tasa de Dosis (HDR) con fuente de Ir-192, sistema de planificación 2D/3D, set de aplicadores ginecológicos/urológicos y servicios de mantenimiento. Incluye desmontaje del equipo existente, instalación y capacitación bajo modalidad Llave en mano.',
+    alcance:'Adquisición de 01 sistema integral de Braquiterapia de Alta Tasa de Dosis (HDR) con fuente de Ir-192 (10-12 Ci). El equipamiento incluye Afterloader de al menos 20 canales, 02 estaciones de planificación de tratamiento 2D/3D con licencias permanentes, sistema de control TCS para gestión de datos clínicos, dosimetría independiente (cámara de pozo y electrómetro) y sets completos de aplicadores ginecológicos y urológicos compatibles. Bajo modalidad Llave en Mano.',
+    cantidad:1, plazo:100, fechaConv:'29/05/2026', region:'LIMA' },
+  { id:6, codigo:'ACF-0036-SUNASS2',  entidad:'SUPERINTENDENCIA NACIONAL DE SERVICIOS DE SANEAMIENTO',
+    fechaPub:'16/03/2026 17:44:52', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'ADQUISICIÓN DE PLATAFORMA DE RESPALDO Y RESTAURACIÓN DE INFORMACIÓN INSTITUCIONAL PARA LA SUNASS',
+    alcance:'Adquisición de plataforma de respaldo y restauración de la información institucional de SUNASS, manteniendo la seguridad en los procesos y el almacenamiento de los datos, garantizando la continuidad operativa en los servicios informáticos y los sistemas con los que opera la institución.',
+    cantidad:1, plazo:80, fechaConv:'15/05/2026', region:'LIMA' },
+  { id:7, codigo:'ACF-0037-AGRORUR',  entidad:'PROGRAMA DE DESARROLLO PRODUCTIVO AGRARIO RURAL - AGRO RURAL',
+    fechaPub:'02/02/2026 15:26:22', tipoSel:'Licitación Pública', objeto:'Bien',
+    desc:'Adquisición postes de madera de Quinilla para el proyecto CUI 2503915',
+    alcance:'Suministro e implementación logística de 29,250 unidades de postes de madera de la especie Quinilla, destinados de forma exclusiva a las acciones de delimitación y protección de áreas de intervención del Proyecto CUI 2503915 en la región Madre de Dios. Debiéndose ejecutarse la prestación íntegramente en un plazo de 90 días calendario.',
+    cantidad:29250, plazo:90, fechaConv:'16/03/2026', region:'MADRE DE DIOS' },
+  { id:8, codigo:'ACF-0038-MPCH',     entidad:'MUNICIPALIDAD PROVINCIAL DE CHACHAPOYAS',
+    fechaPub:'24/06/2026 17:00:00', tipoSel:'Licitación Pública', objeto:'Obra',
+    desc:'Mejoramiento de la red de agua potable — Tramo 1: Zona Urbana',
+    alcance:'Ejecución de obra conforme al expediente técnico aprobado, incluyendo trazo, excavación, instalación de tuberías, pruebas hidráulicas y reposición de pavimento, según cronograma valorizado de obra.',
+    cantidad:3200, plazo:120, fechaConv:'10/07/2026', region:'AMAZONAS' }
+];
+
+/* ── ESTADO ── */
+var vista='grid', filtros={tipoSel:'', objeto:''}, q='', acfFiltrado=ACF_DATA.slice();
+
+/* ── HELPERS ── */
+function fmtN(n){ return n.toLocaleString('es-PE'); }
+function objCls(o){ return o==='Bien'?'obj-bien':o==='Servicio'?'obj-serv':o==='Obra'?'obj-obra':'obj-bien'; }
+function trunca(s,n){ return s.length>n?s.slice(0,n).trim()+'…':s; }
+function fpDone(lbl){ return '<span class="fp fp-done"><svg aria-hidden="true" focusable="false" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> '+lbl+'</span>'; }
+function fpAct(lbl){  return '<span class="fp fp-active">'+lbl+'</span>'; }
+function fpPend(lbl){ return '<span class="fp fp-pending">'+lbl+'</span>'; }
+var ARR = '<span class="traz-step-arrow">›</span>';
+
+/* ── RENDER VISTA GRID (3 cols, igual a 06_resultados) ── */
+function renderGrid(data){
+  if(!data.length) return '';
+  return '<div class="cards" id="acfGrid">' +
+    data.map(function(d){
+      return [
+        '<div class="card" style="padding:13px">',
+          '<div class="card-top">',
+            '<span class="card-cod">'+d.codigo+'</span>',
+            '<div class="card-icons">',
+              '',
+            '</div>',
+          '</div>',
+          '<div class="card-ent">'+d.entidad+'</div>',
+          '<div class="card-desc">'+trunca(d.desc,100)+'</div>',
+          '<span class="card-obj '+objCls(d.objeto)+'">'+d.objeto+'</span>',
+          '<div class="card-dates">',
+            '<div class="card-date"><span class="cd-l">📅 Publicación</span><span class="cd-v">'+d.fechaPub.split(' ')[0]+'</span></div>',
+            '<div class="card-date"><span class="cd-l">🔔 Conv. aprox.</span><span class="cd-v" style="color:var(--r);font-weight:700">'+d.fechaConv+'</span></div>',
+          '</div>',
+          '<div class="card-dates" style="margin-top:4px">',
+            '<div class="card-date"><span class="cd-l">Cantidad</span><span class="cd-v" style="font-family:var(--mono);font-weight:700">'+fmtN(d.cantidad)+'</span></div>',
+            '<div class="card-date"><span class="cd-l">Plazo</span><span class="cd-v" style="font-family:var(--mono);font-weight:700">'+d.plazo+' días</span></div>',
+          '</div>',
+          '<div class="card-traz">',
+            '<span class="traz-l">TRAZABILIDAD</span>',
+            '<div class="traz-pills">',
+              fpAct('ACF'),ARR,fpPend('Selección'),ARR,fpPend('Contratos'),
+            '</div>',
+            '<a href="#" class="ver-btn" onclick="abrirModal('+d.id+');return false">Ver detalle</a>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }).join('') + '</div>';
+}
+
+/* ── RENDER VISTA LISTA ── */
+function renderLista(data){
+  if(!data.length) return '';
+  return '<div class="cards-lista">' +
+    data.map(function(d){
+      return [
+        '<div class="rl-item">',
+          '<div class="rl-item-left">',
+            '<div class="rl-cod">'+d.codigo+' &nbsp;·&nbsp; <span style="font-weight:500;color:var(--k3)">'+d.tipoSel+'</span></div>',
+            '<div class="rl-ent">'+d.entidad+'</div>',
+            '<div class="rl-desc">'+trunca(d.desc,160)+'</div>',
+            '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">',
+              '<span class="card-obj '+objCls(d.objeto)+'" style="font-size:9.5px;padding:2px 7px">'+d.objeto+'</span>',
+              '<span style="font-size:10px;color:var(--k4)">Cant.: <strong>'+fmtN(d.cantidad)+'</strong></span>',
+              '<span style="font-size:10px;color:var(--k4)">Plazo: <strong>'+d.plazo+' días</strong></span>',
+              '<span style="font-size:10px;color:var(--k4)">Pub.: <strong>'+d.fechaPub.split(' ')[0]+'</strong></span>',
+            '</div>',
+          '</div>',
+          '<div class="rl-item-right">',
+            '<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end;margin-bottom:8px">',
+              '<div class="traz-pills">'+fpAct('ACF')+ARR+fpPend('Selección')+ARR+fpPend('Contratos')+'</div>',
+            '</div>',
+            '<div style="font-size:10px;color:var(--k4);text-align:right;margin-bottom:8px">Conv. aprox.: <strong style="color:var(--r)">'+d.fechaConv+'</strong></div>',
+            '<a href="#" class="ver-btn" style="font-size:12px;padding:5px 12px;border-radius:var(--rad);display:inline-flex;align-items:center;gap:4px" onclick="abrirModal('+d.id+');return false">',
+              '<svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/></svg>',
+              'Ver detalle',
+            '</a>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }).join('') + '</div>';
+}
+
+/* ── RENDER VISTA EXTENDIDA (2 cols) ── */
+function renderExt(data){
+  if(!data.length) return '';
+  return '<div class="ext-grid">' +
+    data.map(function(d){
+      return [
+        '<div class="ext-card">',
+          '<div class="ext-card-header">',
+            '<div class="ext-card-header-left">',
+              '<span class="ext-cod">'+d.codigo+'</span>',
+            '</div>',
+            '<div class="ext-card-header-right">',
+              '<span class="card-obj '+objCls(d.objeto)+'" style="font-size:9.5px;padding:2px 7px">'+d.objeto+'</span>',
+              '',
+            '</div>',
+          '</div>',
+          '<div class="ext-ent">'+d.entidad+'</div>',
+          '<div class="ext-desc">'+trunca(d.desc,140)+'</div>',
+          '<div class="ext-dates">',
+            '<div><span class="ext-date-l">Tipo de selección</span><span class="ext-date-v">'+d.tipoSel+'</span></div>',
+            '<div><span class="ext-date-l">Publicación</span><span class="ext-date-v" style="font-family:var(--mono);font-size:11px">'+d.fechaPub+'</span></div>',
+            '<div><span class="ext-date-l">Cantidad</span><span class="ext-date-v" style="font-family:var(--mono);font-weight:700">'+fmtN(d.cantidad)+'</span></div>',
+            '<div><span class="ext-date-l">Plazo</span><span class="ext-date-v" style="font-family:var(--mono);font-weight:700">'+d.plazo+' días</span></div>',
+          '</div>',
+          '<div class="ext-footer">',
+            '<div class="ext-traz">',
+              '<span class="traz-l">TRAZABILIDAD</span>',
+              '<div class="traz-pills">'+fpAct('ACF')+ARR+fpPend('Selección')+ARR+fpPend('Contratos')+'</div>',
+            '</div>',
+            '<a href="#" class="ext-ver-btn" onclick="abrirModal('+d.id+');return false">',
+              '<svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/></svg>',
+              'Ver detalle',
+            '</a>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }).join('') + '</div>';
+}
+
+/* ── RENDER PRINCIPAL ── */
+function render(){
+  var area = document.getElementById('resultsArea');
+  var noR  = document.getElementById('noResults');
+  document.getElementById('tcCount').textContent = acfFiltrado.length + ' encontrado' + (acfFiltrado.length===1?'':'s');
+  if(!acfFiltrado.length){ area.innerHTML=''; noR.style.display=''; return; }
+  noR.style.display='none';
+  area.innerHTML = vista==='lista' ? renderLista(acfFiltrado)
+                 : vista==='ext'   ? renderExt(acfFiltrado)
+                 : renderGrid(acfFiltrado);
+}
+
+/* ── VISTA SWITCHER ── */
+function setVista(v){
+  vista = v;
+  ['lista','grid','ext'].forEach(function(x){
+    var b=document.getElementById('vbtn-'+x);
+    if(b){ b.classList.toggle('on', x===v); }
+  });
+  render();
+}
+
+/* ── FILTROS ── */
+function aplicarFiltros(){
+  var texto = (document.getElementById('seaceQ').value||'').toLowerCase().trim();
+  acfFiltrado = ACF_DATA.filter(function(d){
+    var txtOk = !texto ||
+      d.codigo.toLowerCase().includes(texto) ||
+      d.entidad.toLowerCase().includes(texto) ||
+      d.desc.toLowerCase().includes(texto) ||
+      d.alcance.toLowerCase().includes(texto);
+    var tipOk  = !filtros.tipoSel || d.tipoSel===filtros.tipoSel;
+    var objOk  = !filtros.objeto  || d.objeto===filtros.objeto;
+    return txtOk && tipOk && objOk;
+  });
+}
+
+function filtrar(){ aplicarFiltros(); render(); }
+
+function chipFiltrar(chip, campo, val){
+  // Deseleccionar chips del mismo grupo
+  var chipsBar = document.getElementById('chipsBar');
+  // Si es tipo o objeto detectar por onclick
+  var allChips = chipsBar.querySelectorAll('.chip');
+  var esValTipo = ['','Licitación Pública','Adjudicación Simplificada','Concurso Público'].indexOf(val)>-1;
+  var esValObj  = ['Bien','Servicio','Obra'].indexOf(val)>-1;
+  allChips.forEach(function(c){
+    if(campo==='tipoSel'){
+      var cv = c.getAttribute('onclick')||'';
+      if(cv.includes("'tipoSel'")) c.classList.remove('on');
+    } else {
+      var cv = c.getAttribute('onclick')||'';
+      if(cv.includes("'objeto'")) c.classList.remove('on');
+    }
+  });
+  chip.classList.add('on');
+  filtros[campo] = val;
+  aplicarFiltros();
+  render();
+}
+
+function limpiar(){
+  document.getElementById('seaceQ').value='';
+  filtros={tipoSel:'',objeto:''};
+  // Reset chips
+  var chipsBar=document.getElementById('chipsBar');
+  chipsBar.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+  chipsBar.querySelector('.chip').classList.add('on'); // "Todos"
+  acfFiltrado=ACF_DATA.slice();
+  render();
+}
+
+/* ── ORDENAR ── */
+function sortACF(){
+  var v=document.getElementById('sortSel').value;
+  var data=acfFiltrado.slice();
+  if(v==='fecha-desc') data.sort(function(a,b){ return b.id-a.id; });
+  else if(v==='conv-asc') data.sort(function(a,b){
+    var da=a.fechaConv.split('/').reverse().join('');
+    var db=b.fechaConv.split('/').reverse().join('');
+    return da.localeCompare(db);
+  });
+  else if(v==='cant-desc') data.sort(function(a,b){ return b.cantidad-a.cantidad; });
+  else if(v==='plazo-desc') data.sort(function(a,b){ return b.plazo-a.plazo; });
+  acfFiltrado=data;
+  render();
+}
+
+/* ── MODAL ── */
+function abrirModal(id){
+  var d=ACF_DATA.find(function(x){ return x.id===id; });
+  if(!d) return;
+  var mb=document.getElementById('modalBox');
+  mb.innerHTML=[
+    '<div class="modal-hdr">',
+      '<div class="modal-hdr-left">',
+        '<h3 style="font-size:15px">'+d.codigo+'</h3>',
+        '<span style="font-size:13px;font-weight:700;color:var(--r)">Anuncio de Contratación Futura · Actuaciones Preparatorias</span>',
+      '</div>',
+      '<button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar ventana">✕</button>',
+    '</div>',
+    '<div class="modal-body" style="overflow-y:auto;max-height:calc(90vh - 120px)">',
+
+      /* Trazabilidad */
+      '<div style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--rl);border-radius:var(--rad);margin-bottom:10px;flex-wrap:wrap">',
+        '<span style="font-size:9.5px;font-weight:800;color:var(--r);text-transform:uppercase;letter-spacing:.04em">Trazabilidad:</span>',
+        '<div class="traz-pills">'+
+          '<span class="fp fp-active">ACF</span>'+ARR+
+          '<span class="fp fp-pending">Selección</span>'+ARR+
+          '<span class="fp fp-pending">Contratos</span>'+
+        '</div>',
+      '</div>',
+
+      /* Sección 1 — Identificación */
+      '<div class="modal-section">',
+        '<div class="modal-section-title"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Identificación del anuncio</div>',
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">',
+          mField('Código ACF',d.codigo,'font-family:var(--mono);font-weight:700;color:var(--r)'),
+          mField('Tipo de selección',d.tipoSel,''),
+          mField('Objeto',d.objeto,''),
+          mField('Fecha de publicación',d.fechaPub,'font-family:var(--mono);font-size:12px'),
+          mField('Fecha aprox. convocatoria','<span style="color:var(--r);font-weight:800;font-size:15px">'+d.fechaConv+'</span>',''),
+          mField('Normativa','Ley N° 32069',''),
+        '</div>',
+      '</div>',
+
+      /* Sección 2 — Entidad */
+      '<div class="modal-section" style="margin-top:10px">',
+        '<div class="modal-section-title"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg> Entidad convocante</div>',
+        '<span class="modal-fv" style="font-weight:700;color:var(--r)">'+d.entidad+'</span>',
+        '<span style="display:block;font-size:11px;color:var(--k4);margin-top:3px">Región: '+d.region+'</span>',
+      '</div>',
+
+      /* Sección 3 — Objeto */
+      '<div class="modal-section" style="margin-top:10px">',
+        '<div class="modal-section-title"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h10"/></svg> Descripción del objeto</div>',
+        '<span class="modal-fl">Objeto de la contratación</span>',
+        '<span class="modal-fv">'+d.desc+'</span>',
+      '</div>',
+
+      /* Sección 4 — Alcance */
+      '<div class="modal-section" style="margin-top:10px">',
+        '<div class="modal-section-title"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Alcance / Justificación</div>',
+        '<span class="modal-fv" style="font-size:13px;line-height:1.55">'+d.alcance+'</span>',
+      '</div>',
+
+      /* Sección 5 — Cuantitativo */
+      '<div class="modal-section" style="margin-top:10px">',
+        '<div class="modal-section-title"><svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg> Datos cuantitativos</div>',
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">',
+          mField('Cantidad estimada',fmtN(d.cantidad)+' unidades','font-family:var(--mono);font-weight:800;font-size:16px;color:var(--r)'),
+          mField('Plazo de ejecución',d.plazo+' días','font-family:var(--mono);font-weight:800;font-size:16px'),
+          mField('Unidad de medida','Unidad',''),
+        '</div>',
+      '</div>',
+
+    '</div>',/* /modal-body */
+    '<div class="modal-footer" style="gap:8px;justify-content:flex-end">',
+      '<div style="display:flex;gap:8px">',
+        '<button class="modal-btn-cerrar" style="background:#fff;border:1.5px solid var(--g3)" onclick="location.href=\''+(d.objeto==='Obra'?'28_ficha_idec_obras.html':'07_ficha_idec.html')+'\'">',
+          '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> Procedimiento de selección',
+        '</button>',
+        '<button class="modal-btn-cerrar" onclick="cerrarModal()">Cerrar</button>',
+      '</div>',
+    '</div>',
+  ].join('');
+  document.getElementById('modalACF').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function mField(label, val, sty){
+  return '<div><span class="modal-fl">'+label+'</span><span class="modal-fv" style="'+sty+'">'+val+'</span></div>';
+}
+
+function cerrarModal(){
+  document.getElementById('modalACF').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function descargar(id){
+  var d=ACF_DATA.find(function(x){return x.id===id;});
+  if(d) alert('Descargando ficha '+d.codigo+'...');
+}
+function exportar(){ alert('Exportando '+acfFiltrado.length+' anuncios ACF a XLS...'); }
+function buscarACF(){ /* ya estamos en esta página */ filtrar(); }
+
+/* ── NAV sidebar ── */
+function toggleSB(){
+  var c=document.getElementById('sbContent');
+  var ch=document.getElementById('sbChev');
+  var open=c.style.display!=='none';
+  c.style.display=open?'none':'flex';
+  if(ch) ch.textContent=open?'▼':'▲';
+}
+function onFaseChange(v){
+  if(v==='ec'){ window.location.href='12_resultados_contratos.html'; }
+  else if(!v||v==='sel'||v==='rocos'||v==='cm'){ window.location.href='06_resultados.html'; }
+}
+function openLogin(){ var o=document.getElementById('loginOverlay'); if(o){ o.classList.add('open'); document.body.style.overflow='hidden'; } }
+function closeLogin(){ var o=document.getElementById('loginOverlay'); if(o) o.classList.remove('open'); document.body.style.overflow=''; }
+function doLogin(){ closeLogin(); }
+function openFavs(){ var o=document.getElementById('favsOverlay'); if(o){ o.classList.add('open'); document.body.style.overflow='hidden'; } }
+function closeFavs(){ var o=document.getElementById('favsOverlay'); if(o) o.classList.remove('open'); document.body.style.overflow=''; }
+function refreshFavBadge(){}
+
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarModal(); });
+document.addEventListener('DOMContentLoaded', function(){
+  render();
+  var params = new URLSearchParams(window.location.search);
+  var acfId = parseInt(params.get('acf'), 10);
+  if(!isNaN(acfId) && ACF_DATA.some(function(d){ return d.id===acfId; })){
+    abrirModal(acfId);
+  }
+});
+
+</script>
+
+<!-- ══ PANEL OPORTUNIDADES DE NEGOCIO A TU CORREO ══ -->
+<div class="favs-overlay" id="segOverlay" onclick="if(event.target===this)closeSeg()">
+  <div class="favs-box" style="width:520px">
+    <div class="favs-head">
+      <div class="favs-head-title">
+        <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="#FFD147" stroke="#FFD147" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Oportunidades de negocio a tu correo
+      </div>
+      <button class="favs-close" onclick="closeSeg()">&#10005;</button>
+    </div>
+    <div class="favs-body">
+      <p style="font-size:12.5px;color:var(--k3,#5B6472);margin:0 0 12px">Recibirá en su correo las convocatorias publicadas en los siguientes segmentos de catálogo. Quite los que no le interesen.</p>
+      <div id="segList"></div>
+    </div>
+  </div>
+</div>
+<script>
+var SEG_DATA = [
+  {c:'39', n:'Suministros, componentes y accesorios eléctricos y de iluminación'},
+  {c:'40', n:'Componentes, equipos y sistemas de acondicionamiento y de distribución'},
+  {c:'41', n:'Equipo de laboratorio, medición, observación y comprobación'},
+  {c:'42', n:'Equipos, accesorios y suministros médicos'}
+];
+function renderSegList(){
+  var body = document.getElementById('segList');
+  if(!body) return;
+  if(SEG_DATA.length===0){
+    body.innerHTML = '<div style="text-align:center;padding:24px 16px;color:#888"><div style="font-size:13px;font-weight:500">No tiene segmentos suscritos.</div></div>';
+    return;
+  }
+  body.innerHTML = SEG_DATA.map(function(s,i){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--n300,#DEE3EA)">'
+      +'<span style="font-family:var(--mono,monospace);font-size:11px;font-weight:700;color:#fff;background:var(--r,#BF0909);padding:2px 6px;border-radius:4px;flex-shrink:0">'+s.c+'</span>'
+      +'<span style="font-size:12.5px;color:var(--k,#26292E);flex:1">'+s.n+'</span>'
+      +'<button onclick="removeSeg('+i+')" title="Eliminar segmento" style="width:22px;height:22px;border:1px solid var(--n300,#DEE3EA);background:#fff;border-radius:4px;cursor:pointer;color:#888;font-size:11px;flex-shrink:0">&#10005;</button>'
+      +'</div>';
+  }).join('');
+}
+function removeSeg(i){ SEG_DATA.splice(i,1); renderSegList(); }
+function openSeg(e){ if(e) e.preventDefault(); renderSegList(); document.getElementById('segOverlay').classList.add('open'); }
+function closeSeg(){ document.getElementById('segOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){ var so=document.getElementById('segOverlay'); if(so) so.classList.remove('open'); }
+});
+</script>
+
+</body>
+</html>

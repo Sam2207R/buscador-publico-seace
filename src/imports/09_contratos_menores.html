@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SEACE 4.0 · Contratos Menores</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+/* ═══ gob.pe Design System Variables ═══ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  font-family:'Roboto','Segoe UI',sans-serif;
+  background:#F6F9FC;color:#26292E;min-height:100vh;
+  font-size:16px;line-height:1.5;
+}
+:root{
+  /* gob.pe primary red */
+  --r:#BF0909;--rd:#DC362E;--rl:#FCEEEE;--r300:#F9DEDC;--r700:#DC362E;
+  /* gob.pe blue (CTA) */
+  --b:#0056AC;--bd:#184397;--bl:#E1F0FF;
+  /* gob.pe grays */
+  --k:#26292E;--k2:#3C3E43;--k3:#515458;--k4:#979797;
+  --w:#fff;
+  /* gob.pe neutrals */
+  --g1:#F6F9FC;--g2:#DEE3EA;--g3:#C5CDDA;--g4:#8A94A2;
+  --n100:#F6F9FC;--n200:#EDF0F4;--n300:#DEE3EA;--n400:#C5CDDA;
+  /* gob.pe backgrounds */
+  --bg-main:#F6F9FC;--bg-alt:#EEF3FB;--bg-card:#fff;
+  /* monospace for codes */
+  --mono:'IBM Plex Mono',monospace;
+  /* spacing / radius */
+  --rad:4px;--rad-lg:8px;
+  /* shadows */
+  --sh:0 1px 3px rgba(0,0,0,.08);--sh-md:0 4px 12px rgba(0,0,0,.10);
+  /* focus */
+  --focus:#FFD147;
+  /* green/orange/yellow for badges */
+  --green:#126B49;--green-bg:#E3F3EC;
+  --orange:#D75600;--orange-bg:#FFF3EA;
+  --yellow:#997300;--yellow-bg:#FFF9E8;
+}
+
+/* ── NAV — gob.pe cabecera ── */
+.nav{
+  position:sticky;top:0;z-index:999;
+  background:#fff;border-bottom:3px solid var(--r);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:56px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.nav-left{display:flex;align-items:center;gap:0}
+.nav-brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-dot{
+  width:30px;height:30px;background:var(--r);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:10px;
+}
+.nav-brand-name{font-size:13px;font-weight:700;color:var(--r)}
+.nav-div{width:1px;height:28px;background:var(--g2);margin:0 14px}
+.nav-sis{font-size:12px;color:var(--k2);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:8px}
+/* gob.pe primario — rojo */
+.nav-notif{
+  padding:8px 16px;background:var(--r);color:#fff;border:none;
+  border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  transition:background .15s;font-family:inherit;
+}
+.nav-notif:hover{background:var(--rd)}
+.nav-notif:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ── ACCESOS — gob.pe nav secondary ── */
+.accesos{
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border-bottom:1px solid var(--n300);
+  padding:0 16px;flex-wrap:wrap;
+}
+.acc{
+  padding:10px 14px;border:none;background:transparent;
+  font-size:14px;font-weight:500;color:var(--k3);
+  cursor:pointer;text-decoration:none;
+  border-bottom:3px solid transparent;transition:all .14s;
+  white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+  font-family:inherit;
+}
+.acc:hover{color:var(--r)}
+.acc.on{color:var(--r);border-bottom-color:var(--r);font-weight:700}
+.acc-sep{color:var(--n300);padding:0 2px}
+
+/* ── BREADCRUMB — gob.pe miga de pan ── */
+.breadcrumb{
+  background:var(--n100);border-bottom:1px solid var(--n300);
+  padding:8px 24px;display:flex;align-items:center;gap:6px;
+  font-size:14px;color:var(--k3);font-weight:500;
+}
+.breadcrumb a{color:var(--b);text-decoration:underline;font-weight:500}
+.breadcrumb a:hover{color:var(--bd)}
+.breadcrumb-home{color:var(--b);text-decoration:none;display:flex;align-items:center;gap:3px}
+.bc-sep{color:var(--n400);font-size:12px}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 108px)}
+
+/* ── SIDEBAR — gob.pe filtros ── */
+.sb{
+  background:#fff;border-right:1px solid var(--n300);
+  overflow-y:auto;
+}
+.sb-head{
+  background:var(--r);color:#fff;
+  padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;
+}
+.sb-head-lbl{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;font-family:inherit}
+.sb-chev{font-size:12px;transition:transform .2s}
+.sb-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.sb-body.closed{display:none}
+.f-grup{display:flex;flex-direction:column;gap:6px}
+/* gob.pe filter section title */
+.f-section-title{
+  font-size:16px;font-weight:700;color:var(--k);
+  display:flex;align-items:center;gap:6px;
+  border-left:4px solid var(--r);padding-left:8px;
+  margin-bottom:4px;
+}
+.f-sub-lbl{font-size:14px;font-weight:500;color:var(--k);margin-bottom:2px}
+/* gob.pe checkboxes */
+.f-check-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:16px;color:var(--k);
+  cursor:pointer;padding:3px 0;line-height:1.5;
+}
+.f-check-row input[type="checkbox"]{
+  width:18px;height:18px;accent-color:var(--r);cursor:pointer;flex-shrink:0;
+}
+.f-check-row:hover{color:var(--r)}
+/* gob.pe inputs */
+.f-input[type="date"]{
+  cursor:pointer;
+  color-scheme:light;
+}
+.f-input[type="date"]::-webkit-calendar-picker-indicator{
+  cursor:pointer;
+  opacity:.7;
+  filter:invert(20%) sepia(80%) saturate(400%) hue-rotate(330deg);
+}
+.f-select,.f-input{
+  width:100%;padding:8px 12px;
+  border:1px solid var(--k);border-radius:4px;
+  font-size:16px;font-family:inherit;color:var(--k);background:#fff;
+  line-height:1.5;
+}
+.f-select:focus,.f-input:focus{
+  outline:3px solid var(--focus);outline-offset:2px;
+  border-color:var(--b);
+}
+.f-divider{border:none;border-top:1px solid var(--n300);margin:4px 0}
+/* gob.pe botones */
+.sb-btns{display:flex;gap:8px;padding-top:6px}
+/* Botón secundario gob.pe */
+.btn-clear{
+  flex:1;padding:10px 16px;
+  border:2px solid var(--b);border-radius:4px;
+  font-size:14px;font-weight:700;color:var(--b);
+  background:#fff;cursor:pointer;font-family:inherit;
+  transition:all .15s;
+}
+.btn-clear:hover{background:var(--bl)}
+.btn-clear:focus{outline:3px solid var(--focus);outline-offset:2px}
+/* Botón primario rojo gob.pe */
+.btn-search{
+  flex:1;padding:10px 16px;border:none;border-radius:4px;
+  font-size:14px;font-weight:700;color:#fff;
+  background:var(--r);cursor:pointer;font-family:inherit;
+  transition:background .15s;
+}
+.btn-search:hover{background:var(--rd)}
+.btn-search:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ── MAIN ── */
+.main{padding:18px 20px 48px;background:var(--g1)}
+
+/* ── SEARCH BAR ── */
+.search-bar{
+  display:flex;max-width:640px;
+  border:2px solid var(--r);border-radius:var(--rad);
+  overflow:hidden;margin-bottom:16px;
+  box-shadow:0 2px 14px rgba(191,9,9,.14);
+}
+.sb-year{background:var(--k);color:#fff;padding:0 13px;height:42px;font-size:13px;font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.sb-sinput{flex:1;height:42px;border:none;outline:none;font-size:13px;padding:0 13px;font-family:inherit;color:var(--k)}
+.sb-sbtn{background:var(--r);border:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.tb-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tb-title{font-size:20px;font-weight:700;color:var(--k)}
+.tb-count{
+  padding:4px 12px;background:var(--r);color:#fff;
+  border-radius:20px;font-size:14px;font-weight:700;
+}
+.tb-right{display:flex;align-items:center;gap:7px}
+.tb-sort{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--k3)}
+.tb-sort select{padding:5px 8px;border:1.5px solid var(--g3);border-radius:var(--rad);font-size:11.5px;background:#fff;color:var(--k)}
+.tb-search-in{padding:5px 11px;border:1.5px solid var(--g3);border-radius:var(--rad);font-size:11.5px;background:#fff;color:var(--k);min-width:160px}
+.tb-export{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1.5px solid var(--g3);border-radius:var(--rad);font-size:11.5px;background:#fff;cursor:pointer;font-weight:600;color:var(--k)}
+.tb-export:hover{border-color:var(--r);color:var(--r)}
+
+/* ── VIEW TOGGLE BUTTONS ── */
+.view-btns{display:flex;gap:2px;background:var(--g2);border-radius:var(--rad);padding:2px}
+.vb{width:30px;height:28px;border:none;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;color:var(--k3);transition:all .13s}
+.vb.on{background:var(--k);color:#fff}
+.vb:not(.on):hover{background:var(--g2);color:var(--k)}
+
+/* ══════════════════════════════════
+   VISTA 1: CARDS GRID (3 cols) — default
+   ══════════════════════════════════ */
+#view-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+#view-extended,#view-table{display:none}
+
+/* Card grid */
+/* gob.pe card style */
+.cm-card{
+  background:#fff;
+  border:1px solid var(--n300);
+  border-radius:4px;
+  padding:24px;
+  box-shadow:var(--sh);
+  transition:box-shadow .15s;
+  cursor:pointer;
+  position:relative;
+}
+.cm-card::after{
+  content:'';height:5px;background:var(--r);
+  position:absolute;bottom:0;right:0;left:0;border-radius:0 0 4px 4px;
+}
+.cm-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.cm-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.cm-cod{font-size:10.5px;font-weight:700;color:var(--r);font-family:var(--mono)}
+.cm-card-icons{display:flex;gap:5px;align-items:center}
+.cm-alert{position:relative;color:#f59e0b;font-size:15px;cursor:default;display:inline-flex;align-items:center}.cm-alert::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);right:0;background:#1a1a1a;color:#fff;font-size:11px;font-weight:500;font-family:inherit;white-space:nowrap;padding:5px 9px;border-radius:5px;line-height:1.4;pointer-events:none;opacity:0;transition:opacity .15s;z-index:99}.cm-alert::before{content:'';position:absolute;top:calc(100% + 1px);right:7px;border:5px solid transparent;border-bottom-color:#1a1a1a;pointer-events:none;opacity:0;transition:opacity .15s;z-index:99}.cm-alert:hover::after,.cm-alert:hover::before{opacity:1}
+.cm-star{width:27px;height:27px;border-radius:var(--rad);border:1.5px solid var(--g3);display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--g4);transition:all .13s}
+.cm-star:hover{border-color:#f59e0b;color:#f59e0b}
+.cm-star.on{border-color:#f59e0b;background:#fffbeb;color:#f59e0b}
+.cm-eye{width:27px;height:27px;border-radius:var(--rad);border:1.5px solid var(--g3);display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--k3);transition:all .13s}
+.cm-eye:hover{background:var(--r);color:#fff;border-color:var(--r)}
+.cm-ent{font-size:18px;font-weight:700;color:var(--k);margin-bottom:6px;line-height:1.3}
+.cm-desc{font-size:14px;color:var(--k3);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cm-obj{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:9.5px;font-weight:700;margin-bottom:8px}
+.obj-bien{background:#fde8e8;color:var(--r)}
+.obj-serv{background:#e0f2fe;color:#0369a1}
+.obj-obra{background:#dcfce7;color:#166534}
+.cm-date{display:flex;flex-direction:column;gap:2px}
+/* Extra date row for cotizaciones */
+.cm-cotiz-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--k2);
+  padding:6px 0;border-top:1px solid var(--n300);
+  margin-top:6px;flex-wrap:wrap;
+}
+.cm-cotiz-lbl{font-weight:700;color:var(--k);font-size:13px;white-space:nowrap}
+.cm-cotiz-val{color:var(--k3)}
+.cm-fecha-pub-row{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--k2);
+  padding:4px 0;
+}
+.cm-fecha-pub-lbl{font-weight:700;color:var(--k);font-size:13px;white-space:nowrap}
+.cm-traz{
+  display:flex;align-items:center;gap:4px;
+  padding-top:10px;border-top:1px solid var(--n300);
+  flex-wrap:wrap;margin-top:8px;
+}
+.traz-lbl{font-size:12px;font-weight:700;color:var(--k4);text-transform:uppercase;letter-spacing:.04em;margin-right:4px}
+.fp{display:inline-flex;align-items:center;padding:2px 6px;border-radius:4px;font-size:9.5px;font-weight:700}
+.traz-pills{display:flex;align-items:center;gap:0;flex-wrap:nowrap}
+.traz-step-arrow{color:#C5CDDA;font-size:8px;margin:0 2px;line-height:1}
+.fp-done{background:#EAF3DE;color:#3B6D11}
+.fp-active{background:#BF0909;color:#fff}
+.fp-pending{background:#F1EFE8;color:#888780;border:0.5px solid #D3D1C7}
+.cm-ver{
+  margin-left:auto;
+  padding:8px 16px;background:var(--b);color:#fff;
+  border-radius:4px;font-size:14px;font-weight:700;
+  cursor:pointer;border:none;font-family:inherit;
+  display:inline-flex;align-items:center;gap:5px;
+  text-decoration:none;transition:background .15s;white-space:nowrap;
+}
+.cm-ver:hover{background:var(--bd)}
+.cm-ver:focus{outline:3px solid var(--focus);outline-offset:2px}
+/* Descargar requerimiento — botón secundario */
+.cm-dl{
+  padding:8px 16px;background:#fff;color:var(--b);
+  border:2px solid var(--b);border-radius:4px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  font-family:inherit;
+  display:inline-flex;align-items:center;gap:5px;
+  text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.cm-dl:hover{background:var(--bl)}
+.cm-dl:focus{outline:3px solid var(--focus);outline-offset:2px}
+/* Card action row */
+.cm-actions{
+  display:flex;align-items:center;gap:8px;
+  padding-top:12px;margin-top:8px;
+  border-top:1px solid var(--n300);
+  flex-wrap:wrap;
+}
+
+/* ══════════════════════════════════
+   VISTA 2: CARDS EXTENDIDO (lista)
+   ══════════════════════════════════ */
+#view-extended{display:none;flex-direction:column;gap:10px}
+.cm-ext{background:#fff;border-radius:var(--rad-lg);border:1.5px solid var(--g2);padding:14px 18px;box-shadow:var(--sh);transition:all .15s;cursor:pointer}
+.cm-ext:hover{border-color:var(--r);box-shadow:0 4px 14px rgba(192,40,42,.12)}
+.cm-ext-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px}
+.cm-ext-left{flex:1;min-width:0}
+.cm-ext-cod{font-size:11px;font-weight:800;color:var(--r);font-family:var(--mono);margin-bottom:3px}
+.cm-ext-ent{font-size:13px;font-weight:800;color:var(--k);margin-bottom:2px}
+.cm-ext-ubg{font-size:11px;color:var(--g4);display:flex;align-items:center;gap:4px;margin-bottom:6px}
+.cm-ext-desc{font-size:12px;color:var(--k2);line-height:1.4;margin-bottom:4px}
+.cm-ext-proc{font-size:11px;color:var(--k3);font-family:var(--mono)}
+.cm-ext-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;min-width:180px}
+.cm-ext-date-row{display:flex;justify-content:space-between;gap:12px}
+.cm-ext-date-l{color:var(--g4);font-size:10.5px}
+.cm-ext-date-v{color:var(--k2)}
+.cm-ext-actions{display:flex;align-items:center;gap:6px}
+.cm-ext-btn{padding:5px 12px;background:var(--r);color:#fff;border:none;border-radius:var(--rad);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px}
+.cm-ext-btn:hover{background:var(--rd)}
+.cm-ext-bottom{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:8px;border-top:1px solid var(--g1)}
+.cm-ext-alert{background:#fffbeb;border:1px solid #fcd34d;border-radius:4px;padding:3px 9px;font-size:11px;color:#92400e;display:flex;align-items:center;gap:4px;flex:1}
+.cm-ext-fav{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--g4);cursor:pointer;padding:3px 8px;border-radius:4px;border:1px solid var(--g3);background:#fff;white-space:nowrap}
+.cm-ext-fav:hover{color:var(--r);border-color:var(--r)}
+
+/* ══════════════════════════════════
+   VISTA 3: TABLA GRILLA
+   ══════════════════════════════════ */
+#view-table{display:none}
+.grid-tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--rad-lg);overflow:hidden;box-shadow:var(--sh)}
+.grid-tbl th{background:#fff;padding:9px 11px;font-size:11px;font-weight:800;color:var(--k2);text-align:left;border-bottom:2px solid var(--r);white-space:nowrap;cursor:pointer;user-select:none}
+.grid-tbl th:hover{color:var(--r)}
+.grid-tbl th .sort-ic{font-size:9px;color:var(--g4);margin-left:3px}
+.grid-tbl td{padding:8px 11px;font-size:11.5px;color:var(--k2);border-bottom:1px solid var(--g2);vertical-align:middle}
+.grid-tbl tr:last-child td{border-bottom:none}
+.grid-tbl tr:hover td{background:#fff8f8}
+.tbl-cod{font-family:var(--mono);font-weight:700;color:var(--r);font-size:10.5px}
+.tbl-ent{font-weight:700;color:var(--k);font-size:11px}
+.tbl-ent-sub{font-size:10px;color:var(--r);font-weight:600}
+.tbl-n{font-size:11.5px;color:var(--g4);font-weight:700;text-align:center}
+.tbl-eye{width:28px;height:28px;border-radius:var(--rad);border:1.5px solid var(--g3);display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--k3);transition:all .13s;margin:0 auto}
+.tbl-eye:hover{background:var(--r);color:#fff;border-color:var(--r)}
+.etapa-pill{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap}
+.ep-plan{background:#f3f4f6;color:var(--k2)}
+.ep-sel{background:#fef3c7;color:#92400e}
+.ep-fup{background:#e0f2fe;color:#0369a1}
+.ep-cont{background:#dcfce7;color:#166534}
+.ep-arrow{color:var(--g3);font-size:9px}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap;gap:8px}
+.pg-total{font-size:12px;color:var(--k3)}
+.pg-right{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--k3)}
+.pg-pp{display:flex;align-items:center;gap:5px}
+.pg-pp select{padding:4px 6px;border:1.5px solid var(--g3);border-radius:var(--rad);font-size:12px}
+.pg-btns{display:flex;gap:3px}
+.pg-btn{width:28px;height:28px;border:1.5px solid var(--g3);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:var(--k2);font-size:12px;font-weight:700;transition:all .13s}
+.pg-btn:hover{border-color:var(--r);color:var(--r)}
+.pg-btn.on{background:var(--r);color:#fff;border-color:var(--r)}
+
+/* ══════════════════════════════════
+   MODAL DETALLE CONTRATO MENOR
+   ══════════════════════════════════ */
+/* ═══ MODAL — gob.pe centrado ═══ */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(38,41,46,.55);
+  z-index:2000;display:none;
+  align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:#fff;border-radius:8px;
+  width:100%;max-width:560px;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 8px 40px rgba(0,0,0,.22);
+  display:flex;flex-direction:column;
+  animation:fadeUp .2s ease;
+}
+@keyframes fadeUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+/* Modal header — rojo gob.pe */
+.modal-hdr{
+  padding:16px 20px 14px;
+  border-bottom:3px solid var(--r);
+  flex-shrink:0;display:flex;align-items:flex-start;
+  justify-content:space-between;gap:10px;
+}
+.modal-hdr-left h3{
+  font-size:20px;font-weight:700;color:var(--k);
+  margin-bottom:2px;
+}
+.modal-hdr-left span{font-size:14px;font-weight:700;color:var(--r)}
+.modal-close{
+  width:32px;height:32px;border:none;
+  background:var(--n200);border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;
+  justify-content:center;color:var(--k3);
+  font-size:16px;flex-shrink:0;transition:all .13s;
+  font-family:inherit;
+}
+.modal-close:hover{background:var(--r);color:#fff}
+.modal-close:focus{outline:3px solid var(--focus);outline-offset:2px}
+.modal-body{padding:20px;flex:1;display:flex;flex-direction:column;gap:16px}
+/* Modal section */
+.modal-section{
+  background:#fff;border:1px solid var(--n300);
+  border-radius:4px;padding:16px;
+}
+.modal-section-title{
+  font-size:16px;font-weight:700;color:var(--k);
+  margin-bottom:12px;display:flex;align-items:center;gap:6px;
+  border-left:4px solid var(--r);padding-left:8px;
+}
+.modal-field{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.modal-field:last-child{margin-bottom:0}
+.modal-fl{
+  font-size:12px;font-weight:700;color:var(--k4);
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.modal-fv{font-size:14px;color:var(--k)}
+.modal-fv.mono{font-family:var(--mono);color:var(--r);font-weight:700}
+.modal-fv.bold{font-weight:700}
+/* gob.pe etiqueta verde — Contratado */
+.modal-estado{
+  display:inline-flex;padding:4px 12px;
+  border-radius:4px;font-size:14px;font-weight:700;
+  background:var(--green-bg);color:var(--green);
+  margin-top:4px;
+}
+/* Tables */
+.modal-table{width:100%;border-collapse:collapse;font-size:14px}
+.modal-table th{
+  padding:8px 10px;text-align:left;
+  font-size:12px;font-weight:700;color:var(--k3);
+  border-bottom:2px solid var(--n300);background:var(--n100);
+}
+.modal-table td{
+  padding:8px 10px;border-bottom:1px solid var(--n300);
+  color:var(--k2);vertical-align:top;line-height:1.4;
+}
+.modal-table tr:last-child td{border-bottom:none}
+.modal-crono-table{width:100%;border-collapse:collapse;font-size:14px}
+.modal-crono-table th{
+  padding:8px 10px;text-align:left;
+  font-size:12px;font-weight:700;color:var(--k3);
+  border-bottom:2px solid var(--n300);background:var(--n100);
+}
+.modal-crono-table td{
+  padding:8px 10px;border-bottom:1px solid var(--n300);color:var(--k2);
+}
+.modal-crono-table td:first-child{color:var(--r);font-weight:700}
+.modal-crono-table tr:last-child td{border-bottom:none}
+/* Footer */
+.modal-footer{
+  padding:14px 20px;border-top:1px solid var(--n300);
+  flex-shrink:0;display:flex;justify-content:flex-end;
+}
+.modal-btn-cerrar{
+  padding:10px 24px;background:var(--n200);color:var(--k);
+  border:1px solid var(--n300);border-radius:4px;
+  font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:background .14s;
+}
+.modal-btn-cerrar:hover{background:var(--n300)}
+.modal-btn-cerrar:focus{outline:3px solid var(--focus);outline-offset:2px}
+
+@media(max-width:900px){#view-grid{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.sb{border-right:none;border-bottom:1px solid var(--g2)}}
+@media(max-width:600px){#view-grid{grid-template-columns:1fr}}
+
+/* ════════ MODAL LOGIN ════════ */
+.login-overlay{position:fixed;inset:0;background:rgba(38,41,46,.6);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px}
+.login-overlay.open{display:flex}
+.login-box{background:#fff;border-radius:8px;width:100%;max-width:420px;box-shadow:0 12px 48px rgba(0,0,0,.22);overflow:hidden;animation:fadeUp .2s ease}
+.login-head{background:var(--r);padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.login-head-brand{display:flex;align-items:center;gap:10px}
+.login-head-dot{width:32px;height:32px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800}
+.login-head-txt{color:#fff}
+.login-head-title{font-size:16px;font-weight:700}
+.login-head-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px}
+.login-close{width:28px;height:28px;border:none;background:rgba(255,255,255,.2);border-radius:50%;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.login-close:hover{background:rgba(255,255,255,.35)}
+.login-body{padding:24px}
+.login-field{margin-bottom:16px}
+.login-label{font-size:14px;font-weight:700;color:var(--k);display:block;margin-bottom:5px}
+.login-input{width:100%;padding:10px 12px;border:1.5px solid var(--k);border-radius:4px;font-size:16px;font-family:inherit;color:var(--k);background:#fff}
+.login-input:focus{outline:3px solid var(--focus);outline-offset:2px;border-color:var(--b)}
+.login-error{background:var(--rl);border:1px solid var(--r300);border-radius:4px;padding:8px 12px;font-size:13px;color:var(--r);margin-bottom:14px;display:none}
+.login-error.show{display:block}
+.login-btn{width:100%;padding:12px;background:var(--r);color:#fff;border:none;border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
+.login-btn:hover{background:var(--rd)}
+.login-footer-txt{font-size:12px;color:var(--n500);text-align:center}
+.login-footer-txt a{color:var(--b)}
+/* ════════ PANEL FAVORITOS ════════ */
+.favs-overlay{position:fixed;inset:0;background:rgba(38,41,46,.6);z-index:3000;display:none;align-items:flex-start;justify-content:flex-end;padding:12px}
+.favs-overlay.open{display:flex}
+.favs-box{background:#fff;border-radius:8px;width:760px;max-width:95vw;max-height:calc(100vh - 24px);overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.22);display:flex;flex-direction:column;animation:fadeUp .2s ease}
+.favs-head{background:var(--k);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.favs-head-title{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px}
+.favs-close{width:28px;height:28px;border:none;background:rgba(255,255,255,.15);border-radius:50%;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.favs-close:hover{background:rgba(255,255,255,.3)}
+.favs-body{overflow-y:auto;flex:1;padding:14px}
+.fav-card{border:1px solid var(--n300);border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer;background:#fff;position:relative;transition:box-shadow .13s}
+.fav-card:hover{box-shadow:var(--sh-md);border-color:var(--r)}
+.fav-card::after{content:'';height:4px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:0 0 8px 8px}
+.fav-cod{font-size:11px;font-weight:700;color:var(--r);font-family:var(--mono,monospace);margin-bottom:3px}
+.fav-ent{font-size:13px;font-weight:700;color:var(--k);margin-bottom:2px;line-height:1.3}
+.fav-desc{font-size:11.5px;color:var(--k3,#555);line-height:1.4;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fav-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.fav-fecha{font-size:11px;color:var(--n500,#888);display:flex;align-items:center;gap:4px}
+.fav-remove{font-size:11px;color:var(--r);cursor:pointer;background:none;border:none;font-family:inherit;font-weight:600}
+.favs-empty{text-align:center;padding:32px 16px;color:var(--n500,#888)}
+.favs-footer{padding:12px 18px;border-top:1px solid var(--n300);flex-shrink:0;font-size:12px;color:var(--n500,#888);display:flex;align-items:center;justify-content:space-between}
+.favs-count{font-weight:700;color:var(--k)}
+
+
+/* ── TABLA FAVORITOS ── */
+.favs-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.favs-tbl thead th{padding:10px 12px;font-size:12px;font-weight:700;color:#fff;text-align:left;background:var(--r,#BF0909);position:sticky;top:0;z-index:1}
+.favs-tbl tbody tr{border-bottom:1px solid var(--n300,#DEE3EA);transition:background .12s}
+.favs-tbl tbody tr:last-child{border-bottom:none}
+.favs-tbl tbody tr:hover{background:var(--n100,#F6F9FC)}
+.favs-tbl td{padding:10px 12px;vertical-align:top}
+.fav-tbl-cod{font-size:12px;font-weight:700;color:var(--r,#BF0909);font-family:var(--mono,'IBM Plex Mono',monospace);white-space:nowrap}
+.fav-tbl-ent{font-size:13px;font-weight:700;color:var(--k,#26292E);line-height:1.3}
+.fav-tbl-obj{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.fav-tbl-cubso{font-size:12px;color:var(--k3,#515458);font-family:var(--mono,'IBM Plex Mono',monospace)}
+.fav-tbl-rm{background:none;border:none;cursor:pointer;color:var(--r,#BF0909);font-size:12px;font-weight:600;font-family:inherit;padding:2px 0}
+.fav-tbl-rm:hover{text-decoration:underline}
+
+
+/* ── WCAG 2.2 Nivel AA – Accesibilidad ── */
+:focus-visible{outline:3px solid #BF0909;outline-offset:2px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+.skip-link{font-family:'Roboto','Segoe UI',sans-serif}
+button,a,[role="button"]{min-height:24px;min-width:24px}
+/* Contraste no textual 1.4.11 */
+input:focus,select:focus,textarea:focus{outline:3px solid #BF0909;outline-offset:1px}
+/* 2.4.11 Foco no obstruido */
+*:focus-visible{position:relative;z-index:100}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link" style="position:absolute;top:-999px;left:-999px;background:var(--r,#BF0909);color:#fff;padding:8px 16px;z-index:9999;font-weight:700;border-radius:4px;text-decoration:none;font-family:inherit" onFocus="this.style.top='8px';this.style.left='8px'" onBlur="this.style.top='-999px';this.style.left='-999px'">Ir al contenido principal</a>
+
+<!-- NAV -->
+<nav role="navigation" class="nav">
+  <div class="nav-left">
+    <a href="00_home.html" class="nav-brand">
+      <div class="nav-dot">gob</div>
+      <span class="nav-brand-name">gob.pe</span>
+    </a>
+    <div class="nav-div"></div>
+    <span class="nav-sis">Sistema Electrónico de Contrataciones del Estado (SEACE)</span>
+  </div>
+  <div class="nav-right">
+    <a href="05_ayuda.html" class="nav-notif">
+      <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+      Oportunidades de negocio a tu correo
+    </a>
+  </div>
+</nav>
+
+<!-- ACCESOS -->
+<div class="accesos">
+  <a href="01_busca_indicadores.html" class="acc">📊 Indicadores de convocatorias</a>
+  <span class="acc-sep">|</span>
+  <a href="02_explora.html" class="acc">📈 Explora contrataciones</a>
+  <span class="acc-sep">|</span>
+  <a href="04_auditoria.html" class="acc">🛡️ Transparencia</a>
+  <span class="acc-sep">|</span>
+  <a href="05_ayuda.html" class="acc">❓ Ayuda</a>
+</div>
+
+<!-- BREADCRUMB — gob.pe miga de pan -->
+<div class="breadcrumb">
+  <a href="00_home.html" class="breadcrumb-home">
+    <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Inicio
+  </a>
+  <span class="bc-sep">›</span>
+  <a href="06_resultados.html">Buscador</a>
+  <span class="bc-sep">›</span>
+  <span style="color:var(--k);font-weight:500">Contratos Menores</span>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="sb-head" onclick="toggleSB()">
+      <span class="sb-head-lbl">
+        <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filtros de búsqueda
+        <span id="filtros-badge" style="display:none;background:var(--r);color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:20px;margin-left:4px"></span>
+      </span>
+      <span class="sb-chev" id="sbChev">▲</span>
+    </div>
+
+    <div class="sb-body" id="sbBody">
+
+      <!-- OBJETO -->
+      <div class="f-grup">
+        <h3 class="f-section-title">Objeto</h3>
+        <label class="f-check-row"><input type="checkbox" checked> Bien</label>
+        <label class="f-check-row"><input type="checkbox"> Consultoría de Obra</label>
+        <label class="f-check-row"><input type="checkbox"> Obra</label>
+        <label class="f-check-row"><input type="checkbox"> Servicio</label>
+      </div>
+
+      <hr class="f-divider">
+
+      <!-- ESTADO -->
+      <div class="f-grup">
+        <h3 class="f-section-title">Estado</h3>
+        <label class="f-check-row"><input type="checkbox" checked> Vigente</label>
+        <label class="f-check-row"><input type="checkbox"> En Evaluación</label>
+        <label class="f-check-row"><input type="checkbox"> Culminado</label>
+      </div>
+
+      <!-- ESTADO DEL ÍTEM -->
+      <div class="f-grup">
+        <div class="f-sub-lbl">Estado del ítem</div>
+        <label class="f-check-row"><input type="checkbox" checked> Adjudicado</label>
+        <label class="f-check-row"><input type="checkbox"> Desierto</label>
+      </div>
+
+      <hr class="f-divider">
+
+      <!-- ENTIDAD -->
+      <div class="f-grup">
+        <h3 class="f-section-title">Entidad</h3>
+        <select class="f-select"><option value="">Buscar entidad</option><option>Municipalidad Distrital de Miraflores</option><option>Gobierno Regional de Ayacucho</option><option>Ministerio de Salud - MINSA</option></select>
+      </div>
+
+      <!-- PROVEEDOR -->
+      <div class="f-grup">
+        <div class="f-sub-lbl">Proveedor</div>
+        <input class="f-input" placeholder="Nombre del proveedor">
+      </div>
+
+      <!-- RUC -->
+      <div class="f-grup">
+        <div class="f-sub-lbl">RUC</div>
+        <input class="f-input" placeholder="RUC del proveedor">
+      </div>
+
+      <hr class="f-divider">
+
+      <!-- FECHA DESDE / HASTA -->
+      <div class="f-grup">
+        <h3 class="f-section-title">
+          <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Fecha de publicación
+        </h3>
+        <div class="f-sub-lbl" style="margin-bottom:3px">Desde</div>
+        <input
+          class="f-input"
+          type="date"
+          id="filtroFechaDesde" onchange="validarFechas()"
+          aria-label="Fecha de publicación desde"
+          max="2030-12-31"
+          style="font-size:14px"
+        >
+        <div class="f-sub-lbl" style="margin-top:8px;margin-bottom:3px">Hasta</div>
+        <input
+          class="f-input"
+          type="date"
+          id="filtroFechaHasta" onchange="validarFechas()"
+          aria-label="Fecha de publicación hasta"
+          max="2030-12-31"
+          style="font-size:14px"
+        >
+        <div id="fecha-error" role="alert" style="display:none;font-size:12px;color:var(--r);margin-top:4px;font-weight:600">
+          ⚠ La fecha «hasta» debe ser mayor o igual a «desde».
+        </div>
+      </div>
+
+      <hr class="f-divider">
+
+      <!-- SEGMENTO CATÁLOGO CUBSO -->
+      <div class="f-grup">
+        <h3 class="f-section-title">Segmento – Catálogo CUBSO</h3>
+        <select class="f-select"><option value="">Seleccionar un segmento</option><option>Equipos y materiales de oficina</option><option>Equipos de tecnología</option><option>Insumos médicos</option></select>
+      </div>
+
+      <!-- ÍTEMS CATÁLOGO CUBSO -->
+      <div class="f-grup">
+        <div class="f-sub-lbl">Ítems – Catálogo CUBSO</div>
+        <input class="f-input" placeholder="Buscar ítems">
+      </div>
+
+      <hr class="f-divider">
+
+      <!-- UBICACIÓN -->
+      <div class="f-grup">
+        <h3 class="f-section-title">Ubicación</h3>
+        <div class="f-sub-lbl" style="margin-bottom:3px">Región</div>
+        <select class="f-select" id="filtroRegion" onchange="updateProvincia()">
+          <option value="">Seleccionar una región</option>
+          <option>Lima</option><option>Cajamarca</option><option>Piura</option><option>Arequipa</option><option>Cusco</option><option>Loreto</option>
+        </select>
+        <div class="f-sub-lbl" style="margin-top:6px;margin-bottom:3px">Provincia</div>
+        <select class="f-select" id="filtroProvincia">
+          <option value="">Primero seleccionar una región</option>
+        </select>
+        <div class="f-sub-lbl" style="margin-top:6px;margin-bottom:3px">Distrito</div>
+        <select class="f-select" id="filtroDistrito">
+          <option value="">Primero seleccionar una provincia</option>
+        </select>
+      </div>
+
+      <hr class="f-divider">
+
+      <div class="sb-btns">
+        <button class="btn-clear" onclick="limpiarFiltros()">Limpiar</button>
+        <button class="btn-search" onclick="aplicarFiltros()">Buscar</button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main role="main" class="main">
+
+    <h1 style="font-size:24px;font-weight:700;color:var(--k);margin-bottom:3px">Buscador Público de Contrataciones del Estado</h1>
+    <p style="font-size:14px;color:var(--k3);margin-bottom:14px">Mostrando resultados de <strong style="color:var(--r)">Contratos Menores</strong> del proceso de contratación</p>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+      <select class="sb-year" aria-label="Seleccionar año" style="background:var(--k);color:#fff;padding:0 14px;height:50px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit;-webkit-appearance:none;appearance:none;flex-shrink:0">
+        <option value="2026" selected>2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        <option value="2018">2018</option>
+        <option value="2017">2017</option>
+        <option value="2016">2016</option>
+        <option value="2015">2015</option>
+        <option value="2014">2014</option>
+        <option value="2013">2013</option>
+        <option value="2012">2012</option>
+        <option value="2011">2011</option>
+        <option value="2010">2010</option>
+        <option value="2009">2009</option>
+        <option value="2008">2008</option>
+        <option value="2007">2007</option>
+        <option value="2006">2006</option>
+        <option value="2005">2005</option>
+        <option value="2004">2004</option>
+      </select>
+      <input class="sb-sinput" id="searchInput" placeholder="Buscar por código, entidad, descripción, tipo de procedimiento..." style="flex:1;height:50px;border:none;outline:none;font-size:15px;padding:0 16px;font-family:inherit;color:var(--k);background:#fff">
+      <button class="sb-sbtn" style="background:var(--r);border:none;width:54px;height:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" onclick="aplicarFiltros ? aplicarFiltros() : null">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="tb-left">
+        <span class="tb-title">Resultados de búsqueda</span>
+        <span class="tb-count" id="totalCount">187 encontrados</span>
+      </div>
+      <div class="tb-right">
+        <!-- View toggle -->
+        <div class="view-btns">
+          <button class="vb" id="btn-list" onclick="setView('list')" title="Lista">
+            <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          </button>
+          <button class="vb on" id="btn-grid" onclick="setView('grid')" title="Cards grilla">
+            <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button class="vb" id="btn-ext" onclick="setView('extended')" title="Cards extendido">
+            <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          </button>
+        </div>
+        <div class="tb-sort">
+          <svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
+          Ordenar por:
+          <select><option>Sin ordenar</option><option>Mayor monto</option><option>Más reciente</option><option>Entidad A-Z</option></select>
+        </div>
+        <input class="tb-search-in" placeholder="🔍 Buscar en resultados...">
+        <button class="tb-export">
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+          Exportar
+        </button>
+      </div>
+    </div>
+
+    <!-- VISTA 1: CARDS GRID -->
+    <div id="view-grid"></div>
+
+    <!-- VISTA 2: CARDS EXTENDIDO -->
+    <div id="view-extended"></div>
+
+    <!-- VISTA 3: TABLA GRILLA -->
+    <div id="view-table"></div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <span class="pg-total">Total: <strong>187</strong></span>
+      <div class="pg-right">
+        <div class="pg-pp">Por página: <select><option>10</option><option>20</option><option>50</option></select></div>
+        <div class="pg-btns">
+          <div class="pg-btn">‹</div>
+          <div class="pg-btn on">1</div>
+          <div class="pg-btn">2</div>
+          <div class="pg-btn">3</div>
+          <div class="pg-btn">›</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL DETALLE CONTRATO MENOR -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-hdr">
+      <div class="modal-hdr-left">
+        <h3>Detalle de la contratación</h3>
+        <span id="modalEntidad">MUNICIPALIDAD DISTRITAL DE MIRAFLORES</span>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar ventana">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Información general -->
+      <div class="modal-section">
+        <div class="modal-section-title">Información general</div>
+        <div class="modal-field">
+          <span class="modal-fl">Código</span>
+          <span class="modal-fv mono" id="modalCod">CM-2025-000001-2026</span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-fl">Área usuaria</span>
+          <span class="modal-fv" id="modalArea">SUB GERENCIA DE EJECUCIÓN Y SUPERVISIÓN DE OBRAS</span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-fl">Objeto</span>
+          <span class="modal-fv"><strong style="color:var(--r)" id="modalObjeto">Bien</strong></span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-fl">Descripción</span>
+          <span class="modal-fv" id="modalDesc">ADQUISICIÓN DE ÚTILES DE OFICINA Y MATERIALES DE LIMPIEZA PARA LA GERENCIA DE ADMINISTRACIÓN</span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-fl">Fecha de publicación</span>
+          <span class="modal-fv" id="modalFechaPub">03/01/2025 15:13:11</span>
+        </div>
+        <div style="margin-top:6px">
+          <span class="modal-estado" id="modalEstado">Contratado</span>
+        </div>
+      </div>
+
+      <!-- Cronograma -->
+      <div class="modal-section">
+        <div class="modal-section-title">Cronograma</div>
+        <table class="modal-crono-table">
+          <thead>
+            <tr>
+              <th>Etapa</th>
+              <th>Fecha y hora de inicio</th>
+              <th>Fecha y hora de fin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Consultas y absoluciones</td><td>23/06/2026 15:20:00</td><td>23/06/2026 16:00:00</td></tr>
+            <tr><td>Cotización</td><td>23/06/2026 16:10:00</td><td>23/06/2026 17:45:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ítems registrados -->
+      <div class="modal-section">
+        <div class="modal-section-title">Ítems registrados</div>
+        <table class="modal-table">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>CUBSO</th>
+              <th>Descripción del CUBSO</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+              <th>Lugar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td style="font-family:var(--mono);font-size:10px">2210150700325657</td>
+              <td>APISONADOR VIBRATORIO - BAILARINA 7 HP</td>
+              <td>1</td>
+              <td>UNIDAD</td>
+              <td>LIMA / LIMA / MIRAFLORES</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td style="font-family:var(--mono);font-size:10px">2271220500649902</td>
+              <td>VIBRADOR A GASOLINA DE 5.5 hp PARA CONCRETO</td>
+              <td>1</td>
+              <td>UNIDAD</td>
+              <td>LIMA / LIMA / MIRAFLORES</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td style="font-family:var(--mono);font-size:10px">2711290300090057</td>
+              <td>BOMBA FUMIGADORA MANUAL TIPO MOCHILA DE 20 L</td>
+              <td>1</td>
+              <td>UNIDAD</td>
+              <td>LIMA / LIMA / MIRAFLORES</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn-cerrar" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════
+   DATOS
+   ═══════════════════════════════ */
+var OBJETOS = {BIEN:'obj-bien',SERVICIO:'obj-serv',OBRA:'obj-obra','CONSULTORÍA':'obj-serv'};
+
+var CM_DATA = [
+  {n:'CM-2025-002001-2026',ent:'MUNICIPALIDAD DISTRITAL DE MIRAFLORES',ubg:'LIMA / LIMA / MIRAFLORES',desc:'ADQUISICIÓN DE ÚTILES DE OFICINA Y MATERIALES DE LIMPIEZA PARA LA GERENCIA DE ADMINISTRACIÓN',obj:'BIEN',cre:'03/01/2025',ini:'03/01/2025',cie:'03/01/2025',traz:['Req','Selección'],alert:false},
+  {n:'CM-2025-002002-2026',ent:'GOBIERNO REGIONAL DE AYACUCHO',ubg:'AYACUCHO / HUAMANGA / AYACUCHO',desc:'SERVICIO DE MANTENIMIENTO PREVENTIVO DE COMPUTADORAS Y EQUIPOS DE CÓMPUTO DE LA SEDE CENTRAL',obj:'SERVICIO',cre:'10/01/2025',ini:'10/01/2025',cie:'10/01/2025',traz:['Req'],alert:false},
+  {n:'CM-2025-002003-2026',ent:'MINISTERIO DE SALUD - MINSA',ubg:'LIMA / LIMA / JESÚS MARÍA',desc:'ADQUISICIÓN DE INSUMOS MÉDICOS DESCARTABLES PARA LA ATENCIÓN DE EMERGENCIAS',obj:'BIEN',cre:'15/01/2025',ini:'15/01/2025',cie:'15/01/2025',traz:['Req','Selección','Contrato'],alert:false},
+  {n:'CM-2025-002004-2026',ent:'MUNICIPALIDAD PROVINCIAL DE AREQUIPA',ubg:'AREQUIPA / AREQUIPA / AREQUIPA',desc:'SERVICIO DE IMPRESIÓN Y FOTOCOPIADO DE DOCUMENTOS ADMINISTRATIVOS Y TÉCNICOS',obj:'SERVICIO',cre:'20/01/2025',ini:'20/01/2025',cie:'20/01/2025',traz:['Req'],alert:false},
+  {n:'CM-2025-002005-2026',ent:'INSTITUTO NACIONAL DE ESTADÍSTICA E INFORMÁTICA - INEI',ubg:'LIMA / LIMA / MIRAFLORES',desc:'ADQUISICIÓN DE TÓNER Y CARTUCHOS DE TINTA PARA IMPRESORAS DE LA SEDE CENTRAL Y OFICINAS REGIONALES',obj:'BIEN',cre:'25/01/2025',ini:'25/01/2025',cie:'25/01/2025',traz:['Req'],alert:true},
+  {n:'CM-2025-002006-2026',ent:'MUNICIPALIDAD DISTRITAL DE SAN BORJA',ubg:'LIMA / LIMA / SAN BORJA',desc:'TRABAJOS DE PINTURA Y MANTENIMIENTO MENOR EN INSTALACIONES DE LA MUNICIPALIDAD DISTRITAL',obj:'OBRA',cre:'28/01/2025',ini:'28/01/2025',cie:'28/01/2025',traz:['Req','Selección'],alert:true},
+];
+
+var TABLA_DATA = [
+  {n:'01',cod:'LP-1234567890-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'24/12/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN DE HOJUELAS PRECOCIDAS DE AVENA, QUINUA, KIWICHA, MACA, SOYA, LECHE ENTERA EN POLVO Y AZÚCAR',etapas:'Plan → Selec',etapa_cls:'ep-sel'},
+  {n:'02',cod:'LP-1234567891-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN DE EQUIPOS DE PROTECCIÓN PERSONAL TÉCNICO Y ADMINISTRATIVO DE ELECTRO ORIENTE S.A.',etapas:'Plan → Selec → FUP',etapa_cls:'ep-fup'},
+  {n:'03',cod:'LP-1234567892-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN, EQUIPAMIENTO, MONTAJE, PRUEBAS Y PUESTA EN SERVICIO PARA AMPLIACIÓN DE REDES SECUNDARIAS',etapas:'Plan → Selec → FUP → Contrato',etapa_cls:'ep-cont'},
+  {n:'04',cod:'LP-1234567893-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'SERVICIO',desc:'SERVICIO DE MECA Y BAL TENSIÓN, PARA EL DEPARTAMENTO DE DISTRIBUCIÓN DE LA GERENCIA REGIONAL',etapas:'Plan',etapa_cls:'ep-plan'},
+  {n:'05',cod:'LP-1234567894-2026',ent:'GOBIERNO REGIONAL DE LORETO UNIDAD EJECUTORA SALUD UCAYALI',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN DE (03) TOTEM PARA LA ZONA REGISTRAL N° VI',etapas:'Plan → Selec',etapa_cls:'ep-sel'},
+  {n:'06',cod:'LP-1234567895-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'SERVICIO',desc:'ADQUISICIÓN DE GRUPO ELECTRÓGENO DE 3,500 MW EN GENERACIÓN ELÉCTRICA DEL SERVICIO ELÉCTRICO',etapas:'Plan → Selec → FUP',etapa_cls:'ep-fup'},
+  {n:'07',cod:'LP-1234567896-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN DE GRUPO ELECTRÓGENO DE 1 MW EN GENERACIÓN ELÉCTRICA DEL SERVICIO ELÉCTRICO DE CAÑETE',etapas:'Plan → Selec → FUP → Contrato',etapa_cls:'ep-cont'},
+  {n:'08',cod:'LP-1234567897-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'OBRA',desc:'ADQUISICIÓN DE POSTES DE CONCRETO ARMADO CENTRIFUGADO DE DEFICIENCIAS EN REDES',etapas:'Plan → Selec',etapa_cls:'ep-sel'},
+  {n:'09',cod:'LP-1234567898-2026',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',fecha:'14/10/2025',tipo:'LICITACIÓN PÚBLICA',obj:'BIEN',desc:'ADQUISICIÓN DE UNIFORMES (2025) PARA EL PERSONAL DL 728 DE LA ZONA REGISTRAL N° VI',etapas:'Plan → Selec → FUP → Contrato',etapa_cls:'ep-cont'},
+];
+
+/* ═══════════════════════════════
+   RENDER HELPERS
+   ═══════════════════════════════ */
+var STAR_EMPTY = '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>';
+var STAR_FULL  = '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>';
+var EYE_IC = '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+function objBadge(o){
+  var cls = o==='BIEN'?'obj-bien':o==='SERVICIO'?'obj-serv':'obj-obra';
+  return '<span class="cm-obj '+cls+'">'+o+'</span>';
+}
+function objBadgeSmall(o){
+  var colors={BIEN:'background:#fde8e8;color:#C0282A',SERVICIO:'background:#e0f2fe;color:#0369a1',OBRA:'background:#dcfce7;color:#166534','CONSULTORÍA':'background:#e0f2fe;color:#0369a1'};
+  return '<span style="display:inline-flex;padding:1px 6px;border-radius:3px;font-size:9.5px;font-weight:700;'+(colors[o]||colors.BIEN)+'">'+o+'</span>';
+}
+var CM_FASE_ORDER = ['Req','Selección','Contrato'];
+var CM_FASE_LBL = {Req:'Requerimiento',Selección:'Selección',Contrato:'Contrato'};
+function trazHtml(traz){
+  var activeIdx = traz.length - 1;
+  var activeKey = traz[activeIdx];
+  var activePosInOrder = CM_FASE_ORDER.indexOf(activeKey);
+  var html = '<span class="traz-pills">';
+  CM_FASE_ORDER.forEach(function(key,i){
+    if(i>0) html += '<span class="traz-step-arrow">→</span>';
+    var cls, label;
+    if(i < activePosInOrder){ cls='fp fp-done'; label='✓ '+CM_FASE_LBL[key]; }
+    else if(i === activePosInOrder){ cls='fp fp-active'; label=CM_FASE_LBL[key]; }
+    else { cls='fp fp-pending'; label=CM_FASE_LBL[key]; }
+    html += '<span class="'+cls+'">'+label+'</span>';
+  });
+  html += '</span>';
+  return html;
+}
+
+/* ═══════════════════════════════
+   RENDER GRID
+   ═══════════════════════════════ */
+/* ── Render wrapper que filtra por data ── */
+var _currentData = null;
+function renderCards(data){
+  _currentData = data || CM_DATA;
+  var vista = document.querySelector('.vbtn.on');
+  var vistaId = vista ? vista.getAttribute('data-vista') : 'grid';
+  if(vistaId==='ext') renderExtended();
+  else if(vistaId==='tbl') renderTable();
+  else renderGrid();
+  /* Actualizar contador */
+  var cnt=document.getElementById('resultCount');
+  if(cnt) cnt.textContent=(_currentData||CM_DATA).length.toLocaleString('es-PE')+' contratos menores encontrados';
+}
+
+function renderGrid(){
+  var g = document.getElementById('view-grid');
+  g.innerHTML = CM_DATA.map(function(d,i){
+    var cotizStart = d.cotizStart || '26/06/2026 16:30:00';
+    var cotizEnd   = d.cotizEnd   || '27/06/2026 10:00:00';
+    var fechaPub   = d.fechaPub   || '26/06/2026 15:21:16';
+    return '<div class="cm-card">'
+      +'<div class="cm-card-top">'
+        +'<span class="cm-cod">'+d.n+'</span>'
+        +'<div class="cm-card-icons">'
+          +(d.alert?'<span class="cm-alert" data-tip="Faltan 5 días para inscribirse como participante" aria-label="Alerta: faltan 5 días para inscribirse como participante">⚠</span>':'')
+          +'<button class="cm-star" onclick="toggleStar(this)" title="Favorito">'+STAR_EMPTY+'</button>'
+          +'<button class="cm-eye" onclick="openModal('+i+')" title="Ver detalle">'+EYE_IC+'</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="cm-ent">'+d.ent+'</div>'
+      +'<div class="cm-desc">'+d.desc+'</div>'
+      +objBadge(d.obj)
+      /* Cotizaciones row */
+      +'<div class="cm-cotiz-row">'
+        +'<span class="cm-cotiz-lbl">Cotizaciones:</span>'
+        +'<span class="cm-cotiz-val">'+cotizStart+' - '+cotizEnd+'</span>'
+      +'</div>'
+      /* Fecha de publicación */
+      +'<div class="cm-fecha-pub-row">'
+        +'<span class="cm-fecha-pub-lbl">Fecha de publicación:</span>'
+        +'<span class="cm-cotiz-val"> '+fechaPub+'</span>'
+      +'</div>'
+      /* Trazabilidad */
+      +'<div class="cm-traz">'
+        +'<span class="traz-lbl">Trazabilidad</span>'+trazHtml(d.traz)
+      +'</div>'
+      /* Action buttons — gob.pe style */
+      +'<div class="cm-actions">'
+        +'<button class="cm-ver" onclick="openModal('+i+')">'
+          +'<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+          +' Ver detalle'
+        +'</button>'
+        +'<button class="cm-dl" onclick="descargarReq('+i+')">'
+          +'<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>'
+          +' Descargar requerimiento'
+        +'</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   RENDER EXTENDED
+   ═══════════════════════════════ */
+function renderExtended(){
+  var g = document.getElementById('view-extended');
+  g.innerHTML = CM_DATA.map(function(d,i){
+    return '<div class="cm-ext">'
+      +'<div class="cm-ext-top">'
+        +'<div class="cm-ext-left">'
+          +'<div class="cm-ext-cod">'+d.n+'</div>'
+          +'<div class="cm-ext-ent">'+d.ent+'</div>'
+          +'<div class="cm-ext-ubg"><svg aria-hidden="true" focusable="false" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> '+d.ubg+'</div>'
+          +'<div class="cm-ext-desc">'+d.desc+'</div>'
+          +objBadgeSmall(d.obj)
+        +'</div>'
+        +'<div class="cm-ext-right">'
+          +'<button class="cm-ext-btn" onclick="openModal('+i+')">'+EYE_IC+' Ver detalle</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="cm-ext-bottom">'
+        +'<span class="traz-lbl">Trazabilidad</span>'+trazHtml(d.traz)
+        +(d.alert?'<div class="cm-ext-alert">⏰ Faltan 05 días para culminar el registro de participantes</div>':'')
+        +'<button class="cm-ext-fav" onclick="toggleStarBtn(this)">'+STAR_EMPTY+' Favorito</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   RENDER TABLE
+   ═══════════════════════════════ */
+function renderTable(){
+  var g = document.getElementById('view-table');
+  var rows = TABLA_DATA.map(function(d,i){
+    var objC = d.obj==='BIEN'?'background:#fde8e8;color:#C0282A':d.obj==='SERVICIO'?'background:#e0f2fe;color:#0369a1':'background:#dcfce7;color:#166534';
+    return '<tr>'
+      +'<td class="tbl-n">'+d.n+'</td>'
+      +'<td><span class="tbl-cod">'+d.cod+'</span><br><span class="tbl-ent-sub">'+d.ent+'</span></td>'
+      +'<td style="font-size:11px;white-space:nowrap">'+d.fecha+'</td>'
+      +'<td style="font-size:11px">'+d.tipo+'</td>'
+      +'<td><span style="display:inline-flex;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;'+objC+'">'+d.obj+'</span></td>'
+      +'<td style="font-size:11px;max-width:280px">'+d.desc+'</td>'
+      +'<td><span class="etapa-pill '+d.etapa_cls+'">'+d.etapas+'</span></td>'
+      +'<td><div class="tbl-eye" onclick="openModal('+i%CM_DATA.length+')" title="Ver detalle">'+EYE_IC+'</div></td>'
+    +'</tr>';
+  }).join('');
+
+  g.innerHTML = '<table class="grid-tbl">'
+    +'<thead><tr>'
+      +'<th>N° <span class="sort-ic">↕</span></th>'
+      +'<th>Entidad <span class="sort-ic">↕</span></th>'
+      +'<th>Fecha de publicación <span class="sort-ic">↕</span></th>'
+      +'<th>Tipo de Procedimiento <span class="sort-ic">↕</span></th>'
+      +'<th>Objeto de Contratación <span class="sort-ic">↕</span></th>'
+      +'<th>Descripción preliminar del requerimiento <span class="sort-ic">↕</span></th>'
+      +'<th>Etapas <span class="sort-ic">↕</span></th>'
+      +'<th>Acciones</th>'
+    +'</tr></thead>'
+    +'<tbody>'+rows+'</tbody>'
+  +'</table>';
+}
+
+/* ═══════════════════════════════
+   VIEW SWITCHER
+   ═══════════════════════════════ */
+function setView(v){
+  var views = {grid:'view-grid', extended:'view-extended', list:'view-table'};
+  var btns  = {grid:'btn-grid', extended:'btn-ext', list:'btn-list'};
+  Object.keys(views).forEach(function(k){
+    var el = document.getElementById(views[k]);
+    el.style.display = 'none';
+    document.getElementById(btns[k]).classList.remove('on');
+  });
+  var el = document.getElementById(views[v]);
+  if(v==='extended') el.style.display='flex';
+  else if(v==='list') el.style.display='block';
+  else el.style.display='grid';
+  document.getElementById(btns[v]).classList.add('on');
+}
+
+/* ═══════════════════════════════
+   MODAL
+   ═══════════════════════════════ */
+function openModal(idx){
+  var d = CM_DATA[idx % CM_DATA.length];
+  document.getElementById('modalEntidad').textContent = d.ent;
+  document.getElementById('modalCod').textContent = d.n;
+  document.getElementById('modalDesc').textContent = d.desc;
+  document.getElementById('modalObjeto').textContent = d.obj.charAt(0)+d.obj.slice(1).toLowerCase();
+  document.getElementById('modalFechaPub').textContent = d.cre+' 15:13:11';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalIfBg(e){
+  if(e.target===document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape') closeModal();});
+
+/* ═══════════════════════════════
+   STAR TOGGLE
+   ═══════════════════════════════ */
+function descargarReq(idx){
+  var d = CM_DATA[idx % CM_DATA.length];
+  alert('📥 Descargando requerimiento\n\n' + d.n + '\n' + d.ent + '\n\nArchivo: Requerimiento_' + d.n.replace(/[^a-z0-9]/gi,'_') + '.pdf');
+}
+
+function toggleStar(btn){
+  var on = btn.classList.toggle('on');
+  btn.innerHTML = on ? STAR_FULL : STAR_EMPTY;
+  btn.title = on ? 'Quitar de favoritos' : 'Agregar a favoritos';
+}
+function toggleStarBtn(btn){
+  var on = btn.dataset.starred === '1';
+  btn.dataset.starred = on ? '0' : '1';
+  btn.innerHTML = (!on ? STAR_FULL : STAR_EMPTY)+' Favorito';
+  btn.style.color = !on ? '#f59e0b' : '';
+  btn.style.borderColor = !on ? '#f59e0b' : '';
+}
+
+/* ═══════════════════════════════
+   SIDEBAR TOGGLE
+   ═══════════════════════════════ */
+function toggleSB(){
+  var body = document.getElementById('sbBody');
+  var chev = document.getElementById('sbChev');
+  body.classList.toggle('closed');
+  chev.textContent = body.classList.contains('closed') ? '▼' : '▲';
+}
+
+/* ═══════════════════════════════
+   FILTERS
+   ═══════════════════════════════ */
+/* ── Parsear fecha DD/MM/YYYY → Date ── */
+function parseFechaPE(s){
+  if(!s) return null;
+  var p=s.split('/');
+  if(p.length!==3) return null;
+  return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]));
+}
+
+/* ── Validar rango: «hasta» >= «desde» ── */
+function validarFechas(){
+  var d=document.getElementById('filtroFechaDesde').value;
+  var h=document.getElementById('filtroFechaHasta').value;
+  var err=document.getElementById('fecha-error');
+  if(d && h && d>h){
+    if(err) err.style.display='block';
+    return false;
+  }
+  if(err) err.style.display='none';
+  return true;
+}
+
+function limpiarFiltros(){
+  document.querySelectorAll('.sb-body input[type="checkbox"]').forEach(function(c){ c.checked=false; });
+  document.querySelectorAll('.sb-body input[type="text"],.sb-body input:not([type])').forEach(function(i){ i.value=''; });
+  document.querySelectorAll('.sb-body select').forEach(function(s){ s.selectedIndex=0; });
+  var fD=document.getElementById('filtroFechaDesde');
+  var fH=document.getElementById('filtroFechaHasta');
+  if(fD) fD.value='';
+  if(fH) fH.value='';
+  var err=document.getElementById('fecha-error');
+  if(err) err.style.display='none';
+  var badge=document.getElementById('filtros-badge');
+  if(badge){ badge.textContent=''; badge.style.display='none'; }
+  renderCards(CM_DATA);
+}
+
+function aplicarFiltros(){
+  if(!validarFechas()) return;
+
+  var textoQ=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  var desdeStr=document.getElementById('filtroFechaDesde').value; /* YYYY-MM-DD */
+  var hastaStr=document.getElementById('filtroFechaHasta').value;
+
+  var desdeDate = desdeStr ? new Date(desdeStr) : null;
+  var hastaDate = hastaStr ? new Date(hastaStr) : null;
+  if(hastaDate) hastaDate.setHours(23,59,59);
+
+  var filtrado = CM_DATA.filter(function(d){
+    var txtOk = !textoQ || (d.n+d.ent+d.desc+(d.obj||'')).toLowerCase().includes(textoQ);
+    var fechaDoc = parseFechaPE(d.cre);
+    var desdeOk  = !desdeDate || !fechaDoc || fechaDoc >= desdeDate;
+    var hastaOk  = !hastaDate || !fechaDoc || fechaDoc <= hastaDate;
+    return txtOk && desdeOk && hastaOk;
+  });
+
+  renderCards(filtrado);
+
+  /* Badge de filtros activos en cabecera del sidebar */
+  var activos = (desdeStr?1:0) + (hastaStr?1:0) + (textoQ?1:0);
+  var badge=document.getElementById('filtros-badge');
+  if(badge){
+    badge.textContent = activos>0 ? activos+' filtro'+(activos>1?'s':'')+' activo'+(activos>1?'s':'') : '';
+    badge.style.display = activos>0 ? 'inline-flex' : 'none';
+  }
+}
+function updateProvincia(){
+  var r=document.getElementById('filtroRegion').value;
+  var p=document.getElementById('filtroProvincia');
+  var d=document.getElementById('filtroDistrito');
+  var map={Lima:['Lima','Callao'],Cajamarca:['Cajamarca','Celendin','Jaén'],Piura:['Piura','Sullana','Talara'],Arequipa:['Arequipa','Camaná'],Cusco:['Cusco','Urubamba'],Loreto:['Maynas','Alto Amazonas']};
+  p.innerHTML='<option value="">Seleccionar provincia</option>'+(map[r]||[]).map(function(x){return'<option>'+x+'</option>'}).join('');
+  d.innerHTML='<option value="">Seleccionar distrito</option>';
+}
+
+/* ═══════════════════════════════
+   INIT
+   ═══════════════════════════════ */
+renderGrid();
+renderExtended();
+renderTable();
+</script>
+
+<!-- ══ MODAL LOGIN ══ -->
+<div class="login-overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
+  <div class="login-box">
+    <div class="login-head">
+      <div class="login-head-brand">
+        <div class="login-head-dot">gob</div>
+        <div class="login-head-txt">
+          <div class="login-head-title">Iniciar sesión</div>
+          <div class="login-head-sub">SEACE · Plataforma digital del Estado</div>
+        </div>
+      </div>
+      <button class="login-close" onclick="closeLogin()">✕</button>
+    </div>
+    <div class="login-body">
+      <div class="login-error" id="loginError">⚠ Ingrese usuario y contraseña para continuar.</div>
+      <div class="login-field">
+        <label class="login-label">Usuario</label>
+        <input class="login-input" type="text" id="loginUser" placeholder="RUC · DNI · Correo institucional" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Contraseña</label>
+        <input class="login-input" type="password" id="loginPass" placeholder="Ingrese su contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="login-btn" onclick="doLogin()">Iniciar sesión</button>
+      <p class="login-footer-txt">¿Olvidó su contraseña? <a href="#">Recuperar acceso</a></p>
+    </div>
+  </div>
+</div>
+<!-- ══ PANEL FAVORITOS ══ -->
+<div class="favs-overlay" id="favsOverlay" onclick="if(event.target===this)closeFavs()">
+  <div class="favs-box">
+    <div class="favs-head">
+      <div class="favs-head-title">
+        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="#FFD147" stroke="#FFD147" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Mi historial de favoritos
+      </div>
+      <button class="favs-close" onclick="closeFavs()">✕</button>
+    </div>
+    <div class="favs-body" id="favsBody"></div>
+    <div class="favs-footer"><span class="favs-count" id="favsCount">0 favoritos</span><span>SEACE 4.0</span></div>
+  </div>
+</div>
+<script>
+var FAVS_KEY='seace_favs';
+function getFavs(){try{return JSON.parse(sessionStorage.getItem(FAVS_KEY)||'[]')}catch(e){return []}}
+function saveFavs(a){try{sessionStorage.setItem(FAVS_KEY,JSON.stringify(a))}catch(e){}}
+function openLogin(){document.getElementById('loginOverlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(function(){var u=document.getElementById('loginUser');if(u)u.focus()},100)}
+function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');document.body.style.overflow='';var e=document.getElementById('loginError');if(e)e.classList.remove('show');var u=document.getElementById('loginUser');if(u)u.value='';var p=document.getElementById('loginPass');if(p)p.value=''}
+function doLogin(){
+  var u=document.getElementById('loginUser').value.trim();
+  var p=document.getElementById('loginPass').value;
+  var e=document.getElementById('loginError');
+  if(!u||p.length<4){if(e){e.textContent='⚠ Ingrese usuario y contraseña válidos (mínimo 4 caracteres).';e.classList.add('show');}return;}
+  closeLogin();
+  var favs=getFavs();
+  if(favs.length===0){
+    saveFavs([
+      {cod:'IDEC-2026-001234',ent:'MUNICIPALIDAD DISTRITAL DE CORTEGANA',desc:'ADQUISICIÓN DE HOJUELAS PRECOCIDAS DE AVENA, QUINUA, KIWICHA, MACA, SOYA, LECHE ENTERA EN POLVO Y AZÚCAR',obj:'BIEN',cre:'24/12/2025',cie:'17/12/2026',cubso:'5000260010'},
+      {cod:'CM-2025-002001-2026',ent:'MUNICIPALIDAD DISTRITAL DE MIRAFLORES',desc:'ADQUISICIÓN DE ÚTILES DE OFICINA Y MATERIALES DE LIMPIEZA PARA LA GERENCIA DE ADMINISTRACIÓN',obj:'BIEN',cre:'03/01/2025',cie:'03/01/2025',cubso:'4400000015'},
+      {cod:'CM-2025-002005-2026',ent:'INSTITUTO NACIONAL DE ESTADÍSTICA E INFORMÁTICA - INEI',desc:'ADQUISICIÓN DE TÓNER Y CARTUCHOS DE TINTA PARA IMPRESORAS DE LA SEDE CENTRAL Y OFICINAS REGIONALES',obj:'BIEN',cre:'25/01/2025',cie:'25/01/2025',cubso:'4410060014'},
+    ]);
+  }
+  openFavs();
+}
+function openFavs(){renderFavs();document.getElementById('favsOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeFavs(){document.getElementById('favsOverlay').classList.remove('open');document.body.style.overflow=''}
+function renderFavs(){
+  var favs=getFavs();
+  var body=document.getElementById('favsBody');
+  var cnt=document.getElementById('favsCount');
+  if(cnt) cnt.textContent=favs.length+(favs.length===1?' favorito':' favoritos');
+  if(!body) return;
+  if(favs.length===0){
+    body.innerHTML='<div style="text-align:center;padding:32px 16px;color:#888"><div style="font-size:36px;margin-bottom:8px">🔖</div><div style="font-size:14px;font-weight:500">No tiene procesos marcados como favoritos.</div><div style="font-size:13px;margin-top:6px">Presione el bookmark en cualquier card para guardarlo aquí.</div></div>';
+    return;
+  }
+  var OC={BIEN:'background:#FCEEEE;color:#BF0909',SERVICIO:'background:#E1F0FF;color:#0056AC',OBRA:'background:#E3F3EC;color:#126B49'};
+  var CUBSO_MAP={BIEN:'5000260010',SERVICIO:'8010150010',OBRA:'7210150020'};
+  var rows=favs.map(function(f,i){
+    var os=OC[f.obj]||OC['BIEN'];
+    var cubso=f.cubso||CUBSO_MAP[f.obj]||'—';
+    return ['<tr>',
+      '<td><div class="fav-tbl-cod">'+f.cod+'</div></td>',
+      '<td><span class="fav-tbl-obj" style="'+os+'">'+f.obj+'</span></td>',
+      '<td class="fav-tbl-cubso">'+cubso+'</td>',
+      '<td><div class="fav-tbl-ent">'+f.ent+'</div><div style="font-size:11px;color:#888;margin-top:2px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden">'+f.desc+'</div></td>',
+      '<td style="text-align:center"><button onclick="removeFav('+i+')" title="Quitar" style="background:none;border:none;cursor:pointer;color:#BF0909;font-size:13px;font-weight:700;font-family:inherit">✕</button></td>',
+    '</tr>'].join('');
+  }).join('');
+  body.innerHTML='<table class="favs-tbl"><thead><tr><th>IDEC / Código</th><th>Objeto</th><th>Código CUBSO</th><th>Entidad</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+function removeFav(i){var f=getFavs();f.splice(i,1);saveFavs(f);renderFavs()}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLogin();closeFavs()}});
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.nav-notif').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();openSeg(e)})})});
+</script>
+
+
+<!-- ══ PANEL OPORTUNIDADES DE NEGOCIO A TU CORREO ══ -->
+<div class="favs-overlay" id="segOverlay" onclick="if(event.target===this)closeSeg()">
+  <div class="favs-box" style="width:520px">
+    <div class="favs-head">
+      <div class="favs-head-title">
+        <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="#FFD147" stroke="#FFD147" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Oportunidades de negocio a tu correo
+      </div>
+      <button class="favs-close" onclick="closeSeg()">&#10005;</button>
+    </div>
+    <div class="favs-body">
+      <p style="font-size:12.5px;color:var(--k3,#5B6472);margin:0 0 12px">Recibirá en su correo las convocatorias publicadas en los siguientes segmentos de catálogo. Quite los que no le interesen.</p>
+      <div id="segList"></div>
+    </div>
+  </div>
+</div>
+<script>
+var SEG_DATA = [
+  {c:'39', n:'Suministros, componentes y accesorios eléctricos y de iluminación'},
+  {c:'40', n:'Componentes, equipos y sistemas de acondicionamiento y de distribución'},
+  {c:'41', n:'Equipo de laboratorio, medición, observación y comprobación'},
+  {c:'42', n:'Equipos, accesorios y suministros médicos'}
+];
+function renderSegList(){
+  var body = document.getElementById('segList');
+  if(!body) return;
+  if(SEG_DATA.length===0){
+    body.innerHTML = '<div style="text-align:center;padding:24px 16px;color:#888"><div style="font-size:13px;font-weight:500">No tiene segmentos suscritos.</div></div>';
+    return;
+  }
+  body.innerHTML = SEG_DATA.map(function(s,i){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--n300,#DEE3EA)">'
+      +'<span style="font-family:var(--mono,monospace);font-size:11px;font-weight:700;color:#fff;background:var(--r,#BF0909);padding:2px 6px;border-radius:4px;flex-shrink:0">'+s.c+'</span>'
+      +'<span style="font-size:12.5px;color:var(--k,#26292E);flex:1">'+s.n+'</span>'
+      +'<button onclick="removeSeg('+i+')" title="Eliminar segmento" style="width:22px;height:22px;border:1px solid var(--n300,#DEE3EA);background:#fff;border-radius:4px;cursor:pointer;color:#888;font-size:11px;flex-shrink:0">&#10005;</button>'
+      +'</div>';
+  }).join('');
+}
+function removeSeg(i){ SEG_DATA.splice(i,1); renderSegList(); }
+function openSeg(e){ if(e) e.preventDefault(); renderSegList(); document.getElementById('segOverlay').classList.add('open'); }
+function closeSeg(){ document.getElementById('segOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){ var so=document.getElementById('segOverlay'); if(so) so.classList.remove('open'); }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SEACE 4.0 · Contratos del Expediente</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Roboto','Segoe UI',sans-serif;font-size:16px;line-height:1.5;background:#F6F9FC;color:#26292E;min-height:100vh}
+:root{
+  --r:#BF0909;--rd:#DC362E;--rl:#FCEEEE;--r300:#F9DEDC;
+  --b:#0056AC;--bd:#184397;--bl:#E1F0FF;
+  --grn:#126B49;--grn-bg:#E3F3EC;
+  --org:#D75600;--org-bg:#FFF3EA;
+  --focus:#FFD147;
+  --k:#26292E;--k2:#3C3E43;--k3:#515458;--k4:#979797;
+  --n100:#F6F9FC;--n200:#EDF0F4;--n300:#DEE3EA;--n400:#C5CDDA;--n500:#8A94A2;
+  --w:#fff;--g1:#F6F9FC;--g2:#DEE3EA;--g3:#C5CDDA;--g4:#8A94A2;
+  --mono:'IBM Plex Mono',monospace;
+  --rad:4px;--rad-lg:8px;
+  --sh:0 1px 3px rgba(0,0,0,.08);--sh-md:0 4px 14px rgba(0,0,0,.10);
+}
+
+/* ── NAV BACK ── */
+.nav-back{
+  position:sticky;top:0;z-index:999;background:#fff;
+  border-bottom:2px solid var(--r);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;height:50px;
+  box-shadow:0 2px 6px rgba(192,40,42,.08);
+}
+.nav-back-left{display:flex;align-items:center;gap:6px}
+.nav-back-brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-dot{width:28px;height:28px;background:var(--r);border-radius:50%;
+  color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-brand-name{font-size:12px;font-weight:700;color:var(--r);line-height:1}
+.nav-brand-sub{font-size:10px;color:var(--k3);font-weight:400}
+.nav-div{width:1px;height:26px;background:var(--n300);margin:0 12px}
+.back-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:700;color:var(--r);text-decoration:none;
+}
+.back-link:hover{color:var(--rd)}
+.nav-right-links{display:flex;align-items:center;gap:0}
+.nav-rl{font-size:11px;color:var(--k3);text-decoration:none;font-weight:500;padding:0 10px}
+.nav-rl:hover{color:var(--r)}
+.nav-sep{color:var(--n400);font-size:11px}
+
+/* ── FICHA HEADER IDEC ── */
+.idec-header{
+  background:#fff;border-bottom:1.5px solid var(--n300);
+  padding:16px 24px 14px;
+}
+.idec-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--rl);color:var(--r);
+  border:1px solid rgba(191,9,9,.2);border-radius:20px;
+  font-size:10.5px;font-weight:700;padding:2px 10px;margin-bottom:8px;
+}
+.idec-code{font-size:22px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1;margin-bottom:4px}
+.idec-ent{font-size:13px;font-weight:700;color:var(--r);margin-bottom:3px}
+.idec-desc{font-size:12.5px;color:var(--k3);line-height:1.5;max-width:760px;margin-bottom:12px}
+.idec-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:1px}
+.meta-l{font-size:9.5px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.04em}
+.meta-v{font-size:12px;font-weight:700;color:var(--k);font-family:var(--mono)}
+.meta-v.red{color:var(--r)}
+
+/* ── TRAZABILIDAD PILLS ── */
+.traz-bar{
+  background:var(--n100);border-bottom:1px solid var(--n300);
+  padding:8px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.traz-l{font-size:10px;font-weight:800;color:var(--n500);text-transform:uppercase;letter-spacing:.04em}
+.traz-pills{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.traz-arrow{color:var(--n400);font-size:9px;margin:0 3px;line-height:1}
+.fp{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:700;white-space:nowrap;line-height:1.5;gap:4px}
+.fp-done{background:#EAF3DE;color:#3B6D11}
+.fp-active{background:var(--r);color:#fff}
+.fp-pending{background:var(--n200);color:var(--n500);border:.5px solid var(--n300)}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{
+  background:var(--n100);border-bottom:1px solid var(--n300);
+  padding:7px 24px;display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--k3);
+}
+.breadcrumb a{color:var(--b);text-decoration:underline;font-weight:500}
+.breadcrumb a:hover{color:var(--bd)}
+.bc-sep{color:var(--n400)}
+.bc-cur{color:var(--k);font-weight:600}
+
+/* ── TOOLBAR ── */
+.toolbar{
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;background:#fff;border-bottom:1px solid var(--n300);
+  position:sticky;top:50px;z-index:90;
+}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.page-title{font-size:17px;font-weight:700;color:var(--k)}
+.count-badge{
+  padding:2px 10px;background:var(--r);color:#fff;
+  border-radius:20px;font-size:12px;font-weight:700;
+}
+.toolbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn-outline{
+  padding:7px 14px;background:#fff;color:var(--b);
+  border:1.5px solid var(--b);border-radius:var(--rad);
+  font-size:12.5px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+  transition:all .15s;font-family:inherit;
+}
+.btn-outline:hover{background:var(--bl)}
+.btn-r{
+  padding:7px 14px;background:var(--r);color:#fff;
+  border:none;border-radius:var(--rad);
+  font-size:12.5px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+  transition:background .15s;font-family:inherit;
+}
+.btn-r:hover{background:var(--rd)}
+
+/* ── FILTROS RÁPIDOS ── */
+.filters-bar{
+  padding:10px 24px;background:var(--n100);border-bottom:1px solid var(--n300);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.filter-label{font-size:11.5px;font-weight:700;color:var(--k3);margin-right:4px}
+.filter-chip{
+  padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;
+  border:1.5px solid var(--n300);background:#fff;color:var(--k3);
+  cursor:pointer;transition:all .13s;display:inline-flex;align-items:center;gap:4px;
+}
+.filter-chip:hover{border-color:var(--r);color:var(--r)}
+.filter-chip.on{border-color:var(--r);background:var(--rl);color:var(--r)}
+
+/* ── KPI SUMMARY ── */
+.kpi-band{
+  padding:12px 24px;background:#fff;border-bottom:1px solid var(--n300);
+  display:flex;align-items:stretch;gap:0;overflow-x:auto;
+}
+.kpi-item{
+  flex:1;min-width:130px;padding:8px 16px;
+  border-right:1px solid var(--n300);
+  display:flex;flex-direction:column;gap:2px;
+}
+.kpi-item:last-child{border-right:none}
+.kpi-l{font-size:10px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.03em}
+.kpi-v{font-size:18px;font-weight:800;color:var(--k);font-family:var(--mono);line-height:1.1}
+.kpi-v.red{color:var(--r)}
+.kpi-v.grn{color:var(--grn)}
+.kpi-v.org{color:var(--org)}
+.kpi-sub{font-size:10.5px;color:var(--n500)}
+
+/* ── GRID CONTRATOS ── */
+.main-wrap{padding:20px 24px;max-width:1400px;margin:0 auto}
+.contratos-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:16px;
+}
+
+/* ── CARD CONTRATO ── */
+.ccard{
+  background:#fff;border:1.5px solid var(--n300);border-radius:var(--rad-lg);
+  overflow:hidden;box-shadow:var(--sh);transition:all .15s;
+  display:flex;flex-direction:column;position:relative;
+}
+.ccard:hover{border-color:var(--r);box-shadow:0 4px 16px rgba(191,9,9,.12);transform:translateY(-1px)}
+.ccard::after{content:'';height:4px;background:var(--r);position:absolute;bottom:0;left:0;right:0}
+
+/* Cabecera negra */
+.ccard-head{
+  background:var(--k);color:#fff;padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.ccard-head-left{display:flex;flex-direction:column;gap:2px}
+.ccard-num{font-size:10px;color:rgba(255,255,255,.55);font-family:var(--mono)}
+.ccard-nct{font-size:12.5px;font-weight:800;color:#fff;font-family:var(--mono);line-height:1.2}
+.ccard-head-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+/* Badge estado */
+.est-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;
+}
+.est-vigente{background:#dcfce7;color:#166534}
+.est-ejecutado{background:#E3F3EC;color:var(--grn)}
+.est-observado{background:var(--org-bg);color:var(--org)}
+.est-nulo{background:#FEE2E2;color:#B91C1C}
+.est-suspendido{background:var(--n200);color:var(--k3)}
+
+/* Tipo objeto pill */
+.obj-pill{
+  display:inline-flex;padding:2px 7px;border-radius:4px;font-size:9.5px;font-weight:700;
+}
+.obj-bien{background:var(--rl);color:var(--r)}
+.obj-serv{background:var(--bl);color:var(--b)}
+.obj-obra{background:var(--grn-bg);color:var(--grn)}
+.obj-consul{background:#F3E8FF;color:#6B21A8}
+
+/* Cuerpo card */
+.ccard-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:0}
+
+/* Descripción */
+.ccard-desc{
+  font-size:12.5px;color:var(--k2);line-height:1.5;
+  margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* Grid de campos */
+.ccard-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;
+  margin-bottom:10px;
+}
+.ccard-field{
+  display:flex;flex-direction:column;gap:1px;
+  padding:4px 0;border-bottom:1px solid var(--n100);
+}
+.ccard-field.full{grid-column:1/-1}
+.ccard-fl{font-size:9.5px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.03em}
+.ccard-fv{font-size:11.5px;color:var(--k);font-weight:500;line-height:1.3}
+.ccard-fv.mono{font-family:var(--mono);font-weight:700}
+.ccard-fv.monto{font-family:var(--mono);font-weight:800;color:var(--r);font-size:14px}
+.ccard-fv.lnk{color:var(--b);text-decoration:underline;cursor:pointer}
+.ccard-fv.grn{color:var(--grn);font-weight:700}
+.ccard-fv.org{color:var(--org);font-weight:700}
+
+/* Barra progreso avance */
+.ccard-avance{margin-bottom:10px}
+.avance-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.avance-label{font-size:10px;font-weight:700;color:var(--n500);text-transform:uppercase;letter-spacing:.03em}
+.avance-pct{font-size:12px;font-weight:800;color:var(--k);font-family:var(--mono)}
+.avance-bar{height:5px;background:var(--n200);border-radius:3px;overflow:hidden}
+.avance-fill{height:100%;border-radius:3px;transition:width .3s}
+.avance-fill.grn{background:var(--grn)}
+.avance-fill.org{background:var(--org)}
+.avance-fill.red{background:var(--r)}
+
+/* Chips de garantías y acciones */
+.ccard-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.chip{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:2px 7px;border-radius:4px;font-size:9.5px;font-weight:700;
+  border:1px solid;
+}
+.chip-gar{background:#EFF6FF;color:#1d4ed8;border-color:#bfdbfe}
+.chip-adic{background:#F0FDF4;color:#166534;border-color:#bbf7d0}
+.chip-reduc{background:#FFFBEB;color:#92400e;border-color:#fde68a}
+.chip-penal{background:#FEF2F2;color:#b91c1c;border-color:#fecaca}
+.chip-conf{background:#F0FDF4;color:#166534;border-color:#bbf7d0}
+.chip-nulidad{background:#FEF2F2;color:#b91c1c;border-color:#fecaca}
+.chip-reso{background:var(--n200);color:var(--k3);border-color:var(--n300)}
+
+/* Footer card */
+.ccard-footer{
+  margin-top:auto;padding-top:10px;
+  border-top:1px solid var(--n200);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.ccard-proveedor{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.prov-ruc{font-size:9.5px;color:var(--n500);font-family:var(--mono)}
+.prov-nombre{font-size:11.5px;font-weight:700;color:var(--k2);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.btn-ver{
+  padding:5px 12px;background:var(--r);color:#fff;
+  border:none;border-radius:var(--rad);font-size:11px;font-weight:700;
+  cursor:pointer;text-decoration:none;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:4px;transition:background .14s;
+  font-family:inherit;
+}
+.btn-ver:hover{background:var(--rd)}
+
+/* ── ALERT CARD (sin contratos) ── */
+.alert-info{
+  background:var(--bl);border:1.5px solid var(--b);border-radius:var(--rad-lg);
+  padding:14px 18px;font-size:13px;color:var(--b);
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+
+/* ── SUBTÍTULO DE GRUPO ── */
+.grupo-label{
+  font-size:11px;font-weight:800;color:var(--k3);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:10px;margin-top:4px;
+  display:flex;align-items:center;gap:6px;
+}
+.grupo-label::after{content:'';flex:1;height:1px;background:var(--n300)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.contratos-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){
+  .contratos-grid{grid-template-columns:1fr}
+  .kpi-band{flex-wrap:wrap}
+  .kpi-item{flex:1 0 45%;border-right:none;border-bottom:1px solid var(--n300)}
+  .toolbar{position:static}
+  .nav-right-links{display:none}
+}
+
+/* ── WCAG 2.2 Nivel AA – Accesibilidad ── */
+:focus-visible{outline:3px solid #BF0909;outline-offset:2px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+.skip-link{font-family:'Roboto','Segoe UI',sans-serif}
+button,a,[role="button"]{min-height:24px;min-width:24px}
+/* Contraste no textual 1.4.11 */
+input:focus,select:focus,textarea:focus{outline:3px solid #BF0909;outline-offset:1px}
+/* 2.4.11 Foco no obstruido */
+*:focus-visible{position:relative;z-index:100}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link" style="position:absolute;top:-999px;left:-999px;background:var(--r,#BF0909);color:#fff;padding:8px 16px;z-index:9999;font-weight:700;border-radius:4px;text-decoration:none;font-family:inherit" onFocus="this.style.top='8px';this.style.left='8px'" onBlur="this.style.top='-999px';this.style.left='-999px'">Ir al contenido principal</a>
+
+<!-- NAV BACK -->
+<div class="nav-back">
+  <div class="nav-back-left">
+    <a href="00_home.html" class="nav-back-brand">
+      <div class="nav-dot">S4</div>
+      <div>
+        <div class="nav-brand-name">SEACE 4.0</div>
+        <div class="nav-brand-sub">Buscador Público</div>
+      </div>
+    </a>
+    <div class="nav-div"></div>
+    <a href="07_ficha_idec.html" class="back-link">
+      <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver a Ficha IDEC
+    </a>
+  </div>
+  <div class="nav-right-links">
+    <a href="00_home.html" class="nav-rl">🏠 Inicio</a><span class="nav-sep">|</span>
+    <a href="01_busca_indicadores.html" class="nav-rl">Indicadores</a><span class="nav-sep">|</span>
+    <a href="02_explora.html" class="nav-rl">Explora</a><span class="nav-sep">|</span>
+    
+    <a href="04_auditoria.html" class="nav-rl">Auditoría</a><span class="nav-sep">|</span>
+    <a href="05_ayuda.html" class="nav-rl">Ayuda</a>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="00_home.html">Inicio</a><span class="bc-sep">›</span>
+  <a href="06_resultados.html">Resultados</a><span class="bc-sep">›</span>
+  <a href="07_ficha_idec.html">IDEC-2026-001234</a><span class="bc-sep">›</span>
+  <span class="bc-cur">Contratos</span>
+</div>
+
+<!-- FICHA HEADER IDEC (contexto padre) -->
+<div class="idec-header">
+  <div class="idec-tag">
+    <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+    Expediente de Contratación · IDEC
+  </div>
+  <div class="idec-code">IDEC-2026-001234</div>
+  <div class="idec-ent">MUNICIPALIDAD DISTRITAL DE CORTEGANA</div>
+  <div class="idec-desc">Adquisición de hojuelas precocidas de avena, quinua, kiwicha, maca, soya, leche entera en polvo y azúcar, destinadas al programa de complementación alimentaria de la jurisdicción.</div>
+  <div class="idec-meta">
+    <div class="meta-item">
+      <span class="meta-l">Cuantía referencial</span>
+      <span class="meta-v red">S/ 1,057,700.00</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-l">Objeto</span>
+      <span class="meta-v">BIEN</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-l">Tipo de procedimiento</span>
+      <span class="meta-v">Licitación Pública</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-l">Creación</span>
+      <span class="meta-v">24/12/2025</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-l">Normativa</span>
+      <span class="meta-v">Ley N° 32069</span>
+    </div>
+  </div>
+</div>
+
+<!-- TRAZABILIDAD PILLS -->
+<div class="traz-bar">
+  <span class="traz-l">Trazabilidad:</span>
+  <div class="traz-pills">
+    <span class="fp fp-done">
+      <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+      Act. Preparatorias
+    </span>
+    <span class="traz-arrow">›</span>
+    <span class="fp fp-done">
+      <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+      Selección
+    </span>
+    <span class="traz-arrow">›</span>
+    <span class="fp fp-active">Contratos</span>
+  </div>
+</div>
+
+<!-- KPI BAND -->
+<div class="kpi-band">
+  <div class="kpi-item">
+    <span class="kpi-l">Total contratos</span>
+    <span class="kpi-v red" id="kpiTotal">4</span>
+    <span class="kpi-sub">del expediente</span>
+  </div>
+  <div class="kpi-item">
+    <span class="kpi-l">Cuantía total contratada</span>
+    <span class="kpi-v" id="kpiMonto">S/ 1,057,700</span>
+    <span class="kpi-sub">suma de contratos suscritos</span>
+  </div>
+  <div class="kpi-item">
+    <span class="kpi-l">Pagado acumulado</span>
+    <span class="kpi-v grn" id="kpiPag">S/ 577,650</span>
+    <span class="kpi-sub">54.6% ejecutado</span>
+  </div>
+  <div class="kpi-item">
+    <span class="kpi-l">Por pagar</span>
+    <span class="kpi-v org" id="kpiPen">S/ 480,050</span>
+    <span class="kpi-sub">45.4% pendiente</span>
+  </div>
+  <div class="kpi-item">
+    <span class="kpi-l">Vigentes</span>
+    <span class="kpi-v grn">3</span>
+    <span class="kpi-sub">1 con observación</span>
+  </div>
+  <div class="kpi-item">
+    <span class="kpi-l">Proveedores únicos</span>
+    <span class="kpi-v">2</span>
+    <span class="kpi-sub">RNP activos</span>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="page-title">Contratos del Expediente</span>
+    <span class="count-badge" id="countBadge">4 contratos</span>
+  </div>
+  <div class="toolbar-right">
+    <div style="display:flex;gap:2px;background:var(--n200);border:1px solid var(--n300);border-radius:6px;padding:3px">
+      <button id="vbtn-grid" class="vbtn-btn on" onclick="setVista('grid')" title="Vista grid"
+        style="width:30px;height:26px;border:none;border-radius:4px;background:var(--k);cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center" aria-label="Vista grilla">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+      <button id="vbtn-lista" class="vbtn-btn" onclick="setVista('lista')" title="Vista lista"
+        style="width:30px;height:26px;border:none;border-radius:4px;background:transparent;cursor:pointer;color:var(--k3);display:flex;align-items:center;justify-content:center" aria-label="Vista lista">
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+        </svg>
+      </button>
+    </div>
+    <select id="sortSel" onchange="sortCards()" style="padding:5px 9px;border:1.5px solid var(--n300);border-radius:var(--rad);font-size:12px;background:#fff;color:var(--k);font-family:inherit">
+      <option value="num">Nro. contrato</option>
+      <option value="monto">Mayor cuantía</option>
+      <option value="fecha">Más reciente</option>
+      <option value="avance">Mayor avance</option>
+    </select>
+    <button class="btn-outline" onclick="exportar()">
+      <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+      Exportar
+    </button>
+    <a href="21_ficha_contrato.html" class="btn-r">
+      <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      Ver detalle
+    </a>
+  </div>
+</div>
+
+<!-- FILTROS RÁPIDOS -->
+<div class="filters-bar">
+  <span class="filter-label">Filtrar:</span>
+  <button class="filter-chip on" onclick="filtrar(this,'todos')">Todos (4)</button>
+  <button class="filter-chip" onclick="filtrar(this,'vigente')">Vigentes (3)</button>
+  <button class="filter-chip" onclick="filtrar(this,'observado')">Con observación (1)</button>
+  <button class="filter-chip" onclick="filtrar(this,'bien')">Bien</button>
+  <button class="filter-chip" onclick="filtrar(this,'servicio')">Servicio</button>
+  <button class="filter-chip" onclick="filtrar(this,'obra')">Obra</button>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- GRUPO: Contratos vigentes -->
+  <div class="grupo-label">Contratos suscritos vigentes</div>
+  <div class="contratos-grid" id="contratosGrid">
+
+    <!-- CARD 1 -->
+    <div class="ccard" data-estado="vigente" data-obj="bien" data-monto="412500" data-fecha="20260330" data-avance="60" data-num="1">
+      <div class="ccard-head">
+        <div class="ccard-head-left">
+          <span class="ccard-num">Contrato N° 1 de 4 · LP-1234567890</span>
+          <span class="ccard-nct">CONTRATO N° 05-2026-MDM-Q/GM</span>
+        </div>
+        <div class="ccard-head-right">
+          <span class="obj-pill obj-bien">BIEN</span>
+          <span class="est-badge est-vigente">● Vigente</span>
+        </div>
+      </div>
+      <div class="ccard-body">
+        <div class="ccard-desc">Adquisición de hojuelas precocidas para el Programa de Complementación Alimentaria — Lote 1: Sierra Norte</div>
+        <div class="ccard-grid">
+          <div class="ccard-field full">
+            <span class="ccard-fl">Nomenclatura del proceso</span>
+            <span class="ccard-fv mono">LP-SM-1-2025-MDM-1</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Cuantía</span>
+            <span class="ccard-fv monto">S/ 412,500.00</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Moneda</span>
+            <span class="ccard-fv">Soles</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha suscripción</span>
+            <span class="ccard-fv mono">30/03/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de inicio</span>
+            <span class="ccard-fv mono">31/03/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de término</span>
+            <span class="ccard-fv mono">31/07/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Lugar ejecución</span>
+            <span class="ccard-fv">CAJAMARCA / CORTEGANA</span>
+          </div>
+        </div>
+        <div class="ccard-avance">
+          <div class="avance-header">
+            <span class="avance-label">Avance financiero</span>
+            <span class="avance-pct">60%</span>
+          </div>
+          <div class="avance-bar"><div class="avance-fill org" style="width:60%"></div></div>
+        </div>
+        <div class="ccard-chips">
+          <span class="chip chip-gar">
+            <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Garantía fiel cumplimiento
+          </span>
+          <span class="chip chip-conf">
+            <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            3 conformidades
+          </span>
+        </div>
+        <div class="ccard-footer">
+          <div class="ccard-proveedor">
+            <span class="prov-ruc">RUC: 20527909059</span>
+            <span class="prov-nombre">AGROINDUSTRIAS DEL NORTE S.A.C.</span>
+          </div>
+          <a href="21_ficha_contrato.html?id=CONT-2026-001" class="btn-ver">
+            Ver ficha
+            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="ccard" data-estado="vigente" data-obj="bien" data-monto="389200" data-fecha="20260415" data-avance="42" data-num="2">
+      <div class="ccard-head">
+        <div class="ccard-head-left">
+          <span class="ccard-num">Contrato N° 2 de 4 · LP-1234568080</span>
+          <span class="ccard-nct">CONTRATO N° 06-2026-MDM-Q/GM</span>
+        </div>
+        <div class="ccard-head-right">
+          <span class="obj-pill obj-bien">BIEN</span>
+          <span class="est-badge est-vigente">● Vigente</span>
+        </div>
+      </div>
+      <div class="ccard-body">
+        <div class="ccard-desc">Adquisición y transporte de hojuelas precocidas para el Programa de Complementación Alimentaria — Lote 2: Sierra Centro</div>
+        <div class="ccard-grid">
+          <div class="ccard-field full">
+            <span class="ccard-fl">Nomenclatura del proceso</span>
+            <span class="ccard-fv mono">LP-SM-1-2025-MDM-2</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Cuantía</span>
+            <span class="ccard-fv monto">S/ 389,200.00</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Moneda</span>
+            <span class="ccard-fv">Soles</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha suscripción</span>
+            <span class="ccard-fv mono">15/04/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de inicio</span>
+            <span class="ccard-fv mono">16/04/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de término</span>
+            <span class="ccard-fv mono">14/08/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Lugar ejecución</span>
+            <span class="ccard-fv">CAJAMARCA / SANTA CRUZ</span>
+          </div>
+        </div>
+        <div class="ccard-avance">
+          <div class="avance-header">
+            <span class="avance-label">Avance financiero</span>
+            <span class="avance-pct">42%</span>
+          </div>
+          <div class="avance-bar"><div class="avance-fill org" style="width:42%"></div></div>
+        </div>
+        <div class="ccard-chips">
+          <span class="chip chip-gar">
+            <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Garantía fiel cumplimiento
+          </span>
+          <span class="chip chip-conf">
+            <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            2 conformidades
+          </span>
+          <span class="chip chip-adic">+ Adicional</span>
+        </div>
+        <div class="ccard-footer">
+          <div class="ccard-proveedor">
+            <span class="prov-ruc">RUC: 20527909059</span>
+            <span class="prov-nombre">AGROINDUSTRIAS DEL NORTE S.A.C.</span>
+          </div>
+          <a href="21_ficha_contrato.html?id=CONT-2026-002" class="btn-ver">
+            Ver ficha
+            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 (con observación) -->
+    <div class="ccard" data-estado="observado" data-obj="bien" data-monto="256000" data-fecha="20260428" data-avance="28" data-num="3">
+      <div class="ccard-head">
+        <div class="ccard-head-left">
+          <span class="ccard-num">Contrato N° 3 de 4 · LP-1234569012</span>
+          <span class="ccard-nct">CONTRATO N° 07-2026-MDM-Q/GM</span>
+        </div>
+        <div class="ccard-head-right">
+          <span class="obj-pill obj-bien">BIEN</span>
+          <span class="est-badge est-observado">⚠ Observado</span>
+        </div>
+      </div>
+      <div class="ccard-body">
+        <div class="ccard-desc">Adquisición de leche entera en polvo y azúcar para el Programa de Complementación Alimentaria — Lote 3: Costa Norte</div>
+        <div class="ccard-grid">
+          <div class="ccard-field full">
+            <span class="ccard-fl">Nomenclatura del proceso</span>
+            <span class="ccard-fv mono">LP-SM-1-2025-MDM-3</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Cuantía</span>
+            <span class="ccard-fv monto">S/ 256,000.00</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Moneda</span>
+            <span class="ccard-fv">Soles</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha suscripción</span>
+            <span class="ccard-fv mono">28/04/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de inicio</span>
+            <span class="ccard-fv mono">29/04/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha de término</span>
+            <span class="ccard-fv mono">27/08/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Lugar ejecución</span>
+            <span class="ccard-fv">LA LIBERTAD / TRUJILLO</span>
+          </div>
+        </div>
+        <!-- Alerta de observación -->
+        <div style="background:var(--org-bg);border:1px solid #FDBA74;border-radius:var(--rad);padding:7px 10px;margin-bottom:8px;display:flex;align-items:flex-start;gap:6px">
+          <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--org)" stroke-width="2" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4m0 4h.01"/></svg>
+          <span style="font-size:11px;color:var(--org);line-height:1.4"><strong>Alerta de avance:</strong> Valorización acumulada (28%) inferior al 50% de lo programado a la fecha. Pendiente informe del supervisor.</span>
+        </div>
+        <div class="ccard-avance">
+          <div class="avance-header">
+            <span class="avance-label">Avance financiero</span>
+            <span class="avance-pct" style="color:var(--org)">28%</span>
+          </div>
+          <div class="avance-bar"><div class="avance-fill red" style="width:28%"></div></div>
+        </div>
+        <div class="ccard-chips">
+          <span class="chip chip-gar">
+            <svg aria-hidden="true" focusable="false" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Garantía fiel cumplimiento
+          </span>
+          <span class="chip chip-penal">⚠ Penalidad aplicada</span>
+          <span class="chip chip-conf">1 conformidad</span>
+        </div>
+        <div class="ccard-footer">
+          <div class="ccard-proveedor">
+            <span class="prov-ruc">RUC: 20601234567</span>
+            <span class="prov-nombre">DISTRIBUIDORA ALIMENTARIA DEL NORTE S.R.L.</span>
+          </div>
+          <a href="21_ficha_contrato.html?id=CONT-2026-003" class="btn-ver">
+            Ver ficha
+            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="ccard" data-estado="vigente" data-obj="bien" data-monto="0" data-fecha="20260510" data-avance="0" data-num="4">
+      <div class="ccard-head">
+        <div class="ccard-head-left">
+          <span class="ccard-num">Contrato N° 4 de 4 · LP-1234570001</span>
+          <span class="ccard-nct">CONTRATO N° 08-2026-MDM-Q/GM</span>
+        </div>
+        <div class="ccard-head-right">
+          <span class="obj-pill obj-bien">BIEN</span>
+          <span class="est-badge est-vigente">● Vigente</span>
+        </div>
+      </div>
+      <div class="ccard-body">
+        <div class="ccard-desc">Adquisición de kiwicha y maca procesada para el Programa de Complementación Alimentaria — Lote 4: Selva</div>
+        <div class="ccard-grid">
+          <div class="ccard-field full">
+            <span class="ccard-fl">Nomenclatura del proceso</span>
+            <span class="ccard-fv mono">LP-SM-1-2025-MDM-4</span>
+          </div>
+          <div class="ccard-field full">
+            <span class="ccard-fl">Cuantía</span>
+            <span class="ccard-fv" style="font-size:11.5px;color:var(--n500);font-style:italic">Pendiente de suscripción — proceso de selección adjudicado</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Fecha adjudicación BP</span>
+            <span class="ccard-fv mono">20/06/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Plazo suscripción</span>
+            <span class="ccard-fv">Hasta 04/07/2026</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Buena pro otorgada a</span>
+            <span class="ccard-fv lnk">AGROINDUSTRIAS DEL NORTE S.A.C.</span>
+          </div>
+          <div class="ccard-field">
+            <span class="ccard-fl">Lugar ejecución</span>
+            <span class="ccard-fv">LORETO / MAYNAS</span>
+          </div>
+        </div>
+        <div style="background:var(--bl);border:1px solid #93C5FD;border-radius:var(--rad);padding:7px 10px;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--b)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span style="font-size:11px;color:var(--b)">Pendiente de suscripción. Se habilitará la ficha completa una vez registrado el contrato en SEACE.</span>
+        </div>
+        <div class="ccard-footer">
+          <div class="ccard-proveedor">
+            <span class="prov-ruc">RUC: 20527909059 (adjudicado)</span>
+            <span class="prov-nombre">AGROINDUSTRIAS DEL NORTE S.A.C.</span>
+          </div>
+          <button class="btn-ver" disabled style="background:var(--n300);cursor:not-allowed">
+            Pendiente
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /contratos-grid -->
+</div><!-- /main-wrap -->
+
+<script>
+var vistaActual = 'grid';
+
+function setVista(v){
+  vistaActual = v;
+  var grid = document.getElementById('contratosGrid');
+  var btnG = document.getElementById('vbtn-grid');
+  var btnL = document.getElementById('vbtn-lista');
+  if(v === 'lista'){
+    grid.style.gridTemplateColumns = '1fr';
+    btnL.style.background = 'var(--k)'; btnL.style.color = '#fff';
+    btnG.style.background = 'transparent'; btnG.style.color = 'var(--k3)';
+  } else {
+    grid.style.gridTemplateColumns = '';
+    btnG.style.background = 'var(--k)'; btnG.style.color = '#fff';
+    btnL.style.background = 'transparent'; btnL.style.color = 'var(--k3)';
+  }
+}
+
+function filtrar(btn, tipo){
+  document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('on'); });
+  btn.classList.add('on');
+  var cards = document.querySelectorAll('.ccard');
+  cards.forEach(function(c){
+    if(tipo === 'todos'){ c.style.display = ''; return; }
+    var est = c.dataset.estado || '';
+    var obj = c.dataset.obj || '';
+    var show = false;
+    if(tipo === 'vigente' && est === 'vigente') show = true;
+    if(tipo === 'observado' && est === 'observado') show = true;
+    if(tipo === 'bien' && obj === 'bien') show = true;
+    if(tipo === 'servicio' && obj === 'servicio') show = true;
+    if(tipo === 'obra' && obj === 'obra') show = true;
+    c.style.display = show ? '' : 'none';
+  });
+  actualizarCount();
+}
+
+function sortCards(){
+  var crit = document.getElementById('sortSel').value;
+  var grid = document.getElementById('contratosGrid');
+  var cards = Array.from(grid.querySelectorAll('.ccard'));
+  cards.sort(function(a,b){
+    if(crit==='monto')  return parseInt(b.dataset.monto||0)-parseInt(a.dataset.monto||0);
+    if(crit==='fecha')  return (b.dataset.fecha||'0').localeCompare(a.dataset.fecha||'0');
+    if(crit==='avance') return parseInt(b.dataset.avance||0)-parseInt(a.dataset.avance||0);
+    return parseInt(a.dataset.num||0)-parseInt(b.dataset.num||0);
+  });
+  cards.forEach(function(c){ grid.appendChild(c); });
+}
+
+function actualizarCount(){
+  var vis = document.querySelectorAll('.ccard:not([style*="display: none"])').length;
+  document.getElementById('countBadge').textContent = vis + ' contrato' + (vis===1?'':'s');
+}
+
+function exportar(){
+  alert('Exportando contratos del IDEC-2026-001234 a Excel...');
+}
+</script>
+</body>
+</html>
