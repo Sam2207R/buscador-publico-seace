@@ -17,6 +17,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  // Ruta base para GitHub Pages (https://sam2207r.github.io/buscador-publico-seace/)
+  base: process.env.GITHUB_ACTIONS ? '/buscador-publico-seace/' : '/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
