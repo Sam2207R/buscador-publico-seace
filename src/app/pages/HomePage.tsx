@@ -105,7 +105,7 @@ export function HomePage({ navigate }: HomePageProps) {
 
         {/* Search Bar */}
         <div className="w-full max-w-3xl mb-10">
-          <div className="flex items-stretch shadow-lg hover:shadow-xl transition-shadow rounded-[24px] border border-gray-200 bg-white overflow-hidden">
+          <div className="flex items-stretch shadow-lg hover:shadow-xl transition-shadow rounded-[24px] border border-gray-200 bg-white">
             {/* Year Selector */}
             <div className="relative shrink-0">
               <button

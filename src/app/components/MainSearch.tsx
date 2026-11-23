@@ -8,7 +8,7 @@ interface MainSearchProps {
 }
 
 const CURRENT_YEAR = new Date().getFullYear();
-const YEARS = [2026, 2025, 2024];
+const YEARS = Array.from({ length: 2026 - 2004 + 1 }, (_, i) => 2026 - i);
 
 export function MainSearch({ value, onChange, onSearch }: MainSearchProps) {
   const [selectedYear, setSelectedYear] = useState(2024);
@@ -16,12 +16,12 @@ export function MainSearch({ value, onChange, onSearch }: MainSearchProps) {
 
   return (
     <div className="mb-6">
-      <div className="flex items-stretch max-w-4xl mx-auto border-2 border-gray-300 rounded-lg focus-within:border-[#294269] shadow-sm bg-white overflow-hidden">
+      <div className="flex items-stretch max-w-4xl mx-auto border-2 border-gray-300 rounded-lg focus-within:border-[#294269] shadow-sm bg-white">
         {/* Year Selector */}
         <div className="relative shrink-0">
           <button
             onClick={() => setShowYearDropdown(!showYearDropdown)}
-            className="flex items-center gap-1.5 px-4 h-full bg-[#294269] text-white hover:bg-[#3a3f46] transition-colors font-['Roboto',sans-serif] text-[15px] font-semibold"
+            className="flex items-center gap-1.5 px-4 h-full bg-[#294269] text-white hover:bg-[#3a3f46] transition-colors font-['Roboto',sans-serif] text-[15px] font-semibold rounded-l-[6px]"
           >
             <span>{selectedYear}</span>
             <ChevronDown size={13} className={`transition-transform ${showYearDropdown ? 'rotate-180' : ''}`} />
@@ -61,7 +61,7 @@ export function MainSearch({ value, onChange, onSearch }: MainSearchProps) {
         {/* Search Button */}
         <button
           onClick={onSearch}
-          className="shrink-0 px-5 bg-[#63c9c4] text-white hover:bg-[#3F5578] transition-colors flex items-center justify-center"
+          className="shrink-0 px-5 bg-[#63c9c4] text-white hover:bg-[#3F5578] transition-colors flex items-center justify-center rounded-r-[6px]"
         >
           <Search size={20} />
         </button>
